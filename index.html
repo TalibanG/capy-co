@@ -724,7 +724,7 @@
             <span class="bag-price">₪49.99</span>
             <span class="bag-price-old" id="bag-price-old">₪100</span>
           </div>
-          <span class="bag-savings" id="bag-savings">🎉 חוסכים ₪70!</span>
+          <span class="bag-savings" id="bag-savings">🎉 חוסכים ₪50!</span>
           <span class="bag-delivery-sub" id="bag-delivery-sub">משלוח עד הבית תוך 5–7 ימי עסקים</span>
           <span class="bag-guarantee" id="bag-guarantee">✅ 30 יום החזרה מלאה</span>
         </div>
@@ -892,31 +892,32 @@
     <!-- Step 1: Shipping -->
     <div id="modal-s1">
       <h2 id="modal-title">פרטי משלוח 📦</h2>
-      <form id="shipping-form" novalidate>
+      <form id="shipping-form" action="https://formspree.io/f/xnjbyadk" method="POST" novalidate>
+        <input type="hidden" name="email" id="hidden-email" />
         <div class="m-field">
           <label>שם מלא</label>
-          <input type="text" placeholder="ישראל ישראלי" autocomplete="name" required />
+          <input type="text" name="name" placeholder="ישראל ישראלי" autocomplete="name" required />
         </div>
         <div class="m-field">
           <label>טלפון</label>
-          <input type="tel" placeholder="050-0000000" autocomplete="tel" required />
+          <input type="tel" name="phone" placeholder="050-0000000" autocomplete="tel" required />
         </div>
         <div class="m-field">
           <label>אימייל</label>
-          <input type="email" placeholder="example@email.com" autocomplete="email" required />
+          <input type="email" id="email-input" placeholder="example@email.com" autocomplete="email" required />
         </div>
         <div class="m-field">
           <label>כתובת</label>
-          <input type="text" placeholder="רחוב, מספר בית" autocomplete="street-address" required />
+          <input type="text" name="address" placeholder="רחוב, מספר בית" autocomplete="street-address" required />
         </div>
         <div class="m-row">
           <div class="m-field">
             <label>עיר</label>
-            <input type="text" placeholder="תל אביב" autocomplete="address-level2" required />
+            <input type="text" name="city" placeholder="תל אביב" autocomplete="address-level2" required />
           </div>
           <div class="m-field">
             <label>מיקוד</label>
-            <input type="text" placeholder="6100000" autocomplete="postal-code" required />
+            <input type="text" name="zip" placeholder="6100000" autocomplete="postal-code" required />
           </div>
         </div>
         <button type="submit" class="modal-btn">המשך לתשלום ←</button>
@@ -1014,7 +1015,7 @@
       bagTag:        'התיק',
       bagH2:         'תיק בד שעושה טוב לעולם',
       bagPriceOld:   '₪100',
-      bagSavings:    '🎉 חוסכים ₪70!',
+      bagSavings:    '🎉 חוסכים ₪50!',
       bagDelivery:   'משלוח עד הבית תוך 5–7 ימי עסקים',
       bagGuarantee:  '✅ 30 יום החזרה מלאה',
       bagBtn:        'הזמינו עכשיו 🛍️',
@@ -1251,9 +1252,19 @@
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
-      s1.style.display = 'none'; s2.style.display = '';
-      dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
-      modal.querySelector('.modal-box').scrollTop = 0;
+      document.getElementById('hidden-email').value = document.getElementById('email-input').value;
+      var btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).finally(function() {
+        btn.disabled = false;
+        s1.style.display = 'none'; s2.style.display = '';
+        dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
+        modal.querySelector('.modal-box').scrollTop = 0;
+      });
     });
 
     document.getElementById('place-order-btn').addEventListener('click', function() {
