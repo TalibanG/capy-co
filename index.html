@@ -230,7 +230,7 @@
     /* ── IMAGE FIX: position:relative container + absolute img ── */
     .bag-image-wrap {
       position: relative;
-      max-width: 480px;
+      max-width: 600px;
       margin: 0 auto 0;
       border-radius: var(--r-lg);
       overflow: hidden;
@@ -533,12 +533,96 @@
       .benefits-grid  { grid-template-columns: 1fr; }
       .reviews-grid   { grid-template-columns: 1fr; }
       .bag-price { font-size: 40px; }
+      .bag-image-wrap { max-width: 100%; }
       #hero { padding: 60px 20px 72px; }
       .cta-trust { gap: 10px; font-size: 12px; }
       .rating-summary { flex-direction: column; gap: 6px; text-align: center; }
       .reviews-header { flex-direction: column; align-items: flex-start; gap: 6px; }
       .hero-capybara { font-size: 62px; }
       .cta-emoji { font-size: 48px; }
+    }
+
+    /* ── CHECKOUT MODAL ── */
+    #checkout-modal {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      align-items: center; justify-content: center; padding: 16px;
+    }
+    #checkout-modal.open { display: flex; }
+    .modal-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(44, 31, 22, 0.62);
+      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    }
+    .modal-box {
+      position: relative; z-index: 1;
+      background: var(--white);
+      border-radius: var(--r-lg);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.22), 0 4px 16px rgba(0,0,0,0.10);
+      width: 100%; max-width: 460px; max-height: 92vh; overflow-y: auto;
+      padding: 36px 28px 28px;
+      direction: rtl; text-align: right;
+    }
+    .modal-close {
+      position: absolute; top: 14px; left: 14px;
+      background: none; border: none; cursor: pointer;
+      font-size: 18px; color: var(--text-soft);
+      width: 34px; height: 34px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, color 0.15s; line-height: 1;
+    }
+    .modal-close:hover { background: var(--cream-2); color: var(--text-dark); }
+    .modal-progress {
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 24px;
+    }
+    .ms-dot {
+      width: 30px; height: 30px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; flex-shrink: 0;
+      background: var(--cream-3); color: var(--text-soft);
+      transition: background 0.35s, color 0.35s;
+    }
+    .ms-dot.active { background: var(--green); color: white; }
+    .ms-dot.done   { background: var(--green-light); color: white; }
+    .ms-line { flex: 1; max-width: 72px; height: 2px; background: var(--cream-3); margin: 0 8px; }
+    .modal-box h2 { font-size: 21px; font-weight: 800; color: var(--brown); margin-bottom: 20px; letter-spacing: -0.5px; }
+    .m-field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+    .m-field label { font-size: 13px; font-weight: 600; color: var(--text-mid); }
+    .m-field input {
+      border: 1.5px solid #E8DDD5; border-radius: var(--r-sm);
+      padding: 11px 13px; font-family: 'Rubik', sans-serif;
+      font-size: 15px; color: var(--text-dark); background: var(--cream);
+      outline: none; direction: rtl; width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .m-field input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(107,143,94,0.15); }
+    .m-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .modal-btn {
+      width: 100%; background: var(--green); color: white; border: none;
+      border-radius: var(--r-md); padding: 15px 24px;
+      font-family: 'Rubik', sans-serif; font-size: 17px; font-weight: 700;
+      cursor: pointer; margin-top: 10px; letter-spacing: -0.3px;
+      box-shadow: 0 4px 14px rgba(107,143,94,0.35);
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    }
+    .modal-btn:hover  { background: #5a7a4e; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(107,143,94,0.45); }
+    .modal-btn:active { transform: translateY(0); }
+    .modal-cards { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; }
+    .modal-cards svg { height: 32px; width: auto; border-radius: 5px; }
+    .modal-order-summary {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--cream-2); border-radius: var(--r-sm);
+      padding: 13px 14px; margin: 14px 0 6px; border: 1px solid var(--cream-3);
+    }
+    .modal-order-summary span:first-child { font-size: 14px; font-weight: 600; color: var(--text-mid); }
+    .modal-order-price { font-size: 22px; font-weight: 900; color: var(--green); letter-spacing: -0.5px; }
+    .modal-success-inner { text-align: center; padding: 16px 8px 8px; }
+    .modal-success-capy { font-size: 72px; display: block; margin-bottom: 18px; animation: capy-bob 2s ease-in-out infinite; }
+    .modal-success-msg { font-size: 17px; font-weight: 700; color: var(--brown); line-height: 1.65; margin-bottom: 24px; }
+    @media (max-width: 480px) {
+      .modal-box { padding: 28px 18px 22px; border-radius: var(--r-md); max-height: 95vh; }
+      .modal-box h2 { font-size: 18px; }
+      .modal-btn { font-size: 15px; padding: 13px 20px; }
     }
   </style>
 </head>
@@ -550,7 +634,7 @@
     <span>🦫 Capy &amp; Co</span>
     <div class="sticky-price-wrap">
       <span class="sticky-price">₪49.99</span>
-      <span class="sticky-old">₪120</span>
+      <span class="sticky-old">₪100</span>
     </div>
   </div>
   <a class="sticky-btn" href="https://wa.me/972XXXXXXXXX" target="_blank" id="sticky-btn-text">הזמינו עכשיו 🛍️</a>
@@ -638,7 +722,7 @@
         <div class="bag-price-col">
           <div class="bag-price-top">
             <span class="bag-price">₪49.99</span>
-            <span class="bag-price-old" id="bag-price-old">₪120</span>
+            <span class="bag-price-old" id="bag-price-old">₪100</span>
           </div>
           <span class="bag-savings" id="bag-savings">🎉 חוסכים ₪70!</span>
           <span class="bag-delivery-sub" id="bag-delivery-sub">משלוח עד הבית תוך 5–7 ימי עסקים</span>
@@ -792,6 +876,102 @@
   <p>© 2025 <strong>Capy &amp; Co</strong> &nbsp;·&nbsp; <span id="footer-sub">כי לכל תיק יש סיפור 🦫</span></p>
 </footer>
 
+<!-- ── CHECKOUT MODAL ── -->
+<div id="checkout-modal" aria-modal="true" role="dialog" aria-labelledby="modal-title">
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+  <div class="modal-box">
+    <button class="modal-close" id="modal-close-btn" aria-label="סגור">✕</button>
+
+    <!-- Step progress -->
+    <div class="modal-progress">
+      <div class="ms-dot active" id="msdot1">1</div>
+      <div class="ms-line"></div>
+      <div class="ms-dot" id="msdot2">2</div>
+    </div>
+
+    <!-- Step 1: Shipping -->
+    <div id="modal-s1">
+      <h2 id="modal-title">פרטי משלוח 📦</h2>
+      <form id="shipping-form" novalidate>
+        <div class="m-field">
+          <label>שם מלא</label>
+          <input type="text" placeholder="ישראל ישראלי" autocomplete="name" required />
+        </div>
+        <div class="m-field">
+          <label>טלפון</label>
+          <input type="tel" placeholder="050-0000000" autocomplete="tel" required />
+        </div>
+        <div class="m-field">
+          <label>אימייל</label>
+          <input type="email" placeholder="example@email.com" autocomplete="email" required />
+        </div>
+        <div class="m-field">
+          <label>כתובת</label>
+          <input type="text" placeholder="רחוב, מספר בית" autocomplete="street-address" required />
+        </div>
+        <div class="m-row">
+          <div class="m-field">
+            <label>עיר</label>
+            <input type="text" placeholder="תל אביב" autocomplete="address-level2" required />
+          </div>
+          <div class="m-field">
+            <label>מיקוד</label>
+            <input type="text" placeholder="6100000" autocomplete="postal-code" required />
+          </div>
+        </div>
+        <button type="submit" class="modal-btn">המשך לתשלום ←</button>
+      </form>
+    </div>
+
+    <!-- Step 2: Payment -->
+    <div id="modal-s2" style="display:none">
+      <h2>תשלום מאובטח 🔒</h2>
+      <div class="modal-cards">
+        <!-- Visa -->
+        <svg viewBox="0 0 80 50" xmlns="http://www.w3.org/2000/svg">
+          <rect width="80" height="50" rx="6" fill="#1A1F71"/>
+          <text x="40" y="34" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="22" font-weight="bold" font-style="italic">VISA</text>
+        </svg>
+        <!-- Mastercard -->
+        <svg viewBox="0 0 80 50" xmlns="http://www.w3.org/2000/svg">
+          <rect width="80" height="50" rx="6" fill="#252525"/>
+          <circle cx="30" cy="25" r="15" fill="#EB001B"/>
+          <circle cx="50" cy="25" r="15" fill="#F79E1B"/>
+          <path d="M40 12.8a15 15 0 010 24.4 15 15 0 010-24.4z" fill="#FF5F00"/>
+        </svg>
+      </div>
+      <div class="m-field">
+        <label>מספר כרטיס</label>
+        <input type="text" id="card-num" placeholder="0000  0000  0000  0000" maxlength="22" inputmode="numeric" />
+      </div>
+      <div class="m-row">
+        <div class="m-field">
+          <label>תוקף</label>
+          <input type="text" id="card-exp" placeholder="MM/YY" maxlength="5" inputmode="numeric" />
+        </div>
+        <div class="m-field">
+          <label>CVV</label>
+          <input type="text" placeholder="123" maxlength="4" inputmode="numeric" />
+        </div>
+      </div>
+      <div class="modal-order-summary">
+        <span>תיק Capy &amp; Co</span>
+        <span class="modal-order-price">₪49.99</span>
+      </div>
+      <button class="modal-btn" id="place-order-btn">בצע הזמנה</button>
+    </div>
+
+    <!-- Success -->
+    <div id="modal-s3" style="display:none">
+      <div class="modal-success-inner">
+        <span class="modal-success-capy">🦫</span>
+        <p class="modal-success-msg">ההזמנה התקבלה!<br>נשלח אליך אישור במייל תוך 24 שעות 🦫</p>
+        <button class="modal-btn" id="modal-done-btn">סגור</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   /* ── FAQ ACCORDION ── */
   function toggleFaq(btn) {
@@ -833,7 +1013,7 @@
       aboutP:        'אנחנו צעירים שאוהבים קפיבראות ומאמינים שאפשר להיות אופנתיים ולעשות טוב בעולם בו זמנית. כל תיק שנמכר הוא צעד קטן למען בעלי החיים החמודים האלה',
       bagTag:        'התיק',
       bagH2:         'תיק בד שעושה טוב לעולם',
-      bagPriceOld:   '₪120',
+      bagPriceOld:   '₪100',
       bagSavings:    '🎉 חוסכים ₪70!',
       bagDelivery:   'משלוח עד הבית תוך 5–7 ימי עסקים',
       bagGuarantee:  '✅ 30 יום החזרה מלאה',
@@ -889,7 +1069,7 @@
       aboutP:        'We\'re young people who love capybaras and believe you can be stylish and do good at the same time. Every bag sold is a small step for these adorable creatures.',
       bagTag:        'The Bag',
       bagH2:         'A Tote Bag That Does Good',
-      bagPriceOld:   '₪120',
+      bagPriceOld:   '₪100',
       bagSavings:    '🎉 Save ₪70!',
       bagDelivery:   'Home delivery within 5–7 business days',
       bagGuarantee:  '✅ 30-day full returns',
@@ -1033,6 +1213,72 @@
       if (!container) return;
       Array.from(container.children).forEach(function(child, i) {
         child.style.transitionDelay = (i * 0.12) + 's';
+      });
+    });
+  })();
+
+  /* ── CHECKOUT MODAL ── */
+  (function() {
+    var modal    = document.getElementById('checkout-modal');
+    var backdrop = document.getElementById('modal-backdrop');
+    var s1       = document.getElementById('modal-s1');
+    var s2       = document.getElementById('modal-s2');
+    var s3       = document.getElementById('modal-s3');
+    var dot1     = document.getElementById('msdot1');
+    var dot2     = document.getElementById('msdot2');
+    var form     = document.getElementById('shipping-form');
+    var cardNum  = document.getElementById('card-num');
+    var cardExp  = document.getElementById('card-exp');
+
+    function openModal() {
+      s1.style.display = ''; s2.style.display = 'none'; s3.style.display = 'none';
+      dot1.className = 'ms-dot active'; dot2.className = 'ms-dot';
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(function() { s1.querySelector('input').focus(); }, 80);
+    }
+    function closeModal() {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    window.openModal  = openModal;
+    window.closeModal = closeModal;
+
+    backdrop.addEventListener('click', closeModal);
+    document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+    document.getElementById('modal-done-btn').addEventListener('click', closeModal);
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      s1.style.display = 'none'; s2.style.display = '';
+      dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
+      modal.querySelector('.modal-box').scrollTop = 0;
+    });
+
+    document.getElementById('place-order-btn').addEventListener('click', function() {
+      s2.style.display = 'none'; s3.style.display = '';
+      dot2.className = 'ms-dot done';
+      modal.querySelector('.modal-box').scrollTop = 0;
+    });
+
+    /* card number auto-spacing */
+    cardNum.addEventListener('input', function() {
+      var digits = this.value.replace(/\D/g, '').substring(0, 16);
+      this.value = digits.replace(/(.{4})/g, '$1  ').trimEnd();
+    });
+    /* expiry auto-slash */
+    cardExp.addEventListener('input', function() {
+      var v = this.value.replace(/\D/g, '').substring(0, 4);
+      if (v.length >= 3) v = v.slice(0,2) + '/' + v.slice(2);
+      this.value = v;
+    });
+
+    /* intercept all buy buttons */
+    document.querySelectorAll('.btn-green, .sticky-btn, .float-order').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        openModal();
       });
     });
   })();
