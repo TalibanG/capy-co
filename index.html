@@ -488,28 +488,6 @@
     }
     footer strong { color: rgba(255,255,255,0.7); font-weight: 600; }
 
-    /* ── FLOATING ORDER BUTTON (left) ── */
-    .float-order {
-      position: fixed; bottom: 22px; left: 20px; z-index: 500;
-      background: #22C55E; color: #fff; border-radius: 50px;
-      padding: 11px 20px; display: flex; align-items: center; gap: 8px;
-      font-family: 'Rubik', sans-serif; font-weight: 700; font-size: 14px;
-      text-decoration: none;
-      box-shadow: 0 4px 20px rgba(34,197,94,0.45);
-      transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1),
-                  box-shadow 0.18s ease, background 0.18s ease;
-      animation: wapulse 2.5s ease-in-out infinite;
-    }
-    .float-order:hover {
-      background: #16A34A; transform: translateY(-2px) scale(1.04);
-      box-shadow: 0 8px 28px rgba(34,197,94,0.55); animation: none;
-    }
-    .float-order-icon { font-size: 20px; line-height: 1; flex-shrink: 0; }
-    @media (max-width: 460px) {
-      .float-order .float-order-text { display: none; }
-      .float-order { padding: 13px; border-radius: 50%; }
-    }
-
     /* ── FLOATING WHATSAPP BUTTON (right) ── */
     .float-whatsapp {
       position: fixed; bottom: 22px; right: 20px; z-index: 500;
@@ -706,11 +684,6 @@
 <!-- Lang Toggle -->
 <button id="lang-toggle" onclick="toggleLang()">EN</button>
 
-<!-- Floating order (left) -->
-<a class="float-order" href="#bag">
-  <span class="float-order-icon">🛍️</span>
-  <span class="float-order-text" id="float-order-text">הזמינו עכשיו</span>
-</a>
 
 <!-- Floating WhatsApp (right) -->
 <a class="float-whatsapp" href="https://wa.me/972XXXXXXXXX" target="_blank" rel="noopener">
@@ -1200,7 +1173,6 @@
     document.documentElement.setAttribute('lang', t.lang);
 
     document.getElementById('lang-toggle').textContent       = t.toggleBtn;
-    document.getElementById('float-order-text').textContent  = t.floatOrder;
     document.getElementById('wa-tooltip-text').textContent   = t.waTooltip;
     document.getElementById('sticky-btn-text').textContent   = t.stickyBtn;
     document.getElementById('hero-badge-pct').textContent    = t.heroBadgePct;
@@ -1363,7 +1335,7 @@
     });
 
     /* intercept all buy buttons */
-    document.querySelectorAll('.btn-green, .sticky-btn, .float-order').forEach(function(btn) {
+    document.querySelectorAll('.btn-green, .sticky-btn').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.preventDefault();
         openModal();
@@ -1397,7 +1369,7 @@
         })(i);
       }
     }
-    document.querySelectorAll('.btn-green, .sticky-btn, .float-order').forEach(function(btn) {
+    document.querySelectorAll('.btn-green, .sticky-btn').forEach(function(btn) {
       btn.addEventListener('click', spawnSparkles);
     });
   })();
