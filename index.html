@@ -320,6 +320,41 @@
       display: flex; align-items: center; gap: 5px;
     }
 
+    /* ── ADOPTION BADGE ── */
+    .adoption-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, #FFF8ED, #FEF0D6);
+      border: 1.5px solid #E8C97A;
+      color: #7A5220;
+      font-size: 13px; font-weight: 700;
+      padding: 9px 16px; border-radius: 10px;
+      margin: 12px auto 0; text-align: center;
+      box-shadow: 0 2px 8px rgba(200,153,58,0.18);
+      width: 100%;
+    }
+
+    /* ── WHAT YOU GET ── */
+    .whats-included {
+      margin-top: 20px;
+      background: var(--cream-2);
+      border: 1.5px solid var(--cream-3);
+      border-radius: var(--r-md);
+      padding: 16px 18px;
+    }
+    .whats-included-title {
+      font-size: 12px; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--text-soft);
+      margin-bottom: 12px;
+    }
+    .whats-included-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: var(--r-sm);
+      background: var(--white);
+      font-size: 14px; font-weight: 600; color: var(--brown);
+    }
+    .whats-included-item + .whats-included-item { margin-top: 8px; }
+    .whats-included-item .wi-icon { font-size: 22px; flex-shrink: 0; }
+
     /* ── BENEFITS ── */
     .benefits-grid {
       display: grid;
@@ -746,6 +781,9 @@
     <div class="bag-image-wrap">
       <img id="bag-img" src="bag.png" alt="Capy &amp; Co תיק בד" />
     </div>
+    <div class="adoption-badge">
+      🦫 כל תיק מגיע עם כרטיס אימוץ קפיברה אישי בפנים!
+    </div>
 
     <!-- Price + CTA Block -->
     <div class="bag-purchase">
@@ -765,6 +803,18 @@
       </div>
 
       <div class="bag-trust" id="bag-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
+
+      <div class="whats-included">
+        <div class="whats-included-title">מה מקבלים?</div>
+        <div class="whats-included-item">
+          <span class="wi-icon">🛍️</span>
+          <span>תיק בד Capy &amp; Co</span>
+        </div>
+        <div class="whats-included-item">
+          <span class="wi-icon">🦫</span>
+          <span>אימוץ קפיברה אישית עם שם ייחודי</span>
+        </div>
+      </div>
     </div>
 
     <!-- Benefits -->

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>תעודת אימוץ קפיברה | Capy & Co</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --brown:       #5C3D2E;
+      --brown-mid:   #7A5240;
+      --brown-light: #A07055;
+      --cream:       #FDFAF6;
+      --cream-2:     #F5EFE6;
+      --cream-3:     #EDE3D6;
+      --green:       #6B8F5E;
+      --green-light: #9DB891;
+      --green-pale:  #D6E8D0;
+      --gold:        #C8993A;
+      --gold-light:  #E8C97A;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Rubik', sans-serif;
+      background: #D4C5B0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      padding: 32px 16px;
+    }
+
+    /* ── PRINT BUTTON (hidden when printing) ── */
+    .print-btn {
+      background: var(--green);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 13px 36px;
+      font-family: 'Rubik', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(107,143,94,0.40);
+      transition: background 0.2s, transform 0.15s;
+      letter-spacing: -0.2px;
+    }
+    .print-btn:hover { background: #5a7a4e; transform: translateY(-2px); }
+    .print-btn:active { transform: translateY(0); }
+
+    /* ── A5 CARD ── */
+    .card {
+      width: 148mm;
+      min-height: 210mm;
+      background: var(--cream);
+      border-radius: 12px;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.10);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 20px 20px;
+      overflow: hidden;
+    }
+
+    /* Background texture blobs */
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 10% 10%, rgba(107,143,94,0.10) 0%, transparent 50%),
+        radial-gradient(ellipse at 90% 85%, rgba(92,61,46,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(200,153,58,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ── OUTER DECORATIVE BORDER ── */
+    .border-outer {
+      position: absolute;
+      inset: 10px;
+      border: 2px solid var(--gold);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+    .border-inner {
+      position: absolute;
+      inset: 14px;
+      border: 1px solid var(--gold-light);
+      border-radius: 6px;
+      pointer-events: none;
+    }
+
+    /* Corner ornaments */
+    .corner {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .corner.tl { top: 5px;  right: 5px; }
+    .corner.tr { top: 5px;  left: 5px;  }
+    .corner.bl { bottom: 5px; right: 5px; }
+    .corner.br { bottom: 5px; left: 5px;  }
+
+    /* ── CONTENT ── */
+    .card-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* Brand */
+    .brand {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--brown-light);
+      margin-bottom: 10px;
+    }
+
+    /* Divider line */
+    .divider {
+      width: 60px;
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin-bottom: 12px;
+    }
+
+    /* Title */
+    .title {
+      font-size: 21px;
+      font-weight: 900;
+      color: var(--brown);
+      text-align: center;
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+      margin-bottom: 18px;
+    }
+
+    /* Name block */
+    .name-block {
+      background: var(--cream-2);
+      border: 1.5px solid var(--cream-3);
+      border-radius: 10px;
+      padding: 12px 28px;
+      text-align: center;
+      width: 100%;
+      max-width: 260px;
+      margin-bottom: 18px;
+    }
+    .name-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--brown-light);
+      margin-bottom: 4px;
+    }
+    .name-value {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--brown);
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    /* Capy emoji */
+    .capy-emoji {
+      font-size: 72px;
+      line-height: 1;
+      margin-bottom: 16px;
+      animation: capy-bob 3s ease-in-out infinite;
+      display: block;
+    }
+    @keyframes capy-bob {
+      0%, 100% { transform: translateY(0) rotate(2deg); }
+      50%       { transform: translateY(-8px) rotate(-2deg); }
+    }
+
+    /* Adoption text */
+    .adoption-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--brown-mid);
+      text-align: center;
+      line-height: 1.6;
+      max-width: 240px;
+      margin-bottom: 12px;
+    }
+
+    /* Donation pill */
+    .donation-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--green-pale);
+      border: 1px solid var(--green-light);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* Signature / paw prints row */
+    .paws {
+      font-size: 13px;
+      color: var(--brown-light);
+      letter-spacing: 4px;
+      margin-bottom: 14px;
+      opacity: 0.6;
+    }
+
+    /* Seal */
+    .seal {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brown) 0%, var(--brown-mid) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 7.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-align: center;
+      line-height: 1.4;
+      box-shadow: 0 3px 12px rgba(92,61,46,0.35);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+    .seal .seal-emoji { font-size: 18px; line-height: 1; margin-bottom: 2px; }
+
+    /* Footer */
+    .card-footer {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      text-align: center;
+    }
+    .footer-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cream-3), transparent);
+      margin-bottom: 10px;
+    }
+    .footer-text {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--brown-light);
+      letter-spacing: 0.5px;
+    }
+    .footer-url {
+      font-size: 10px;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    /* ── PRINT STYLES ── */
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+        margin: 0;
+        min-height: unset;
+        justify-content: flex-start;
+      }
+      .print-btn { display: none; }
+      .card {
+        box-shadow: none;
+        border-radius: 0;
+        width: 148mm;
+        min-height: 210mm;
+        margin: 0;
+        page-break-inside: avoid;
+      }
+      @page {
+        size: A5 portrait;
+        margin: 0;
+      }
+      .capy-emoji { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="print-btn" onclick="window.print()">🖨️ הדפס תעודה</button>
+
+  <div class="card">
+    <!-- Decorative border layers -->
+    <div class="border-outer"></div>
+    <div class="border-inner"></div>
+
+    <!-- Corner ornaments -->
+    <div class="corner tl">✦</div>
+    <div class="corner tr">✦</div>
+    <div class="corner bl">✦</div>
+    <div class="corner br">✦</div>
+
+    <!-- Main content -->
+    <div class="card-content">
+
+      <div class="brand">Capy &amp; Co</div>
+      <div class="divider"></div>
+
+      <h1 class="title">תעודת אימוץ קפיברה 🦫</h1>
+
+      <div class="name-block">
+        <div class="name-label">שם הקפיברה שלך</div>
+        <div class="name-value" id="capy-name">פדרו</div>
+      </div>
+
+      <span class="capy-emoji">🦫</span>
+
+      <p class="adoption-text">
+        קפיברה זו אומצה באהבה<br>על ידי רוכש תיק Capy &amp; Co
+      </p>
+
+      <div class="donation-pill">
+        🌿 10% מהרכישה שלך תורם לחוות קפיברות בדרום אמריקה
+      </div>
+
+      <div class="paws">🐾 🐾 🐾</div>
+
+      <div class="seal">
+        <div class="seal-emoji">🦫</div>
+        <div>מאומת</div>
+        <div>Capy &amp; Co</div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="card-footer">
+      <div class="footer-divider"></div>
+      <div class="footer-text">תודה שאכפת לך &nbsp;·&nbsp; <span class="footer-url">capyco.shop</span></div>
+    </div>
+  </div>
+
+  <script>
+    var names = ['פדרו', 'מנגו', 'קוקו', "צ'יקו", 'לולה', 'ברונו', 'ניניה', 'פאקו', 'רוזה', "צ'יספה"];
+    document.getElementById('capy-name').textContent = names[Math.floor(Math.random() * names.length)];
+  </script>
+
+</body>
+</html>
