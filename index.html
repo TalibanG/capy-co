@@ -483,11 +483,64 @@
     .cta-trust span { display: flex; align-items: center; gap: 5px; }
 
     /* ── FOOTER ── */
-    footer {
-      background: #1E140E; color: rgba(255,255,255,0.45);
-      text-align: center; padding: 28px 24px; font-size: 13px;
+    footer { background: #2c1810; color: rgba(255,255,255,0.55); font-size: 14px; }
+    .footer-main {
+      max-width: 1100px; margin: 0 auto;
+      padding: 56px 32px 44px;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr 1fr;
+      gap: 44px;
     }
-    footer strong { color: rgba(255,255,255,0.7); font-weight: 600; }
+    .footer-col-title {
+      font-size: 10px; font-weight: 800; letter-spacing: 2.5px;
+      text-transform: uppercase; color: rgba(255,255,255,0.35);
+      margin-bottom: 18px;
+    }
+    .footer-brand-name { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: -0.5px; margin-bottom: 8px; }
+    .footer-brand-tagline { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.8); margin-bottom: 10px; }
+    .footer-brand-mission { font-size: 13px; color: rgba(255,255,255,0.42); line-height: 1.7; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+    .footer-links li a, .footer-links li button {
+      color: rgba(255,255,255,0.55); text-decoration: none;
+      font-size: 14px; font-weight: 500; font-family: 'Rubik', sans-serif;
+      background: none; border: none; cursor: pointer; padding: 0;
+      transition: color 0.15s; display: block; text-align: inherit;
+    }
+    .footer-links li a:hover, .footer-links li button:hover { color: #fff; }
+    .footer-contact-email {
+      color: rgba(255,255,255,0.55); text-decoration: none;
+      font-size: 14px; display: block; margin-bottom: 16px;
+      transition: color 0.15s; direction: ltr;
+    }
+    .footer-contact-email:hover { color: #fff; }
+    .footer-wa-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #25D366; color: #fff; border-radius: 50px;
+      padding: 9px 18px; font-size: 13px; font-weight: 700;
+      text-decoration: none; transition: background 0.15s, transform 0.15s;
+    }
+    .footer-wa-btn:hover { background: #1ebe5b; transform: translateY(-1px); }
+    .footer-wa-btn svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 20px 32px; text-align: center;
+      font-size: 12px; color: rgba(255,255,255,0.28);
+    }
+    @media (max-width: 720px) {
+      .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; padding: 40px 24px 36px; }
+    }
+    @media (max-width: 480px) {
+      .footer-main { grid-template-columns: 1fr; gap: 28px; padding: 36px 20px 28px; }
+    }
+    /* ── LEGAL MODAL ── */
+    #legal-modal { display: none; position: fixed; inset: 0; z-index: 600; align-items: center; justify-content: center; padding: 16px; }
+    #legal-modal.open { display: flex; }
+    .legal-content {
+      max-height: 55vh; overflow-y: auto; font-size: 14px;
+      color: var(--text-mid); line-height: 1.8; margin-top: 4px;
+    }
+    .legal-content h3 { font-size: 14px; font-weight: 700; color: var(--brown); margin: 18px 0 5px; }
+    .legal-content p  { margin-bottom: 8px; }
 
     /* ── FLOATING WHATSAPP BUTTON (right) ── */
     .float-whatsapp {
@@ -928,8 +981,63 @@
 
 <!-- Footer -->
 <footer>
-  <p>© 2025 <strong>Capy &amp; Co</strong> &nbsp;·&nbsp; <span id="footer-sub">כי לכל תיק יש סיפור 🦫</span></p>
+  <div class="footer-main">
+
+    <!-- Col 1: Brand -->
+    <div class="footer-col">
+      <div class="footer-brand-name">Capy &amp; Co</div>
+      <div class="footer-brand-tagline" id="ft-tagline">תיק בד עם לב גדול 🦫</div>
+      <p class="footer-brand-mission" id="ft-mission">כל תיק שנמכר תורם 10% לחוות קפיברות בדרום אמריקה</p>
+    </div>
+
+    <!-- Col 2: Product -->
+    <div class="footer-col">
+      <div class="footer-col-title" id="ft-col-product">מוצר</div>
+      <ul class="footer-links">
+        <li><a href="#bag" id="ft-link-bag">התיק שלנו</a></li>
+        <li><a href="adoption-card.html" target="_blank" id="ft-link-adoption">אימוץ קפיברה</a></li>
+        <li><button onclick="openLegal('returns')" id="ft-link-shipping">משלוח והחזרות</button></li>
+      </ul>
+    </div>
+
+    <!-- Col 3: Legal -->
+    <div class="footer-col">
+      <div class="footer-col-title" id="ft-col-legal">משפטי</div>
+      <ul class="footer-links">
+        <li><button onclick="openLegal('terms')" id="ft-link-terms">תנאי שימוש</button></li>
+        <li><button onclick="openLegal('privacy')" id="ft-link-privacy">מדיניות פרטיות</button></li>
+        <li><button onclick="openLegal('returns')" id="ft-link-returns">מדיניות החזרות</button></li>
+      </ul>
+    </div>
+
+    <!-- Col 4: Contact -->
+    <div class="footer-col">
+      <div class="footer-col-title" id="ft-col-contact">יצירת קשר</div>
+      <a href="mailto:support@capyco.shop" class="footer-contact-email">support@capyco.shop</a>
+      <a href="https://wa.me/972XXXXXXXXX" target="_blank" rel="noopener" class="footer-wa-btn" id="ft-wa-btn">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.555 4.116 1.528 5.845L.057 23.272a.75.75 0 00.921.921l5.344-1.455A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.697 9.697 0 01-4.964-1.367l-.355-.211-3.683 1.002.979-3.578-.232-.368A9.694 9.694 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
+        </svg>
+        <span id="ft-wa-label">וואטסאפ</span>
+      </a>
+    </div>
+
+  </div>
+  <div class="footer-bottom">
+    <span id="ft-copy">© 2025 Capy &amp; Co | כל הזכויות שמורות | capyco.shop</span>
+  </div>
 </footer>
+
+<!-- ── LEGAL MODAL ── -->
+<div id="legal-modal" aria-modal="true" role="dialog">
+  <div class="modal-backdrop" id="legal-backdrop"></div>
+  <div class="modal-box" style="max-width:520px">
+    <button class="modal-close" id="legal-close-btn" aria-label="סגור">✕</button>
+    <h2 id="legal-title" style="margin-bottom:16px">תנאי שימוש</h2>
+    <div class="legal-content" id="legal-body"></div>
+  </div>
+</div>
 
 <!-- ── CHECKOUT MODAL ── -->
 <div id="checkout-modal" aria-modal="true" role="dialog" aria-labelledby="modal-title">
@@ -1104,7 +1212,13 @@
       ctaP:     'לחצו על הכפתור — תוך שניות תהיו בשיחה איתנו ונסגור הזמנה במהירות',
       ctaBtn:   'הזמינו עכשיו 🛍️',
       ctaTrust1: '🔒 תשלום מאובטח', ctaTrust2: '🚚 משלוח לכל הארץ', ctaTrust3: '↩️ 30 יום החזרה',
-      footerSub: 'כי לכל תיק יש סיפור 🦫'
+      footerSub: 'כי לכל תיק יש סיפור 🦫',
+      ftTagline: 'תיק בד עם לב גדול 🦫',
+      ftMission: 'כל תיק שנמכר תורם 10% לחוות קפיברות בדרום אמריקה',
+      ftColProduct: 'מוצר', ftLinkBag: 'התיק שלנו', ftLinkAdoption: 'אימוץ קפיברה', ftLinkShipping: 'משלוח והחזרות',
+      ftColLegal: 'משפטי', ftLinkTerms: 'תנאי שימוש', ftLinkPrivacy: 'מדיניות פרטיות', ftLinkReturns: 'מדיניות החזרות',
+      ftColContact: 'יצירת קשר', ftWaLabel: 'וואטסאפ',
+      ftCopy: '© 2025 Capy & Co | כל הזכויות שמורות | capyco.shop'
     },
     en: {
       dir: 'ltr', lang: 'en', toggleBtn: 'עב',
@@ -1161,7 +1275,13 @@
       ctaP:     'Click the button — within seconds you\'ll be chatting with us to finalize your order',
       ctaBtn:   'Order Now 🛍️',
       ctaTrust1: '🔒 Secure Payment', ctaTrust2: '🚚 Nationwide Delivery', ctaTrust3: '↩️ 30-Day Returns',
-      footerSub: 'Because every bag has a story 🦫'
+      footerSub: 'Because every bag has a story 🦫',
+      ftTagline: 'A Tote Bag with a Big Heart 🦫',
+      ftMission: 'Every bag sold donates 10% to capybara farms in South America',
+      ftColProduct: 'Product', ftLinkBag: 'Our Bag', ftLinkAdoption: 'Capybara Adoption', ftLinkShipping: 'Shipping & Returns',
+      ftColLegal: 'Legal', ftLinkTerms: 'Terms of Use', ftLinkPrivacy: 'Privacy Policy', ftLinkReturns: 'Return Policy',
+      ftColContact: 'Contact Us', ftWaLabel: 'WhatsApp',
+      ftCopy: '© 2025 Capy & Co | All Rights Reserved | capyco.shop'
     }
   };
 
@@ -1232,6 +1352,19 @@
     document.getElementById('cta-trust2').textContent        = t.ctaTrust2;
     document.getElementById('cta-trust3').textContent        = t.ctaTrust3;
     document.getElementById('footer-sub').textContent        = t.footerSub;
+    document.getElementById('ft-tagline').textContent        = t.ftTagline;
+    document.getElementById('ft-mission').textContent        = t.ftMission;
+    document.getElementById('ft-col-product').textContent    = t.ftColProduct;
+    document.getElementById('ft-link-bag').textContent       = t.ftLinkBag;
+    document.getElementById('ft-link-adoption').textContent  = t.ftLinkAdoption;
+    document.getElementById('ft-link-shipping').textContent  = t.ftLinkShipping;
+    document.getElementById('ft-col-legal').textContent      = t.ftColLegal;
+    document.getElementById('ft-link-terms').textContent     = t.ftLinkTerms;
+    document.getElementById('ft-link-privacy').textContent   = t.ftLinkPrivacy;
+    document.getElementById('ft-link-returns').textContent   = t.ftLinkReturns;
+    document.getElementById('ft-col-contact').textContent    = t.ftColContact;
+    document.getElementById('ft-wa-label').textContent       = t.ftWaLabel;
+    document.getElementById('ft-copy').textContent           = t.ftCopy;
   }
 
   function toggleLang() {
@@ -1341,6 +1474,61 @@
         e.preventDefault();
         openModal();
       });
+    });
+  })();
+
+  /* ── LEGAL MODAL ── */
+  (function() {
+    var legalContent = {
+      terms: {
+        title: 'תנאי שימוש',
+        body: '<h3>1. כללי</h3><p>השימוש באתר capyco.shop ובשירותים המוצעים בו מהווה הסכמה מלאה לתנאי שימוש אלה. אנא קרא/י אותם בעיון לפני ביצוע הזמנה.</p>' +
+              '<h3>2. הזמנות ותשלום</h3><p>הזמנות מתבצעות דרך האתר בלבד. המחיר הנקוב כולל מע"מ ומהווה את המחיר הסופי. השלמת הרכישה מותנית באישור התשלום.</p>' +
+              '<h3>3. משלוחים</h3><p>המשלוח מתבצע תוך 5–7 ימי עסקים מאישור ההזמנה. Capy & Co אינה אחראית לעיכובים שנגרמו על ידי חברת השילוח או גורמים חיצוניים.</p>' +
+              '<h3>4. ביטול הזמנה</h3><p>ניתן לבטל הזמנה עד 24 שעות מביצועה. לאחר מכן, יחולו תנאי מדיניות ההחזרות.</p>' +
+              '<h3>5. זכויות קניין רוחני</h3><p>כל התכנים, הלוגו והעיצובים באתר שייכים ל-Capy & Co. אין להעתיק, לשכפל או לעשות שימוש מסחרי ללא אישור בכתב.</p>' +
+              '<h3>6. שינויים בתנאים</h3><p>Capy & Co שומרת לעצמה את הזכות לעדכן תנאים אלה בכל עת. המשך השימוש באתר לאחר העדכון מהווה הסכמה לתנאים החדשים.</p>' +
+              '<h3>7. יצירת קשר</h3><p>לכל שאלה: support@capyco.shop</p>'
+      },
+      privacy: {
+        title: 'מדיניות פרטיות',
+        body: '<h3>1. מידע שנאסף</h3><p>אנו אוספים שם מלא, כתובת אימייל וכתובת למשלוח אך ורק לצורך עיבוד ההזמנה ואספקתה.</p>' +
+              '<h3>2. שימוש במידע</h3><p>המידע האישי משמש למטרות אלה בלבד: עיבוד ואישור ההזמנה, משלוח המוצר לכתובת שנמסרה, ותקשורת הקשורה להזמנה.</p>' +
+              '<h3>3. אי-שיתוף מידע</h3><p>Capy & Co אינה מוכרת, משכירה או משתפת מידע אישי עם צדדים שלישיים, למעט חברות שילוח לצורך ביצוע המשלוח בלבד.</p>' +
+              '<h3>4. אבטחת מידע</h3><p>אנו נוקטים באמצעי אבטחה מקובלים להגנה על המידע האישי שנמסר לנו. עם זאת, אין אבטחה מוחלטת בסביבה המקוונת.</p>' +
+              '<h3>5. עוגיות (Cookies)</h3><p>האתר עשוי להשתמש בעוגיות לשיפור חווית המשתמש בלבד. ניתן לנהל ולבטל עוגיות דרך הגדרות הדפדפן.</p>' +
+              '<h3>6. זכות עיון ומחיקה</h3><p>בכל עת תוכל/י לבקש עיון, תיקון או מחיקה של המידע האישי שנמסר לנו. לפנייה: support@capyco.shop</p>'
+      },
+      returns: {
+        title: 'מדיניות החזרות',
+        body: '<h3>1. זכות החזרה</h3><p>ניתן להחזיר מוצר תוך 14 יום מיום קבלתו, ובלבד שלא נעשה בו שימוש ומצוי באריזה המקורית ובמצב תקין.</p>' +
+              '<h3>2. תהליך ההחזרה</h3><p>לפתיחת בקשת החזרה, יש לפנות אלינו בדוא"ל support@capyco.shop או בוואטסאפ תוך 14 יום מקבלת המוצר. נשלח הנחיות לאחר אישור הבקשה.</p>' +
+              '<h3>3. החזר כספי</h3><p>לאחר קבלת המוצר ובדיקתו, יבוצע החזר כספי מלא לאמצעי התשלום המקורי תוך 5–7 ימי עסקים.</p>' +
+              '<h3>4. מוצרים פגומים או שגויים</h3><p>במקרה של מוצר פגום, פגום בייצור או שגוי, Capy & Co תישא בעלות המשלוח החוזר ותספק החלפה או החזר כספי מלא.</p>' +
+              '<h3>5. מוצרים שאינם ניתנים להחזרה</h3><p>מוצרים שנעשה בהם שימוש, ניזוקו לאחר קבלתם, או שאינם באריזה המקורית — אינם ניתנים להחזרה.</p>' +
+              '<h3>6. יצירת קשר</h3><p>לכל שאלה בנושא החזרות: support@capyco.shop</p>'
+      }
+    };
+
+    var legalModal  = document.getElementById('legal-modal');
+    var legalTitle  = document.getElementById('legal-title');
+    var legalBody   = document.getElementById('legal-body');
+
+    window.openLegal = function(type) {
+      var c = legalContent[type];
+      legalTitle.textContent = c.title;
+      legalBody.innerHTML    = c.body;
+      legalModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+    function closeLegal() {
+      legalModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('legal-backdrop').addEventListener('click', closeLegal);
+    document.getElementById('legal-close-btn').addEventListener('click', closeLegal);
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLegal();
     });
   })();
 
