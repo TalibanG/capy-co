@@ -1144,6 +1144,7 @@
   var currentLang = 'he';
 
   function applyLang(lang) {
+    currentLang = lang;
     var t = translations[lang];
     document.documentElement.setAttribute('dir',  t.dir);
     document.documentElement.setAttribute('lang', t.lang);
@@ -1171,8 +1172,6 @@
     document.getElementById('bag-delivery-sub').textContent  = t.bagDelivery;
     document.getElementById('bag-guarantee').textContent     = t.bagGuarantee;
     document.getElementById('bag-btn').textContent           = t.bagBtn;
-    document.getElementById('stock-sold-label').textContent  = t.stockSold;
-    document.getElementById('stock-left-label').textContent  = t.stockLeft;
     document.getElementById('bag-trust').textContent         = t.bagTrust;
     document.getElementById('b1-title').textContent          = t.b1Title;
     document.getElementById('b1-text').textContent           = t.b1Text;
@@ -1204,15 +1203,12 @@
     document.getElementById('faq4q').textContent             = t.faq4q;
     document.getElementById('faq4a').textContent             = t.faq4a;
     document.getElementById('cta-h2').textContent            = t.ctaH2;
-    document.getElementById('cta-stock').textContent         = t.ctaStock;
     document.getElementById('cta-p').textContent             = t.ctaP;
     document.getElementById('cta-btn').textContent           = t.ctaBtn;
     document.getElementById('cta-trust1').textContent        = t.ctaTrust1;
     document.getElementById('cta-trust2').textContent        = t.ctaTrust2;
     document.getElementById('cta-trust3').textContent        = t.ctaTrust3;
     document.getElementById('footer-sub').textContent        = t.footerSub;
-
-    currentLang = lang;
   }
 
   function toggleLang() {
