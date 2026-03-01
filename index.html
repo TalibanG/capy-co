@@ -748,6 +748,77 @@
       .modal-btn { font-size: 15px; padding: 13px 20px; }
     }
 
+    /* ── MODAL PRODUCT LIST ── */
+    .m-products-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+    .m-product-row {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      padding: 12px 14px; border-radius: var(--r-sm);
+      background: var(--cream); border: 1.5px solid var(--cream-3);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .m-product-row.checked {
+      border-color: var(--green);
+      background: rgba(107,143,94,0.07);
+    }
+    .m-product-check {
+      display: flex; align-items: center; gap: 8px;
+      flex: 1; min-width: 100px; cursor: pointer;
+    }
+    .m-product-check input[type="checkbox"] {
+      width: 18px; height: 18px; accent-color: var(--green);
+      cursor: pointer; flex-shrink: 0;
+    }
+    .m-product-name { font-size: 14px; font-weight: 600; color: var(--brown); }
+    .qty-stepper {
+      display: flex; align-items: center; gap: 6px;
+      opacity: 0.3; pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .m-product-row.checked .qty-stepper { opacity: 1; pointer-events: auto; }
+    .qty-btn {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 1.5px solid var(--cream-3); background: var(--white);
+      font-size: 16px; font-weight: 700; color: var(--brown);
+      cursor: pointer; font-family: 'Rubik', sans-serif;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0; line-height: 1;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .qty-btn:hover { background: var(--cream-2); border-color: var(--brown-mid); }
+    .qty-val {
+      font-size: 15px; font-weight: 700; color: var(--brown);
+      min-width: 20px; text-align: center;
+    }
+    .m-product-price {
+      font-size: 14px; font-weight: 700; color: var(--green);
+      opacity: 0.3; transition: opacity 0.2s; white-space: nowrap;
+    }
+    .m-product-row.checked .m-product-price { opacity: 1; }
+    .m-socks-size { width: 100%; margin-top: 6px; }
+    .m-socks-size select {
+      border: 1.5px solid #E8DDD5; border-radius: var(--r-sm);
+      padding: 8px 12px; font-family: 'Rubik', sans-serif;
+      font-size: 14px; color: var(--text-dark); background: var(--white);
+      outline: none; direction: rtl; width: 100%;
+      transition: border-color 0.2s;
+    }
+    .m-socks-size select:focus { border-color: var(--green); }
+    .m-total-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 14px; border-radius: var(--r-sm);
+      background: var(--cream-2); border: 1.5px solid var(--cream-3);
+      margin-bottom: 6px;
+    }
+    .m-total-label { font-size: 14px; font-weight: 600; color: var(--text-mid); }
+    .m-total-price { font-size: 20px; font-weight: 900; color: var(--brown); letter-spacing: -0.5px; }
+    .opt-label { font-size: 11px; color: var(--text-soft); font-weight: 400; }
+    .modal-order-lines { margin-bottom: 8px; }
+    .modal-order-line {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 13px; color: var(--text-mid); padding: 5px 0;
+      border-bottom: 1px solid var(--cream-3);
+    }
+
     /* ── PRODUCTS GRID ── */
     #products { background: var(--cream-2); }
     .products-grid {
@@ -1263,23 +1334,57 @@
 
     <!-- Step 1: Shipping -->
     <div id="modal-s1">
-      <h2 id="modal-title">פרטי משלוח 📦</h2>
+      <h2 id="modal-title">פרטי הזמנה 📦</h2>
       <form id="shipping-form" action="https://formspree.io/f/xnjbyadk" method="POST" novalidate>
         <input type="hidden" name="email" id="hidden-email" />
-        <div class="m-field">
-          <label>מוצר</label>
-          <select id="modal-product" name="product" onchange="updateModalProduct()">
-            <option value="bag">תיק בד Capy &amp; Co — ₪49.90</option>
-            <option value="socks">גרביים קפיברה — ₪39.90</option>
-          </select>
+        <input type="hidden" name="order_summary" id="order-summary-input" />
+
+        <!-- Products -->
+        <div class="m-field" style="margin-bottom:6px;">
+          <label>בחרו מוצרים</label>
         </div>
-        <div class="m-field" id="modal-size-field" style="display:none">
-          <label>מידה</label>
-          <select id="modal-size" name="size">
-            <option value="M (36-41)">M (36–41)</option>
-            <option value="L (42-46)">L (42–46)</option>
-          </select>
+        <div class="m-products-list">
+          <!-- Bag -->
+          <div class="m-product-row" id="mpr-bag">
+            <label class="m-product-check">
+              <input type="checkbox" id="chk-bag" name="order_bag" value="1" onchange="updateOrderTotal()" />
+              <span class="m-product-name">תיק בד Capy &amp; Co</span>
+            </label>
+            <div class="qty-stepper">
+              <button type="button" class="qty-btn" onclick="changeQty('bag',-1)">−</button>
+              <span class="qty-val" id="qty-bag">1</span>
+              <button type="button" class="qty-btn" onclick="changeQty('bag',1)">+</button>
+            </div>
+            <span class="m-product-price" id="price-bag">₪49.90</span>
+          </div>
+          <!-- Socks -->
+          <div class="m-product-row" id="mpr-socks">
+            <label class="m-product-check">
+              <input type="checkbox" id="chk-socks" name="order_socks" value="1" onchange="updateOrderTotal()" />
+              <span class="m-product-name">גרביים קפיברה 🧦</span>
+            </label>
+            <div class="qty-stepper">
+              <button type="button" class="qty-btn" onclick="changeQty('socks',-1)">−</button>
+              <span class="qty-val" id="qty-socks">1</span>
+              <button type="button" class="qty-btn" onclick="changeQty('socks',1)">+</button>
+            </div>
+            <span class="m-product-price" id="price-socks">₪39.90</span>
+            <div class="m-socks-size" id="socks-size-row" style="display:none">
+              <select id="modal-size" name="socks_size">
+                <option value="M (36-41)">מידה M (36–41)</option>
+                <option value="L (42-46)">מידה L (42–46)</option>
+              </select>
+            </div>
+          </div>
         </div>
+
+        <!-- Total -->
+        <div class="m-total-row">
+          <span class="m-total-label">סה״כ</span>
+          <span class="m-total-price" id="modal-total">₪0.00</span>
+        </div>
+
+        <!-- Contact -->
         <div class="m-field">
           <label>שם מלא</label>
           <input type="text" name="name" placeholder="ישראל ישראלי" autocomplete="name" required />
@@ -1292,9 +1397,21 @@
           <label>אימייל</label>
           <input type="email" id="email-input" placeholder="example@email.com" autocomplete="email" required />
         </div>
+
+        <!-- Address -->
         <div class="m-field">
-          <label>כתובת</label>
-          <input type="text" name="address" placeholder="רחוב, מספר בית" autocomplete="street-address" required />
+          <label>רחוב ומספר בית</label>
+          <input type="text" name="street" placeholder="הרצל 12" autocomplete="street-address" required />
+        </div>
+        <div class="m-row">
+          <div class="m-field">
+            <label>קומה <span class="opt-label">(לא חובה)</span></label>
+            <input type="text" name="floor" placeholder="3" />
+          </div>
+          <div class="m-field">
+            <label>דירה <span class="opt-label">(לא חובה)</span></label>
+            <input type="text" name="apartment" placeholder="5" />
+          </div>
         </div>
         <div class="m-row">
           <div class="m-field">
@@ -1306,6 +1423,7 @@
             <input type="text" name="zip" placeholder="6100000" autocomplete="postal-code" required />
           </div>
         </div>
+
         <button type="submit" class="modal-btn">המשך לתשלום ←</button>
       </form>
     </div>
@@ -1341,9 +1459,10 @@
           <input type="text" placeholder="123" maxlength="4" inputmode="numeric" />
         </div>
       </div>
+      <div class="modal-order-lines" id="modal-order-lines"></div>
       <div class="modal-order-summary">
-        <span id="modal-summary-name">תיק Capy &amp; Co</span>
-        <span class="modal-order-price" id="modal-summary-price">₪49.90</span>
+        <span>סה״כ לתשלום</span>
+        <span class="modal-order-price" id="modal-summary-price">₪0.00</span>
       </div>
       <button class="modal-btn" id="place-order-btn">בצע הזמנה</button>
     </div>
@@ -1644,29 +1763,74 @@
       dot1.className = 'ms-dot active'; dot2.className = 'ms-dot';
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
-      var prodSel = document.getElementById('modal-product');
-      if (prodSel) { prodSel.value = product || 'bag'; updateModalProduct(); }
-      setTimeout(function() { s1.querySelector('input').focus(); }, 80);
+      var chkBag   = document.getElementById('chk-bag');
+      var chkSocks = document.getElementById('chk-socks');
+      if (chkBag && chkSocks) {
+        chkBag.checked   = (product !== 'socks');
+        chkSocks.checked = (product === 'socks');
+        updateOrderTotal();
+      }
+      setTimeout(function() {
+        var first = s1.querySelector('input:not([type="hidden"])');
+        if (first) first.focus();
+      }, 80);
     }
     function closeModal() {
       modal.classList.remove('open');
       document.body.style.overflow = '';
     }
     window.openModal  = openModal;
-    window.updateModalProduct = function() {
-      var sel   = document.getElementById('modal-product');
-      if (!sel) return;
-      var isSocks   = sel.value === 'socks';
-      var sizeField = document.getElementById('modal-size-field');
-      if (sizeField) sizeField.style.display = isSocks ? '' : 'none';
-      var names  = { bag: 'תיק Capy & Co', socks: 'גרביים קפיברה' };
-      var prices = { bag: '₪49.90',        socks: '₪39.90' };
-      var sName  = document.getElementById('modal-summary-name');
-      var sPrice = document.getElementById('modal-summary-price');
-      if (sName)  sName.textContent  = names[sel.value]  || names.bag;
-      if (sPrice) sPrice.textContent = prices[sel.value] || prices.bag;
-    };
     window.closeModal = closeModal;
+
+    var PRICES = { bag: 49.90, socks: 39.90 };
+    var qtys   = { bag: 1, socks: 1 };
+
+    window.changeQty = function(product, delta) {
+      qtys[product] = Math.max(1, Math.min(10, (qtys[product] || 1) + delta));
+      var el = document.getElementById('qty-' + product);
+      if (el) el.textContent = qtys[product];
+      updateOrderTotal();
+    };
+
+    function updateStep2Summary(bagChecked, socksChecked, total) {
+      var linesEl = document.getElementById('modal-order-lines');
+      var priceEl = document.getElementById('modal-summary-price');
+      if (!linesEl) return;
+      var html = '';
+      if (bagChecked) {
+        html += '<div class="modal-order-line"><span>תיק בד × ' + qtys.bag + '</span><span>₪' + (PRICES.bag * qtys.bag).toFixed(2) + '</span></div>';
+      }
+      if (socksChecked) {
+        var sizeEl = document.getElementById('modal-size');
+        var sizeVal = sizeEl ? ' (' + sizeEl.value + ')' : '';
+        html += '<div class="modal-order-line"><span>גרביים קפיברה' + sizeVal + ' × ' + qtys.socks + '</span><span>₪' + (PRICES.socks * qtys.socks).toFixed(2) + '</span></div>';
+      }
+      linesEl.innerHTML = html;
+      if (priceEl) priceEl.textContent = '₪' + total.toFixed(2);
+    }
+
+    window.updateOrderTotal = function() {
+      var chkBag   = document.getElementById('chk-bag');
+      var chkSocks = document.getElementById('chk-socks');
+      var bagChecked   = !!(chkBag   && chkBag.checked);
+      var socksChecked = !!(chkSocks && chkSocks.checked);
+      var mprBag   = document.getElementById('mpr-bag');
+      var mprSocks = document.getElementById('mpr-socks');
+      if (mprBag)   mprBag.classList.toggle('checked', bagChecked);
+      if (mprSocks) mprSocks.classList.toggle('checked', socksChecked);
+      var socksRow = document.getElementById('socks-size-row');
+      if (socksRow) socksRow.style.display = socksChecked ? '' : 'none';
+      var total = 0;
+      if (bagChecked)   total += PRICES.bag   * (qtys.bag   || 1);
+      if (socksChecked) total += PRICES.socks * (qtys.socks || 1);
+      var prBag   = document.getElementById('price-bag');
+      var prSocks = document.getElementById('price-socks');
+      if (prBag)   prBag.textContent   = '₪' + (PRICES.bag   * (qtys.bag   || 1)).toFixed(2);
+      if (prSocks) prSocks.textContent = '₪' + (PRICES.socks * (qtys.socks || 1)).toFixed(2);
+      var totalEl = document.getElementById('modal-total');
+      if (totalEl) totalEl.textContent = total > 0 ? '₪' + total.toFixed(2) : '₪0.00';
+      updateStep2Summary(bagChecked, socksChecked, total);
+    };
 
     backdrop.addEventListener('click', closeModal);
     document.getElementById('modal-close-btn').addEventListener('click', closeModal);
@@ -1675,6 +1839,21 @@
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
+      var bagChecked   = !!(document.getElementById('chk-bag')   && document.getElementById('chk-bag').checked);
+      var socksChecked = !!(document.getElementById('chk-socks') && document.getElementById('chk-socks').checked);
+      if (!bagChecked && !socksChecked) {
+        alert('אנא בחרו לפחות מוצר אחד');
+        return;
+      }
+      var lines = [];
+      if (bagChecked)   lines.push('תיק בד × ' + qtys.bag + ' = ₪' + (PRICES.bag * qtys.bag).toFixed(2));
+      if (socksChecked) {
+        var sizeEl = document.getElementById('modal-size');
+        lines.push('גרביים קפיברה' + (sizeEl ? ' ' + sizeEl.value : '') + ' × ' + qtys.socks + ' = ₪' + (PRICES.socks * qtys.socks).toFixed(2));
+      }
+      var total = (bagChecked ? PRICES.bag * qtys.bag : 0) + (socksChecked ? PRICES.socks * qtys.socks : 0);
+      lines.push('סה"כ: ₪' + total.toFixed(2));
+      document.getElementById('order-summary-input').value = lines.join(' | ');
       document.getElementById('hidden-email').value = document.getElementById('email-input').value;
       var btn = form.querySelector('button[type="submit"]');
       btn.disabled = true;
