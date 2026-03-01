@@ -748,6 +748,51 @@
       .modal-btn { font-size: 15px; padding: 13px 20px; }
     }
 
+    /* ── PRODUCTS GRID ── */
+    #products { background: var(--cream-2); }
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 28px;
+      align-items: stretch;
+    }
+    .product-card {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      box-shadow: var(--sh-md);
+      border: 1px solid var(--cream-3);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .pc-img {
+      width: 100%; aspect-ratio: 1/1;
+      background: var(--cream-2);
+      position: relative; overflow: hidden;
+    }
+    .pc-img img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: contain;
+    }
+    .pc-body {
+      padding: 20px 22px;
+      display: flex; flex-direction: column; gap: 12px;
+      flex: 1;
+    }
+    .pc-title-row {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .pc-title {
+      font-size: clamp(16px, 2.2vw, 20px); font-weight: 800;
+      color: var(--brown); line-height: 1.3; margin: 0;
+    }
+    .pc-price-top { display: flex; align-items: baseline; gap: 8px; }
+    .pc-buy { margin-top: auto; padding-top: 4px; }
+    @media (max-width: 640px) {
+      .products-grid { grid-template-columns: 1fr; }
+    }
+
     /* ── SOCKS / SIZE SELECTOR ── */
     #socks { background: var(--white); }
     .size-label {
@@ -808,22 +853,6 @@
       .trust-strip-item { font-size: 12px; }
     }
 
-    /* ── STOCK URGENCY BAR ── */
-    .bag-stock-bar {
-      display: flex; align-items: center; gap: 8px;
-      background: #FEF2F2; border: 1px solid #FECACA;
-      border-radius: var(--r-sm); padding: 9px 14px;
-      font-size: 13px; font-weight: 700; color: #DC2626;
-    }
-    .stock-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: #DC2626; flex-shrink: 0;
-      animation: stock-blink 1.4s ease-in-out infinite;
-    }
-    @keyframes stock-blink {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.25; }
-    }
   </style>
 </head>
 <body>
@@ -912,59 +941,109 @@
   </div>
 </section>
 
-<!-- 4. THE BAG -->
-<section id="bag">
-  <div class="section-inner">
-    <span class="section-label" id="bag-tag">התיק</span>
-    <h2 id="bag-h2">תיק בד שעושה טוב לעולם</h2>
+<!-- 4. PRODUCTS -->
+<section id="products">
+  <div class="section-inner" style="max-width:920px;">
+    <span class="section-label">המוצרים שלנו</span>
+    <h2>המוצרים שלנו 🛍️</h2>
     <div class="section-divider"></div>
 
-    <!-- Bag Image (fixed layout) -->
-    <div class="bag-image-wrap">
-      <img id="bag-img" src="bag.png" alt="Capy &amp; Co תיק בד" loading="lazy" decoding="async" />
-    </div>
-    <div class="adoption-badge">
-      <img src="capy-logo.png" alt="" class="capy-xs-icon" /> כל תיק מגיע עם כרטיס אימוץ קפיברה אישי בפנים!
-    </div>
+    <div class="products-grid">
 
-    <!-- Price + CTA Block -->
-    <div class="bag-purchase">
-      <div class="bag-stock-bar">
-        <span class="stock-dot"></span>
-        <span id="bag-stock">⚠️ נותרו רק 7 יחידות במלאי!</span>
-      </div>
-      <div class="bag-purchase-row">
-        <div class="bag-price-col">
-          <div class="bag-price-top">
+      <!-- BAG CARD -->
+      <div class="product-card">
+        <div class="pc-img">
+          <img id="bag-img" src="bag.png" alt="Capy & Co תיק בד" loading="lazy" decoding="async" />
+        </div>
+        <div class="pc-body">
+          <span class="section-label" id="bag-tag" style="align-self:flex-start;">התיק</span>
+          <div class="pc-title-row">
+            <h3 class="pc-title" id="bag-h2">תיק בד שעושה טוב לעולם</h3>
+          </div>
+          <div class="adoption-badge" style="margin:0;">
+            <img src="capy-logo.png" alt="" class="capy-xs-icon" /> כל תיק מגיע עם כרטיס אימוץ קפיברה אישי בפנים!
+          </div>
+          <div class="pc-price-top">
             <span class="bag-price">₪49.90</span>
             <span class="bag-price-old" id="bag-price-old">₪100</span>
           </div>
           <span class="bag-savings" id="bag-savings">🎉 חוסכים ₪50!</span>
           <span class="bag-delivery-sub" id="bag-delivery-sub">משלוח עד הבית תוך 5–7 ימי עסקים</span>
           <span class="bag-guarantee" id="bag-guarantee">✅ 30 יום החזרה מלאה</span>
+          <div class="pc-buy">
+            <a class="btn-green btn-green-sm" href="https://wa.me/972XXXXXXXXX" target="_blank" id="bag-btn" style="width:100%;justify-content:center;">
+              הזמינו עכשיו 🛍️
+            </a>
+          </div>
+          <div class="bag-trust" id="bag-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
+          <div class="whats-included">
+            <div class="whats-included-title">מה מקבלים?</div>
+            <div class="whats-included-item">
+              <span class="wi-icon">🛍️</span>
+              <span>תיק בד Capy &amp; Co</span>
+            </div>
+            <div class="whats-included-item">
+              <span class="wi-icon"><img src="capy-logo.png" alt="קפיברה" loading="lazy" /></span>
+              <span>אימוץ קפיברה אישית עם שם ייחודי</span>
+            </div>
+          </div>
         </div>
-        <a class="btn-green btn-green-sm" href="https://wa.me/972XXXXXXXXX" target="_blank" id="bag-btn">
-          הזמינו עכשיו 🛍️
-        </a>
       </div>
 
-      <div class="bag-trust" id="bag-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
-
-      <div class="whats-included">
-        <div class="whats-included-title">מה מקבלים?</div>
-        <div class="whats-included-item">
-          <span class="wi-icon">🛍️</span>
-          <span>תיק בד Capy &amp; Co</span>
+      <!-- SOCKS CARD -->
+      <div class="product-card">
+        <div class="pc-img">
+          <img src="socks.png" alt="גרביים קפיברה Capy & Co" loading="lazy" decoding="async" />
         </div>
-        <div class="whats-included-item">
-          <span class="wi-icon"><img src="capy-logo.png" alt="קפיברה" /></span>
-          <span>אימוץ קפיברה אישית עם שם ייחודי</span>
+        <div class="pc-body">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span class="section-label" style="margin:0;">מוצר חדש ✨</span>
+            <span class="new-badge">חדש!</span>
+          </div>
+          <div class="pc-title-row">
+            <h3 class="pc-title">גרביים קפיברה 🧦</h3>
+          </div>
+          <div class="adoption-badge" style="margin:0;">
+            🧦 גרביים עם הדפס קפיברה חמוד — נוחות, איכותיות, ומושלמות למתנה 🎁
+          </div>
+          <div class="pc-price-top">
+            <span class="bag-price">₪39.90</span>
+            <span class="bag-price-old">₪65</span>
+          </div>
+          <span class="bag-savings">🎉 חוסכים ₪25!</span>
+          <span class="bag-delivery-sub">משלוח עד הבית תוך 5–7 ימי עסקים</span>
+          <span class="bag-guarantee">✅ 30 יום החזרה מלאה</span>
+          <div>
+            <div class="size-label">בחרו מידה</div>
+            <div class="size-selector" id="socks-size-selector">
+              <button class="size-btn" onclick="selectSize(this,'socks-size-selector')">M (36–41)</button>
+              <button class="size-btn" onclick="selectSize(this,'socks-size-selector')">L (42–46)</button>
+            </div>
+          </div>
+          <div class="pc-buy">
+            <button class="btn-green btn-green-sm" data-product="socks" style="border:none;width:100%;">
+              הזמינו עכשיו 🛍️
+            </button>
+          </div>
+          <div class="bag-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
+          <div class="whats-included">
+            <div class="whats-included-title">מה מקבלים?</div>
+            <div class="whats-included-item">
+              <span class="wi-icon">🧦</span>
+              <span>זוג גרביים Capy &amp; Co עם הדפס קפיברה</span>
+            </div>
+            <div class="whats-included-item">
+              <span class="wi-icon"><img src="capy-logo.png" alt="קפיברה" loading="lazy" /></span>
+              <span>אימוץ קפיברה אישית עם שם ייחודי</span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+
+    </div><!-- /products-grid -->
 
     <!-- Benefits -->
-    <div class="benefits-grid">
+    <div class="benefits-grid" style="margin-top:32px;">
       <div class="benefit-card">
         <span class="benefit-icon">🌱</span>
         <h3 id="b1-title">ידידותי לסביבה</h3>
@@ -979,66 +1058,6 @@
         <span class="benefit-icon">⏳</span>
         <h3 id="b3-title">מלאי מוגבל</h3>
         <p id="b3-text">מייצרים בכמויות קטנות — כשנגמר, נגמר. אל תחמיצו</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 5. SOCKS -->
-<section id="socks">
-  <div class="section-inner">
-    <span class="section-label">מוצר חדש ✨</span>
-    <div class="product-title-row">
-      <h2>גרביים קפיברה 🧦</h2>
-      <span class="new-badge">חדש!</span>
-    </div>
-    <div class="section-divider"></div>
-
-    <div class="bag-image-wrap">
-      <img src="socks.png" alt="גרביים קפיברה Capy & Co" loading="lazy" decoding="async" />
-    </div>
-
-    <div class="adoption-badge">
-      🧦 גרביים עם הדפס קפיברה חמוד — נוחות, איכותיות, ומושלמות למתנה 🎁
-    </div>
-
-    <div class="bag-purchase">
-      <div class="bag-purchase-row">
-        <div class="bag-price-col">
-          <div class="bag-price-top">
-            <span class="bag-price">₪39.90</span>
-            <span class="bag-price-old">₪65</span>
-          </div>
-          <span class="bag-savings">🎉 חוסכים ₪25!</span>
-          <span class="bag-delivery-sub">משלוח עד הבית תוך 5–7 ימי עסקים</span>
-          <span class="bag-guarantee">✅ 30 יום החזרה מלאה</span>
-        </div>
-      </div>
-
-      <div>
-        <div class="size-label">בחרו מידה</div>
-        <div class="size-selector" id="socks-size-selector">
-          <button class="size-btn" onclick="selectSize(this,'socks-size-selector')">M (36–41)</button>
-          <button class="size-btn" onclick="selectSize(this,'socks-size-selector')">L (42–46)</button>
-        </div>
-      </div>
-
-      <button class="btn-green btn-green-sm" data-product="socks" style="border:none;width:100%;">
-        הזמינו עכשיו 🛍️
-      </button>
-
-      <div class="bag-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
-
-      <div class="whats-included">
-        <div class="whats-included-title">מה מקבלים?</div>
-        <div class="whats-included-item">
-          <span class="wi-icon">🧦</span>
-          <span>זוג גרביים Capy &amp; Co עם הדפס קפיברה</span>
-        </div>
-        <div class="whats-included-item">
-          <span class="wi-icon"><img src="capy-logo.png" alt="קפיברה" loading="lazy" /></span>
-          <span>אימוץ קפיברה אישית עם שם ייחודי</span>
-        </div>
       </div>
     </div>
   </div>
@@ -1159,8 +1178,7 @@
     <span class="cta-emoji"><img src="capy-logo.png" alt="קפיברה" loading="lazy" decoding="async" /></span>
     <h2 id="cta-h2">רוצים תיק שעושה טוב לעולם?</h2>
     <p class="cta-sub" id="cta-p">לחצו על הכפתור — תוך שניות תהיו בשיחה איתנו ונסגור הזמנה במהירות</p>
-    <div class="stock-pill" id="cta-stock">🔥 נותרו רק 7 יחידות במלאי</div>
-    <a class="btn-green" href="https://wa.me/972XXXXXXXXX" target="_blank" id="cta-btn">
+<a class="btn-green" href="https://wa.me/972XXXXXXXXX" target="_blank" id="cta-btn">
       הזמינו עכשיו 🛍️
     </a>
     <div class="cta-trust">
@@ -1413,11 +1431,9 @@
       faq4q: 'איך מבצעים הזמנה?',
       faq4a: 'פשוט לוחצים על כפתור "הזמינו עכשיו" ונדבר בוואטסאפ! תוך דקות נשלח פרטי תשלום ואישור הזמנה.',
       ctaH2:    'רוצים תיק שעושה טוב לעולם?',
-      ctaStock: '🔥 נותרו רק 7 יחידות במלאי',
       ctaP:     'לחצו על הכפתור — תוך שניות תהיו בשיחה איתנו ונסגור הזמנה במהירות',
       ctaBtn:   'הזמינו עכשיו 🛍️',
       ctaTrust1: '🔒 תשלום מאובטח', ctaTrust2: '🚚 משלוח לכל הארץ', ctaTrust3: '↩️ 30 יום החזרה',
-      bagStock:  '⚠️ נותרו רק 7 יחידות במלאי!',
       tsCustomers: 'לקוחות מרוצים', tsRating: 'דירוג ממוצע', tsShipping: 'משלוח עד הבית', tsReturns: '30 יום החזרה',
       footerSub: 'כי לכל תיק יש סיפור 🦫',
       ftTagline: 'תיק בד עם לב גדול 🦫',
@@ -1478,11 +1494,9 @@
       faq4q: 'How do I place an order?',
       faq4a: 'Just click "Order Now" and chat with us on WhatsApp! We\'ll send payment details and order confirmation within minutes.',
       ctaH2:    'Want a Bag That Does Good?',
-      ctaStock: '🔥 Only 7 units left in stock',
       ctaP:     'Click the button — within seconds you\'ll be chatting with us to finalize your order',
       ctaBtn:   'Order Now 🛍️',
       ctaTrust1: '🔒 Secure Payment', ctaTrust2: '🚚 Nationwide Delivery', ctaTrust3: '↩️ 30-Day Returns',
-      bagStock:  '⚠️ Only 7 units left in stock!',
       tsCustomers: 'happy customers', tsRating: 'avg. rating', tsShipping: 'home delivery', tsReturns: '30-day returns',
       footerSub: 'Because every bag has a story 🦫',
       ftTagline: 'A Tote Bag with a Big Heart 🦫',
@@ -1572,8 +1586,6 @@
     document.getElementById('ft-col-contact').textContent    = t.ftColContact;
     document.getElementById('ft-wa-label').textContent       = t.ftWaLabel;
     document.getElementById('ft-copy').textContent           = t.ftCopy;
-    document.getElementById('cta-stock').textContent         = t.ctaStock;
-    document.getElementById('bag-stock').textContent         = t.bagStock;
     document.getElementById('ts-customers-label').textContent = t.tsCustomers;
     document.getElementById('ts-rating-label').textContent   = t.tsRating;
     document.getElementById('ts-shipping-label').textContent = t.tsShipping;
