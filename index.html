@@ -748,6 +748,44 @@
       .modal-btn { font-size: 15px; padding: 13px 20px; }
     }
 
+    /* ── SOCKS / SIZE SELECTOR ── */
+    #socks { background: var(--white); }
+    .size-label {
+      font-size: 12px; font-weight: 700; color: var(--text-soft);
+      text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px;
+    }
+    .size-selector { display: flex; gap: 8px; flex-wrap: wrap; }
+    .size-btn {
+      padding: 9px 18px; border-radius: var(--r-sm);
+      border: 1.5px solid var(--cream-3); background: var(--white);
+      font-family: 'Rubik', sans-serif; font-size: 13px; font-weight: 700;
+      color: var(--brown); cursor: pointer;
+      transition: border-color 0.18s, background 0.18s, color 0.18s;
+    }
+    .size-btn:hover { border-color: var(--brown-mid); }
+    .size-btn.selected { border-color: var(--brown); background: var(--brown); color: #fff; }
+    .new-badge {
+      display: inline-flex; align-items: center;
+      background: var(--green); color: #fff;
+      font-size: 11px; font-weight: 800; letter-spacing: 0.5px;
+      padding: 4px 11px; border-radius: 20px; white-space: nowrap;
+    }
+    .product-title-row {
+      display: flex; align-items: center; gap: 12px;
+      flex-wrap: wrap; margin-bottom: 8px;
+    }
+    .product-title-row h2 { margin-bottom: 0; }
+
+    /* ── MODAL SELECT ── */
+    .m-field select {
+      border: 1.5px solid #E8DDD5; border-radius: var(--r-sm);
+      padding: 11px 13px; font-family: 'Rubik', sans-serif;
+      font-size: 15px; color: var(--text-dark); background: var(--cream);
+      outline: none; direction: rtl; width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s; cursor: pointer;
+    }
+    .m-field select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(107,143,94,0.15); }
+
     /* ── TRUST STRIP ── */
     #trust-strip {
       background: var(--white);
@@ -946,7 +984,68 @@
   </div>
 </section>
 
-<!-- 5. COMING SOON -->
+<!-- 5. SOCKS -->
+<section id="socks">
+  <div class="section-inner">
+    <span class="section-label">מוצר חדש ✨</span>
+    <div class="product-title-row">
+      <h2>גרביים קפיברה 🧦</h2>
+      <span class="new-badge">חדש!</span>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="bag-image-wrap">
+      <img src="socks.png" alt="גרביים קפיברה Capy & Co" loading="lazy" decoding="async" />
+    </div>
+
+    <div class="adoption-badge">
+      🧦 גרביים עם הדפס קפיברה חמוד — נוחות, איכותיות, ומושלמות למתנה 🎁
+    </div>
+
+    <div class="bag-purchase">
+      <div class="bag-purchase-row">
+        <div class="bag-price-col">
+          <div class="bag-price-top">
+            <span class="bag-price">₪39.90</span>
+            <span class="bag-price-old">₪65</span>
+          </div>
+          <span class="bag-savings">🎉 חוסכים ₪25!</span>
+          <span class="bag-delivery-sub">משלוח עד הבית תוך 5–7 ימי עסקים</span>
+          <span class="bag-guarantee">✅ 30 יום החזרה מלאה</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="size-label">בחרו מידה</div>
+        <div class="size-selector" id="socks-size-selector">
+          <button class="size-btn" onclick="selectSize(this,'socks-size-selector')">36–39</button>
+          <button class="size-btn" onclick="selectSize(this,'socks-size-selector')">40–43</button>
+          <button class="size-btn" onclick="selectSize(this,'socks-size-selector')">44–46</button>
+        </div>
+      </div>
+
+      <button class="btn-green btn-green-sm" data-product="socks" style="border:none;width:100%;">
+        הזמינו עכשיו 🛍️
+      </button>
+
+      <div class="bag-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
+
+      <div class="whats-included">
+        <div class="whats-included-title">מה מקבלים?</div>
+        <div class="whats-included-item">
+          <span class="wi-icon">🧦</span>
+          <span>זוג גרביים Capy &amp; Co עם הדפס קפיברה</span>
+        </div>
+        <div class="whats-included-item">
+          <span class="wi-icon"><img src="capy-logo.png" alt="קפיברה" loading="lazy" /></span>
+          <span>אימוץ קפיברה אישית עם שם ייחודי</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. COMING SOON -->
 <section id="coming-soon" style="background:var(--cream-2);">
   <div class="section-inner" style="text-align:center;">
     <span class="section-label">בקרוב</span>
@@ -1151,6 +1250,21 @@
       <form id="shipping-form" action="https://formspree.io/f/xnjbyadk" method="POST" novalidate>
         <input type="hidden" name="email" id="hidden-email" />
         <div class="m-field">
+          <label>מוצר</label>
+          <select id="modal-product" name="product" onchange="updateModalProduct()">
+            <option value="bag">תיק בד Capy &amp; Co — ₪49.90</option>
+            <option value="socks">גרביים קפיברה — ₪39.90</option>
+          </select>
+        </div>
+        <div class="m-field" id="modal-size-field" style="display:none">
+          <label>מידה</label>
+          <select id="modal-size" name="size">
+            <option value="36-39">36–39</option>
+            <option value="40-43">40–43</option>
+            <option value="44-46">44–46</option>
+          </select>
+        </div>
+        <div class="m-field">
           <label>שם מלא</label>
           <input type="text" name="name" placeholder="ישראל ישראלי" autocomplete="name" required />
         </div>
@@ -1212,8 +1326,8 @@
         </div>
       </div>
       <div class="modal-order-summary">
-        <span>תיק Capy &amp; Co</span>
-        <span class="modal-order-price">₪49.90</span>
+        <span id="modal-summary-name">תיק Capy &amp; Co</span>
+        <span class="modal-order-price" id="modal-summary-price">₪49.90</span>
       </div>
       <button class="modal-btn" id="place-order-btn">בצע הזמנה</button>
     </div>
@@ -1515,11 +1629,13 @@
     var cardNum  = document.getElementById('card-num');
     var cardExp  = document.getElementById('card-exp');
 
-    function openModal() {
+    function openModal(product) {
       s1.style.display = ''; s2.style.display = 'none'; s3.style.display = 'none';
       dot1.className = 'ms-dot active'; dot2.className = 'ms-dot';
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
+      var prodSel = document.getElementById('modal-product');
+      if (prodSel) { prodSel.value = product || 'bag'; updateModalProduct(); }
       setTimeout(function() { s1.querySelector('input').focus(); }, 80);
     }
     function closeModal() {
@@ -1527,6 +1643,19 @@
       document.body.style.overflow = '';
     }
     window.openModal  = openModal;
+    window.updateModalProduct = function() {
+      var sel   = document.getElementById('modal-product');
+      if (!sel) return;
+      var isSocks   = sel.value === 'socks';
+      var sizeField = document.getElementById('modal-size-field');
+      if (sizeField) sizeField.style.display = isSocks ? '' : 'none';
+      var names  = { bag: 'תיק Capy & Co', socks: 'גרביים קפיברה' };
+      var prices = { bag: '₪49.90',        socks: '₪39.90' };
+      var sName  = document.getElementById('modal-summary-name');
+      var sPrice = document.getElementById('modal-summary-price');
+      if (sName)  sName.textContent  = names[sel.value]  || names.bag;
+      if (sPrice) sPrice.textContent = prices[sel.value] || prices.bag;
+    };
     window.closeModal = closeModal;
 
     backdrop.addEventListener('click', closeModal);
@@ -1573,7 +1702,7 @@
     document.querySelectorAll('.btn-green, .sticky-btn').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.preventDefault();
-        openModal();
+        openModal(btn.dataset.product);
       });
     });
   })();
@@ -1633,6 +1762,15 @@
     });
   })();
 
+
+  /* ── SIZE SELECTOR ── */
+  window.selectSize = function(btn, groupId) {
+    var container = document.getElementById(groupId);
+    if (container) {
+      container.querySelectorAll('.size-btn').forEach(function(b) { b.classList.remove('selected'); });
+    }
+    btn.classList.add('selected');
+  };
 
   /* ── SPARKLE ON ORDER CLICK ── */
   (function() {
