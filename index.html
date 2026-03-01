@@ -786,30 +786,6 @@
       0%, 100% { opacity: 1; }
       50%       { opacity: 0.25; }
     }
-
-    /* ── PURCHASE NOTIFICATION TOAST ── */
-    #purchase-toast {
-      position: fixed; bottom: 100px; left: 20px; z-index: 400;
-      background: var(--white); border-radius: var(--r-md);
-      box-shadow: var(--sh-lg); padding: 12px 14px;
-      display: flex; align-items: center; gap: 10px;
-      max-width: 250px;
-      transform: translateX(-140%);
-      transition: transform 0.42s cubic-bezier(0.34,1.56,0.64,1);
-      border: 1px solid var(--cream-3);
-    }
-    #purchase-toast.show { transform: translateX(0); }
-    html[lang="en"] #purchase-toast { left: auto; right: 20px; transform: translateX(140%); }
-    html[lang="en"] #purchase-toast.show { transform: translateX(0); }
-    .toast-avatar {
-      width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
-      background: linear-gradient(135deg, var(--cream-3), var(--green-pale));
-      display: flex; align-items: center; justify-content: center; font-size: 18px;
-    }
-    .toast-body { display: flex; flex-direction: column; gap: 2px; }
-    .toast-name { font-size: 12px; font-weight: 700; color: var(--brown); }
-    .toast-action { font-size: 11px; color: var(--text-mid); }
-    .toast-time { font-size: 11px; color: var(--text-soft); }
   </style>
 </head>
 <body>
@@ -839,15 +815,6 @@
   </svg>
 </a>
 
-<!-- Purchase notification toast -->
-<div id="purchase-toast">
-  <div class="toast-avatar" id="toast-avatar">🦫</div>
-  <div class="toast-body">
-    <div class="toast-name" id="toast-name">מיכל ר. מראשון לציון</div>
-    <div class="toast-action" id="toast-action">הזמינה תיק 🛍️</div>
-    <div class="toast-time" id="toast-time">לפני 3 דקות</div>
-  </div>
-</div>
 
 <!-- Nav -->
 <nav>
@@ -1328,7 +1295,6 @@
       ctaTrust1: '🔒 תשלום מאובטח', ctaTrust2: '🚚 משלוח לכל הארץ', ctaTrust3: '↩️ 30 יום החזרה',
       bagStock:  '⚠️ נותרו רק 7 יחידות במלאי!',
       tsCustomers: 'לקוחות מרוצים', tsRating: 'דירוג ממוצע', tsShipping: 'משלוח עד הבית', tsReturns: '30 יום החזרה',
-      toastAction: 'הזמינה תיק 🛍️',
       footerSub: 'כי לכל תיק יש סיפור 🦫',
       ftTagline: 'תיק בד עם לב גדול 🦫',
       ftMission: 'כל תיק שנמכר תורם 10% לחוות קפיברות בדרום אמריקה',
@@ -1394,7 +1360,6 @@
       ctaTrust1: '🔒 Secure Payment', ctaTrust2: '🚚 Nationwide Delivery', ctaTrust3: '↩️ 30-Day Returns',
       bagStock:  '⚠️ Only 7 units left in stock!',
       tsCustomers: 'happy customers', tsRating: 'avg. rating', tsShipping: 'home delivery', tsReturns: '30-day returns',
-      toastAction: 'ordered a bag 🛍️',
       footerSub: 'Because every bag has a story 🦫',
       ftTagline: 'A Tote Bag with a Big Heart 🦫',
       ftMission: 'Every bag sold donates 10% to capybara farms in South America',
@@ -1489,7 +1454,6 @@
     document.getElementById('ts-rating-label').textContent   = t.tsRating;
     document.getElementById('ts-shipping-label').textContent = t.tsShipping;
     document.getElementById('ts-returns-label').textContent  = t.tsReturns;
-    document.getElementById('toast-action').textContent      = t.toastAction;
   }
 
   function toggleLang() {
@@ -1657,40 +1621,6 @@
     });
   })();
 
-  /* ── RECENT PURCHASE NOTIFICATION ── */
-  (function() {
-    var purchasesHe = [
-      { name: 'מיכל ר.', city: 'ראשון לציון', time: 'לפני 3 דקות',  avatar: '🌸' },
-      { name: 'יוסי כ.', city: 'תל אביב',     time: 'לפני 8 דקות',  avatar: '🦫' },
-      { name: 'שירה מ.', city: 'חיפה',         time: 'לפני 14 דקות', avatar: '🌻' },
-      { name: 'אורי ל.', city: 'ירושלים',      time: 'לפני 21 דקות', avatar: '⭐' },
-      { name: 'נועם ב.', city: 'נתניה',         time: 'לפני 29 דקות', avatar: '🎋' },
-    ];
-    var purchasesEn = [
-      { name: 'Maya R.', city: 'Tel Aviv',    time: '3 min ago',  avatar: '🌸' },
-      { name: 'Yosi K.', city: 'Haifa',       time: '9 min ago',  avatar: '🦫' },
-      { name: 'Noa S.',  city: 'Jerusalem',   time: '17 min ago', avatar: '🌻' },
-      { name: 'Ori L.', city: 'Netanya',      time: '25 min ago', avatar: '⭐' },
-    ];
-    var toast = document.getElementById('purchase-toast');
-    var idx = 0;
-    function showNext() {
-      var list = currentLang === 'he' ? purchasesHe : purchasesEn;
-      var p = list[idx % list.length];
-      idx++;
-      document.getElementById('toast-avatar').textContent = p.avatar;
-      document.getElementById('toast-name').textContent   = currentLang === 'he'
-        ? p.name + ' מ' + p.city
-        : p.name + ' from ' + p.city;
-      document.getElementById('toast-time').textContent   = p.time;
-      toast.classList.add('show');
-      setTimeout(function() { toast.classList.remove('show'); }, 4200);
-    }
-    setTimeout(function() {
-      showNext();
-      setInterval(showNext, 13000);
-    }, 7000);
-  })();
 
   /* ── SPARKLE ON ORDER CLICK ── */
   (function() {
