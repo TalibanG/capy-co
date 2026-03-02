@@ -850,19 +850,31 @@
       width: 100%; height: 100%; object-fit: contain;
     }
     .pc-body {
-      padding: 20px 22px;
-      display: flex; flex-direction: column; gap: 12px;
+      padding: 20px 22px 24px;
+      display: flex; flex-direction: column; gap: 0;
       flex: 1;
+    }
+    .pc-badge-row {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      min-height: 32px; margin-bottom: 10px;
     }
     .pc-title-row {
       display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 10px;
     }
     .pc-title {
       font-size: clamp(16px, 2.2vw, 20px); font-weight: 800;
       color: var(--brown); line-height: 1.3; margin: 0;
     }
-    .pc-price-top { display: flex; align-items: baseline; gap: 8px; }
-    .pc-buy { margin-top: auto; padding-top: 4px; }
+    .pc-desc { margin-bottom: 14px; }
+    .pc-price-top { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+    .pc-meta { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+    .pc-size { margin-bottom: 14px; min-height: 58px; }
+    .pc-buy { margin-top: auto; padding-top: 0; }
+    .pc-trust { margin-top: 8px; margin-bottom: 14px; }
+
+    /* Card price — slightly smaller than hero price */
+    .pc-body .bag-price { font-size: clamp(32px, 4vw, 42px); }
     @media (max-width: 640px) {
       .products-grid { grid-template-columns: 1fr; }
     }
@@ -1030,26 +1042,32 @@
           <img id="bag-img" src="bag.png" alt="Capy & Co תיק בד" loading="lazy" decoding="async" />
         </div>
         <div class="pc-body">
-          <span class="section-label" id="bag-tag" style="align-self:flex-start;">התיק</span>
+          <div class="pc-badge-row">
+            <span class="section-label" id="bag-tag">התיק</span>
+          </div>
           <div class="pc-title-row">
             <h3 class="pc-title" id="bag-h2">תיק בד שעושה טוב לעולם</h3>
           </div>
-          <div class="adoption-badge" style="margin:0;">
+          <div class="adoption-badge pc-desc">
             <img src="capy-logo.png" alt="" class="capy-xs-icon" /> כל תיק מגיע עם כרטיס אימוץ קפיברה אישי בפנים!
           </div>
           <div class="pc-price-top">
             <span class="bag-price">₪49.90</span>
             <span class="bag-price-old" id="bag-price-old">₪100</span>
           </div>
-          <span class="bag-savings" id="bag-savings">🎉 חוסכים ₪50!</span>
-          <span class="bag-delivery-sub" id="bag-delivery-sub">משלוח עד הבית תוך 5–7 ימי עסקים</span>
-          <span class="bag-guarantee" id="bag-guarantee">✅ 30 יום החזרה מלאה</span>
-          <div class="pc-buy">
-            <a class="btn-green btn-green-sm" href="https://wa.me/972XXXXXXXXX" target="_blank" id="bag-btn" style="width:100%;justify-content:center;">
-              הזמינו עכשיו 🛍️
-            </a>
+          <div class="pc-meta">
+            <span class="bag-savings" id="bag-savings">🎉 חוסכים ₪50!</span>
+            <span class="bag-delivery-sub" id="bag-delivery-sub">משלוח עד הבית תוך 5–7 ימי עסקים</span>
+            <span class="bag-guarantee" id="bag-guarantee">✅ 30 יום החזרה מלאה</span>
           </div>
-          <div class="bag-trust" id="bag-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
+          <!-- spacer so buy button aligns with socks card -->
+          <div class="pc-size"></div>
+          <div class="pc-buy">
+            <button class="btn-green btn-green-sm" data-product="bag" id="bag-btn" style="border:none;width:100%;">
+              🛍️ הזמינו עכשיו
+            </button>
+          </div>
+          <div class="bag-trust pc-trust" id="bag-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
           <div class="whats-included">
             <div class="whats-included-title">מה מקבלים?</div>
             <div class="whats-included-item">
@@ -1070,24 +1088,26 @@
           <img src="socks.png" alt="גרביים קפיברה Capy & Co" loading="lazy" decoding="async" />
         </div>
         <div class="pc-body">
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-            <span class="section-label" style="margin:0;">מוצר חדש ✨</span>
-            <span class="new-badge">חדש!</span>
+          <div class="pc-badge-row">
+            <span class="section-label">גרביים</span>
+            <span class="new-badge">חדש! ✨</span>
           </div>
           <div class="pc-title-row">
             <h3 class="pc-title">גרביים קפיברה 🧦</h3>
           </div>
-          <div class="adoption-badge" style="margin:0;">
+          <div class="adoption-badge pc-desc">
             🧦 גרביים עם הדפס קפיברה חמוד — נוחות, איכותיות, ומושלמות למתנה 🎁
           </div>
           <div class="pc-price-top">
             <span class="bag-price">₪39.90</span>
             <span class="bag-price-old">₪65</span>
           </div>
-          <span class="bag-savings">🎉 חוסכים ₪25!</span>
-          <span class="bag-delivery-sub">משלוח עד הבית תוך 5–7 ימי עסקים</span>
-          <span class="bag-guarantee">✅ 30 יום החזרה מלאה</span>
-          <div>
+          <div class="pc-meta">
+            <span class="bag-savings">🎉 חוסכים ₪25!</span>
+            <span class="bag-delivery-sub">משלוח עד הבית תוך 5–7 ימי עסקים</span>
+            <span class="bag-guarantee">✅ 30 יום החזרה מלאה</span>
+          </div>
+          <div class="pc-size">
             <div class="size-label">בחרו מידה</div>
             <div class="size-selector" id="socks-size-selector">
               <button class="size-btn" onclick="selectSize(this,'socks-size-selector')">M (36–41)</button>
@@ -1096,10 +1116,10 @@
           </div>
           <div class="pc-buy">
             <button class="btn-green btn-green-sm" data-product="socks" style="border:none;width:100%;">
-              הזמינו עכשיו 🛍️
+              🛍️ הזמינו עכשיו
             </button>
           </div>
-          <div class="bag-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
+          <div class="bag-trust pc-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
           <div class="whats-included">
             <div class="whats-included-title">מה מקבלים?</div>
             <div class="whats-included-item">
