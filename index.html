@@ -919,6 +919,114 @@
     .btn-card-outline:hover { background: var(--brown); color: #fff; transform: translateY(-1px); }
     /* Two-button stack inside a card */
     .pc-buy-2 { display: flex; flex-direction: column; gap: 8px; }
+
+    /* ── BUNDLE SECTION ── */
+    #bundle { background: var(--cream); }
+    .bundle-card {
+      background: linear-gradient(135deg, #fffbe6 0%, #fff8d6 100%);
+      border: 2.5px solid #f0c040;
+      border-radius: var(--r-lg);
+      box-shadow: 0 8px 40px rgba(240,192,64,0.18), 0 2px 12px rgba(0,0,0,0.07);
+      padding: 40px 44px 36px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .bundle-card::before {
+      content: '';
+      position: absolute;
+      top: -60px; inset-inline-end: -60px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(240,192,64,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .bundle-fire-badge {
+      display: inline-block;
+      background: linear-gradient(90deg, #f59e0b, #ef4444);
+      color: #fff; font-size: 14px; font-weight: 800;
+      padding: 7px 20px; border-radius: 50px;
+      margin-bottom: 18px; letter-spacing: 0.02em;
+    }
+    .bundle-title {
+      font-size: 28px; font-weight: 900; color: var(--brown);
+      margin-bottom: 20px; line-height: 1.3;
+    }
+    .bundle-items {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; flex-wrap: wrap; margin-bottom: 24px;
+    }
+    .bundle-item {
+      font-size: 15px; font-weight: 700; color: var(--text-dark);
+      background: rgba(255,255,255,0.75); border-radius: 30px;
+      padding: 7px 16px; border: 1px solid rgba(240,192,64,0.45);
+    }
+    .bundle-sep { font-size: 22px; font-weight: 900; color: #f59e0b; }
+    .bundle-price-row {
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px; margin-bottom: 24px;
+    }
+    .bundle-price-old {
+      font-size: 22px; font-weight: 700; color: var(--text-soft);
+      text-decoration: line-through;
+    }
+    .bundle-price { font-size: 44px; font-weight: 900; color: var(--brown); line-height: 1; }
+    .bundle-sizes {
+      display: flex; gap: 20px; justify-content: center;
+      flex-wrap: wrap; margin-bottom: 26px;
+    }
+    .bundle-size-group { display: flex; align-items: center; gap: 10px; }
+    .bundle-size-label { font-size: 14px; font-weight: 700; color: var(--text-mid); }
+    .bundle-size-group select {
+      font-family: 'Rubik', sans-serif; font-size: 14px; font-weight: 600;
+      color: var(--brown); background: var(--white);
+      border: 2px solid #f0c040; border-radius: 8px;
+      padding: 7px 12px; cursor: pointer; outline: none;
+      transition: border-color 0.15s;
+    }
+    .bundle-size-group select:focus { border-color: var(--brown); }
+    .bundle-timer-wrap {
+      background: rgba(92,61,46,0.07); border-radius: var(--r-md);
+      padding: 18px 24px; margin-bottom: 26px;
+    }
+    .bundle-timer-title { font-size: 14px; font-weight: 700; color: var(--text-mid); margin-bottom: 14px; }
+    .bundle-timer {
+      display: flex; align-items: flex-start; justify-content: center; gap: 8px;
+    }
+    .bundle-timer-unit { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+    .bundle-timer-val {
+      font-size: 34px; font-weight: 900; color: var(--brown);
+      background: var(--white); border-radius: var(--r-sm);
+      padding: 8px 12px; min-width: 56px; text-align: center;
+      line-height: 1; box-shadow: 0 2px 8px rgba(0,0,0,0.09);
+      font-variant-numeric: tabular-nums;
+    }
+    .bundle-timer-lbl { font-size: 11px; font-weight: 600; color: var(--text-soft); letter-spacing: 0.04em; }
+    .bundle-timer-sep { font-size: 30px; font-weight: 900; color: #f59e0b; padding-top: 8px; }
+    .bundle-btn {
+      width: 100%; background: var(--green); color: var(--white);
+      border: none; border-radius: 50px; padding: 17px 32px;
+      font-size: 18px; font-weight: 800; font-family: 'Rubik', sans-serif;
+      cursor: pointer; transition: background 0.18s, transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 18px rgba(107,143,94,0.35);
+      margin-bottom: 14px; display: block;
+    }
+    .bundle-btn:hover { background: var(--green-light); transform: translateY(-2px); box-shadow: 0 7px 28px rgba(107,143,94,0.45); }
+    .bundle-trust { font-size: 13px; color: var(--text-soft); font-weight: 500; }
+    /* Bundle modal row */
+    .m-bundle-header {
+      background: linear-gradient(90deg, #fffbe6, #fff8d6);
+      border: 1.5px solid #f0c040; border-radius: var(--r-md);
+      padding: 8px 14px; margin-bottom: 2px;
+      text-align: center; font-size: 12px; font-weight: 800; color: #92610a;
+    }
+    #mpr-bundle { border: 1.5px solid #f0c040; background: #fffdf0; border-radius: var(--r-md); }
+    @media (max-width: 480px) {
+      .bundle-card { padding: 26px 18px 24px; }
+      .bundle-title { font-size: 22px; }
+      .bundle-price { font-size: 34px; }
+      .bundle-timer-val { font-size: 26px; min-width: 46px; }
+    }
+
     @media (max-width: 860px) {
       .products-grid { grid-template-columns: repeat(2, 1fr); }
     }
@@ -1267,6 +1375,71 @@
   </div>
 </section>
 
+<!-- 5b. BUNDLE -->
+<section id="bundle">
+  <div class="section-inner" style="max-width:640px;">
+    <div class="bundle-card">
+      <div><span class="bundle-fire-badge" id="bundle-fire-badge">🔥 הצעה מיוחדת — חיסכון של ₪50!</span></div>
+      <h2 class="bundle-title" id="bundle-title">חבילת הקפיברה המלאה 🦫</h2>
+      <div class="bundle-items">
+        <span class="bundle-item" id="bundle-item1">✅ תיק בד</span>
+        <span class="bundle-sep">+</span>
+        <span class="bundle-item" id="bundle-item2">✅ גרביים</span>
+        <span class="bundle-sep">+</span>
+        <span class="bundle-item" id="bundle-item3">✅ חולצה</span>
+      </div>
+      <div class="bundle-price-row">
+        <span class="bundle-price-old" id="bundle-price-old">₪149.70</span>
+        <span class="bundle-price">₪99.90</span>
+      </div>
+      <div class="bundle-sizes">
+        <div class="bundle-size-group">
+          <span class="bundle-size-label" id="bundle-socks-size-label">מידת גרביים:</span>
+          <select id="bundle-socks-size" name="bundle_socks_size">
+            <option value="M (36-41)">M (36–41)</option>
+            <option value="L (42-46)">L (42–46)</option>
+          </select>
+        </div>
+        <div class="bundle-size-group">
+          <span class="bundle-size-label" id="bundle-shirt-size-label">מידת חולצה:</span>
+          <select id="bundle-shirt-size" name="bundle_shirt_size">
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+        </div>
+      </div>
+      <div class="bundle-timer-wrap">
+        <div class="bundle-timer-title" id="bundle-timer-title">⏰ המבצע מסתיים בעוד:</div>
+        <div class="bundle-timer">
+          <div class="bundle-timer-unit">
+            <span class="bundle-timer-val" id="bTimer-d">00</span>
+            <span class="bundle-timer-lbl" id="bTimer-d-lbl">ימים</span>
+          </div>
+          <span class="bundle-timer-sep">:</span>
+          <div class="bundle-timer-unit">
+            <span class="bundle-timer-val" id="bTimer-h">00</span>
+            <span class="bundle-timer-lbl" id="bTimer-h-lbl">שעות</span>
+          </div>
+          <span class="bundle-timer-sep">:</span>
+          <div class="bundle-timer-unit">
+            <span class="bundle-timer-val" id="bTimer-m">00</span>
+            <span class="bundle-timer-lbl" id="bTimer-m-lbl">דקות</span>
+          </div>
+          <span class="bundle-timer-sep">:</span>
+          <div class="bundle-timer-unit">
+            <span class="bundle-timer-val" id="bTimer-s">00</span>
+            <span class="bundle-timer-lbl" id="bTimer-s-lbl">שניות</span>
+          </div>
+        </div>
+      </div>
+      <button class="bundle-btn" data-product="bundle" id="bundle-btn">הזמינו את החבילה עכשיו ⚡</button>
+      <div class="bundle-trust" id="bundle-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
+    </div>
+  </div>
+</section>
+
 <!-- 6. COMING SOON -->
 <section id="coming-soon" style="background:var(--cream-2);">
   <div class="section-inner" style="text-align:center;">
@@ -1481,6 +1654,32 @@
           <label id="label-products">בחרו מוצרים</label>
         </div>
         <div class="m-products-list">
+          <!-- Bundle -->
+          <div class="m-bundle-header" id="bundle-modal-header">🔥 חבילת הקפיברה המלאה — ₪99.90 במקום ₪149.70</div>
+          <div class="m-product-row" id="mpr-bundle">
+            <label class="m-product-check">
+              <input type="checkbox" id="chk-bundle" name="order_bundle" value="1" onchange="updateOrderTotal()" />
+              <span class="m-product-name" id="mpr-bundle-name">חבילת הקפיברה המלאה 🦫</span>
+            </label>
+            <div class="qty-stepper">
+              <button type="button" class="qty-btn" onclick="changeQty('bundle',-1)">−</button>
+              <span class="qty-val" id="qty-bundle">1</span>
+              <button type="button" class="qty-btn" onclick="changeQty('bundle',1)">+</button>
+            </div>
+            <span class="m-product-price" id="price-bundle">₪99.90</span>
+            <div class="m-socks-size" id="bundle-sizes-row" style="display:none">
+              <select id="bundle-modal-socks-size" name="bundle_socks_size">
+                <option value="M (36-41)">גרביים M (36–41)</option>
+                <option value="L (42-46)">גרביים L (42–46)</option>
+              </select>
+              <select id="bundle-modal-shirt-size" name="bundle_shirt_size" style="margin-top:6px;">
+                <option value="S">חולצה S</option>
+                <option value="M">חולצה M</option>
+                <option value="L">חולצה L</option>
+                <option value="XL">חולצה XL</option>
+              </select>
+            </div>
+          </div>
           <!-- Bag -->
           <div class="m-product-row" id="mpr-bag">
             <label class="m-product-check">
@@ -1727,6 +1926,23 @@
       shirtIncludedItem1: 'חולצת Capy & Co עם הדפס קפיברה',
       shirtIncludedItem2: 'אימוץ קפיברה אישית עם שם ייחודי',
       mprShirtName:     'חולצת קפיברה 👕',
+      bundleFireBadge:  '🔥 הצעה מיוחדת — חיסכון של ₪50!',
+      bundleTitle:      'חבילת הקפיברה המלאה 🦫',
+      bundleItem1:      '✅ תיק בד',
+      bundleItem2:      '✅ גרביים',
+      bundleItem3:      '✅ חולצה',
+      bundlePriceOld:   '₪149.70',
+      bundleSocksSizeLabel: 'מידת גרביים:',
+      bundleShirtSizeLabel: 'מידת חולצה:',
+      bundleTimerTitle: '⏰ המבצע מסתיים בעוד:',
+      bTimerDLbl:       'ימים',
+      bTimerHLbl:       'שעות',
+      bTimerMLbl:       'דקות',
+      bTimerSLbl:       'שניות',
+      bundleBtn:        'הזמינו את החבילה עכשיו ⚡',
+      bundleTrust:      '🔒 תשלום מאובטח | משלוח לכל הארץ',
+      bundleModalHeader:'🔥 חבילת הקפיברה המלאה — ₪99.90 במקום ₪149.70',
+      mprBundleName:    'חבילת הקפיברה המלאה 🦫',
       comingSoonLabel: 'בקרוב',
       comingSoonH2:    'עיצובים חדשים בדרך 🎨',
       comingSoonP:     'תשארו מעודכנים לעיצובים חדשים שמגיעים בקרוב',
@@ -1853,6 +2069,23 @@
       shirtIncludedItem1: 'Capy & Co shirt with capybara print',
       shirtIncludedItem2: 'Personal capybara adoption with a unique name',
       mprShirtName:     'Capybara T-Shirt 👕',
+      bundleFireBadge:  '🔥 Special Deal — Save ₪50!',
+      bundleTitle:      'The Full Capybara Bundle 🦫',
+      bundleItem1:      '✅ Tote Bag',
+      bundleItem2:      '✅ Socks',
+      bundleItem3:      '✅ T-Shirt',
+      bundlePriceOld:   '₪149.70',
+      bundleSocksSizeLabel: 'Socks size:',
+      bundleShirtSizeLabel: 'Shirt size:',
+      bundleTimerTitle: '⏰ Deal ends in:',
+      bTimerDLbl:       'days',
+      bTimerHLbl:       'hours',
+      bTimerMLbl:       'min',
+      bTimerSLbl:       'sec',
+      bundleBtn:        'Order the Bundle Now ⚡',
+      bundleTrust:      '🔒 Secure payment | Nationwide delivery',
+      bundleModalHeader:'🔥 Full Capybara Bundle — ₪99.90 instead of ₪149.70',
+      mprBundleName:    'Full Capybara Bundle 🦫',
       comingSoonLabel: 'Coming Soon',
       comingSoonH2:    'New Designs Coming 🎨',
       comingSoonP:     'Stay updated for new designs coming soon',
@@ -1985,6 +2218,23 @@
     document.getElementById('shirt-included-item1').textContent = t.shirtIncludedItem1;
     document.getElementById('shirt-included-item2').textContent = t.shirtIncludedItem2;
     document.getElementById('mpr-shirt-name').textContent     = t.mprShirtName;
+    document.getElementById('bundle-fire-badge').textContent  = t.bundleFireBadge;
+    document.getElementById('bundle-title').textContent       = t.bundleTitle;
+    document.getElementById('bundle-item1').textContent       = t.bundleItem1;
+    document.getElementById('bundle-item2').textContent       = t.bundleItem2;
+    document.getElementById('bundle-item3').textContent       = t.bundleItem3;
+    document.getElementById('bundle-price-old').textContent   = t.bundlePriceOld;
+    document.getElementById('bundle-socks-size-label').textContent = t.bundleSocksSizeLabel;
+    document.getElementById('bundle-shirt-size-label').textContent = t.bundleShirtSizeLabel;
+    document.getElementById('bundle-timer-title').textContent = t.bundleTimerTitle;
+    document.getElementById('bTimer-d-lbl').textContent       = t.bTimerDLbl;
+    document.getElementById('bTimer-h-lbl').textContent       = t.bTimerHLbl;
+    document.getElementById('bTimer-m-lbl').textContent       = t.bTimerMLbl;
+    document.getElementById('bTimer-s-lbl').textContent       = t.bTimerSLbl;
+    document.getElementById('bundle-btn').textContent         = t.bundleBtn;
+    document.getElementById('bundle-trust').textContent       = t.bundleTrust;
+    document.getElementById('bundle-modal-header').textContent = t.bundleModalHeader;
+    document.getElementById('mpr-bundle-name').textContent    = t.mprBundleName;
     document.getElementById('coming-soon-label').textContent = t.comingSoonLabel;
     document.getElementById('coming-soon-h2').textContent    = t.comingSoonH2;
     document.getElementById('coming-soon-p').textContent     = t.comingSoonP;
@@ -2116,13 +2366,15 @@
       dot1.className = 'ms-dot active'; dot2.className = 'ms-dot';
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
-      var chkBag   = document.getElementById('chk-bag');
-      var chkSocks = document.getElementById('chk-socks');
-      var chkShirt = document.getElementById('chk-shirt');
+      var chkBag    = document.getElementById('chk-bag');
+      var chkSocks  = document.getElementById('chk-socks');
+      var chkShirt  = document.getElementById('chk-shirt');
+      var chkBundle = document.getElementById('chk-bundle');
       if (chkBag && chkSocks) {
-        chkBag.checked   = (product === 'bag'   || !product);
-        chkSocks.checked = (product === 'socks');
-        if (chkShirt) chkShirt.checked = (product === 'shirt');
+        chkBag.checked    = (product === 'bag' || !product);
+        chkSocks.checked  = (product === 'socks');
+        if (chkShirt)  chkShirt.checked  = (product === 'shirt');
+        if (chkBundle) chkBundle.checked = (product === 'bundle');
         updateOrderTotal();
       }
       setTimeout(function() {
@@ -2137,8 +2389,8 @@
     window.openModal  = openModal;
     window.closeModal = closeModal;
 
-    var PRICES = { bag: 49.90, socks: 39.90, shirt: 49.90 };
-    var qtys   = { bag: 1, socks: 1, shirt: 1 };
+    var PRICES = { bag: 49.90, socks: 39.90, shirt: 49.90, bundle: 99.90 };
+    var qtys   = { bag: 1, socks: 1, shirt: 1, bundle: 1 };
 
     window.changeQty = function(product, delta) {
       qtys[product] = Math.max(1, Math.min(10, (qtys[product] || 1) + delta));
@@ -2147,11 +2399,17 @@
       updateOrderTotal();
     };
 
-    function updateStep2Summary(bagChecked, socksChecked, shirtChecked, total) {
+    function updateStep2Summary(bagChecked, socksChecked, shirtChecked, bundleChecked, total) {
       var linesEl = document.getElementById('modal-order-lines');
       var priceEl = document.getElementById('modal-summary-price');
       if (!linesEl) return;
       var html = '';
+      if (bundleChecked) {
+        var bSocksEl = document.getElementById('bundle-modal-socks-size');
+        var bShirtEl = document.getElementById('bundle-modal-shirt-size');
+        var bSizes = (bSocksEl ? ' גרביים ' + bSocksEl.value : '') + (bShirtEl ? ' חולצה ' + bShirtEl.value : '');
+        html += '<div class="modal-order-line"><span>חבילת הקפיברה המלאה' + bSizes + ' × ' + qtys.bundle + '</span><span>₪' + (PRICES.bundle * qtys.bundle).toFixed(2) + '</span></div>';
+      }
       if (bagChecked) {
         html += '<div class="modal-order-line"><span>תיק בד × ' + qtys.bag + '</span><span>₪' + (PRICES.bag * qtys.bag).toFixed(2) + '</span></div>';
       }
@@ -2169,8 +2427,8 @@
       if (priceEl) priceEl.textContent = '₪' + total.toFixed(2);
     }
 
-    function updateCartBadge(bagChecked, socksChecked, shirtChecked) {
-      var count = (bagChecked ? qtys.bag : 0) + (socksChecked ? qtys.socks : 0) + (shirtChecked ? qtys.shirt : 0);
+    function updateCartBadge(bagChecked, socksChecked, shirtChecked, bundleChecked) {
+      var count = (bagChecked ? qtys.bag : 0) + (socksChecked ? qtys.socks : 0) + (shirtChecked ? qtys.shirt : 0) + (bundleChecked ? qtys.bundle : 0);
       var badge = document.getElementById('cart-badge');
       if (badge) {
         badge.textContent = count;
@@ -2179,36 +2437,45 @@
     }
 
     window.updateOrderTotal = function() {
-      var chkBag   = document.getElementById('chk-bag');
-      var chkSocks = document.getElementById('chk-socks');
-      var chkShirt = document.getElementById('chk-shirt');
-      var bagChecked   = !!(chkBag   && chkBag.checked);
-      var socksChecked = !!(chkSocks && chkSocks.checked);
-      var shirtChecked = !!(chkShirt && chkShirt.checked);
-      var mprBag   = document.getElementById('mpr-bag');
-      var mprSocks = document.getElementById('mpr-socks');
-      var mprShirt = document.getElementById('mpr-shirt');
-      if (mprBag)   mprBag.classList.toggle('checked', bagChecked);
-      if (mprSocks) mprSocks.classList.toggle('checked', socksChecked);
-      if (mprShirt) mprShirt.classList.toggle('checked', shirtChecked);
+      var chkBag    = document.getElementById('chk-bag');
+      var chkSocks  = document.getElementById('chk-socks');
+      var chkShirt  = document.getElementById('chk-shirt');
+      var chkBundle = document.getElementById('chk-bundle');
+      var bagChecked    = !!(chkBag    && chkBag.checked);
+      var socksChecked  = !!(chkSocks  && chkSocks.checked);
+      var shirtChecked  = !!(chkShirt  && chkShirt.checked);
+      var bundleChecked = !!(chkBundle && chkBundle.checked);
+      var mprBag    = document.getElementById('mpr-bag');
+      var mprSocks  = document.getElementById('mpr-socks');
+      var mprShirt  = document.getElementById('mpr-shirt');
+      var mprBundle = document.getElementById('mpr-bundle');
+      if (mprBag)    mprBag.classList.toggle('checked', bagChecked);
+      if (mprSocks)  mprSocks.classList.toggle('checked', socksChecked);
+      if (mprShirt)  mprShirt.classList.toggle('checked', shirtChecked);
+      if (mprBundle) mprBundle.classList.toggle('checked', bundleChecked);
       var socksRow = document.getElementById('socks-size-row');
       if (socksRow) socksRow.style.display = socksChecked ? '' : 'none';
       var shirtRow = document.getElementById('shirt-size-row');
       if (shirtRow) shirtRow.style.display = shirtChecked ? '' : 'none';
+      var bundleSizesRow = document.getElementById('bundle-sizes-row');
+      if (bundleSizesRow) bundleSizesRow.style.display = bundleChecked ? '' : 'none';
       var total = 0;
-      if (bagChecked)   total += PRICES.bag   * (qtys.bag   || 1);
-      if (socksChecked) total += PRICES.socks * (qtys.socks || 1);
-      if (shirtChecked) total += PRICES.shirt * (qtys.shirt || 1);
-      var prBag   = document.getElementById('price-bag');
-      var prSocks = document.getElementById('price-socks');
-      var prShirt = document.getElementById('price-shirt');
-      if (prBag)   prBag.textContent   = '₪' + (PRICES.bag   * (qtys.bag   || 1)).toFixed(2);
-      if (prSocks) prSocks.textContent = '₪' + (PRICES.socks * (qtys.socks || 1)).toFixed(2);
-      if (prShirt) prShirt.textContent = '₪' + (PRICES.shirt * (qtys.shirt || 1)).toFixed(2);
+      if (bagChecked)    total += PRICES.bag    * (qtys.bag    || 1);
+      if (socksChecked)  total += PRICES.socks  * (qtys.socks  || 1);
+      if (shirtChecked)  total += PRICES.shirt  * (qtys.shirt  || 1);
+      if (bundleChecked) total += PRICES.bundle * (qtys.bundle || 1);
+      var prBag    = document.getElementById('price-bag');
+      var prSocks  = document.getElementById('price-socks');
+      var prShirt  = document.getElementById('price-shirt');
+      var prBundle = document.getElementById('price-bundle');
+      if (prBag)    prBag.textContent    = '₪' + (PRICES.bag    * (qtys.bag    || 1)).toFixed(2);
+      if (prSocks)  prSocks.textContent  = '₪' + (PRICES.socks  * (qtys.socks  || 1)).toFixed(2);
+      if (prShirt)  prShirt.textContent  = '₪' + (PRICES.shirt  * (qtys.shirt  || 1)).toFixed(2);
+      if (prBundle) prBundle.textContent = '₪' + (PRICES.bundle * (qtys.bundle || 1)).toFixed(2);
       var totalEl = document.getElementById('modal-total');
       if (totalEl) totalEl.textContent = total > 0 ? '₪' + total.toFixed(2) : '₪0.00';
-      updateStep2Summary(bagChecked, socksChecked, shirtChecked, total);
-      updateCartBadge(bagChecked, socksChecked, shirtChecked);
+      updateStep2Summary(bagChecked, socksChecked, shirtChecked, bundleChecked, total);
+      updateCartBadge(bagChecked, socksChecked, shirtChecked, bundleChecked);
     };
 
     backdrop.addEventListener('click', closeModal);
@@ -2322,16 +2589,22 @@
       }
 
       /* 4. Product selection */
-      var bagChecked   = !!(document.getElementById('chk-bag')   && document.getElementById('chk-bag').checked);
-      var socksChecked = !!(document.getElementById('chk-socks') && document.getElementById('chk-socks').checked);
-      var shirtChecked = !!(document.getElementById('chk-shirt') && document.getElementById('chk-shirt').checked);
-      if (!bagChecked && !socksChecked && !shirtChecked) {
+      var bagChecked    = !!(document.getElementById('chk-bag')    && document.getElementById('chk-bag').checked);
+      var socksChecked  = !!(document.getElementById('chk-socks')  && document.getElementById('chk-socks').checked);
+      var shirtChecked  = !!(document.getElementById('chk-shirt')  && document.getElementById('chk-shirt').checked);
+      var bundleChecked = !!(document.getElementById('chk-bundle') && document.getElementById('chk-bundle').checked);
+      if (!bagChecked && !socksChecked && !shirtChecked && !bundleChecked) {
         alert('אנא בחרו לפחות מוצר אחד');
         return;
       }
 
       /* 5. Build order summary */
       var lines = [];
+      if (bundleChecked) {
+        var bSocksEl = document.getElementById('bundle-modal-socks-size');
+        var bShirtEl = document.getElementById('bundle-modal-shirt-size');
+        lines.push('חבילת הקפיברה המלאה' + (bSocksEl ? ' גרביים ' + bSocksEl.value : '') + (bShirtEl ? ' חולצה ' + bShirtEl.value : '') + ' × ' + qtys.bundle + ' = ₪' + (PRICES.bundle * qtys.bundle).toFixed(2));
+      }
       if (bagChecked)   lines.push('תיק בד × ' + qtys.bag + ' = ₪' + (PRICES.bag * qtys.bag).toFixed(2));
       if (socksChecked) {
         var sizeEl = document.getElementById('modal-size');
@@ -2341,7 +2614,7 @@
         var shirtSizeEl = document.getElementById('modal-shirt-size');
         lines.push('חולצת קפיברה' + (shirtSizeEl ? ' ' + shirtSizeEl.value : '') + ' × ' + qtys.shirt + ' = ₪' + (PRICES.shirt * qtys.shirt).toFixed(2));
       }
-      var total = (bagChecked ? PRICES.bag * qtys.bag : 0) + (socksChecked ? PRICES.socks * qtys.socks : 0) + (shirtChecked ? PRICES.shirt * qtys.shirt : 0);
+      var total = (bagChecked ? PRICES.bag * qtys.bag : 0) + (socksChecked ? PRICES.socks * qtys.socks : 0) + (shirtChecked ? PRICES.shirt * qtys.shirt : 0) + (bundleChecked ? PRICES.bundle * qtys.bundle : 0);
       lines.push('סה"כ: ₪' + total.toFixed(2));
       document.getElementById('order-summary-input').value = lines.join(' | ');
       document.getElementById('hidden-email').value = emailVal;
@@ -2381,12 +2654,38 @@
     });
 
     /* intercept all buy buttons + cart + sticky */
-    document.querySelectorAll('.btn-green, .btn-card-outline, .sticky-btn, .nav-cart').forEach(function(btn) {
+    document.querySelectorAll('.btn-green, .btn-card-outline, .bundle-btn, .sticky-btn, .nav-cart').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.preventDefault();
         openModal(btn.dataset.product);
       });
     });
+
+    /* ── BUNDLE COUNTDOWN TIMER ── */
+    (function() {
+      function getDeadline() {
+        var now = new Date();
+        return new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0);
+      }
+      function pad(n) { return n < 10 ? '0' + n : '' + n; }
+      function tick() {
+        var diff = Math.max(0, getDeadline() - new Date());
+        var d = Math.floor(diff / 86400000);
+        var h = Math.floor((diff % 86400000) / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        var s = Math.floor((diff % 60000) / 1000);
+        var dEl = document.getElementById('bTimer-d');
+        var hEl = document.getElementById('bTimer-h');
+        var mEl = document.getElementById('bTimer-m');
+        var sEl = document.getElementById('bTimer-s');
+        if (dEl) dEl.textContent = pad(d);
+        if (hEl) hEl.textContent = pad(h);
+        if (mEl) mEl.textContent = pad(m);
+        if (sEl) sEl.textContent = pad(s);
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
   })();
 
   /* ── LEGAL MODAL ── */
