@@ -1906,6 +1906,48 @@
   </div>
 </div>
 
+<!-- EXIT INTENT POPUP -->
+<div id="exit-popup" aria-modal="true" role="dialog" aria-labelledby="exit-popup-heading">
+  <div class="exit-popup-card">
+    <button class="exit-popup-close" id="exit-popup-close" aria-label="סגור">✕</button>
+    <div class="exit-popup-capy">🦫</div>
+    <div class="exit-popup-title" id="exit-popup-heading">רגע לפני שאתם עוזבים...</div>
+    <div class="exit-popup-sub">יש לנו הצעה מיוחדת רק בשבילכם!</div>
+    <div class="exit-popup-items">
+      <div class="exit-popup-item">תיק בד קפיברה</div>
+      <div class="exit-popup-item">גרביים קפיברה</div>
+      <div class="exit-popup-item">חולצת קפיברה</div>
+    </div>
+    <div class="exit-popup-prices">
+      <div class="exit-popup-old-price">₪149.70</div>
+      <div class="exit-popup-new-price">₪99.90</div>
+    </div>
+    <div class="exit-popup-timer">
+      <div class="exit-popup-timer-unit">
+        <span class="exit-popup-timer-val" id="ep-d">00</span>
+        <span class="exit-popup-timer-lbl">ימים</span>
+      </div>
+      <span class="exit-popup-timer-sep">:</span>
+      <div class="exit-popup-timer-unit">
+        <span class="exit-popup-timer-val" id="ep-h">00</span>
+        <span class="exit-popup-timer-lbl">שעות</span>
+      </div>
+      <span class="exit-popup-timer-sep">:</span>
+      <div class="exit-popup-timer-unit">
+        <span class="exit-popup-timer-val" id="ep-m">00</span>
+        <span class="exit-popup-timer-lbl">דקות</span>
+      </div>
+      <span class="exit-popup-timer-sep">:</span>
+      <div class="exit-popup-timer-unit">
+        <span class="exit-popup-timer-val" id="ep-s">00</span>
+        <span class="exit-popup-timer-lbl">שניות</span>
+      </div>
+    </div>
+    <button class="exit-popup-btn" id="exit-popup-cta">אני רוצה את החבילה! ⚡</button>
+    <button class="exit-popup-dismiss" id="exit-popup-dismiss">לא תודה, אמשיך בלי ההנחה</button>
+  </div>
+</div>
+
 <script>
   /* ── FAQ ACCORDION ── */
   function toggleFaq(btn) {
@@ -2894,47 +2936,5 @@
     setInterval(tick, 1000);
   })();
 </script>
-
-<!-- EXIT INTENT POPUP -->
-<div id="exit-popup" aria-modal="true" role="dialog" aria-labelledby="exit-popup-heading">
-  <div class="exit-popup-card">
-    <button class="exit-popup-close" id="exit-popup-close" aria-label="סגור">✕</button>
-    <div class="exit-popup-capy">🦫</div>
-    <div class="exit-popup-title" id="exit-popup-heading">רגע לפני שאתם עוזבים...</div>
-    <div class="exit-popup-sub">יש לנו הצעה מיוחדת רק בשבילכם!</div>
-    <div class="exit-popup-items">
-      <div class="exit-popup-item">תיק בד קפיברה</div>
-      <div class="exit-popup-item">גרביים קפיברה</div>
-      <div class="exit-popup-item">חולצת קפיברה</div>
-    </div>
-    <div class="exit-popup-prices">
-      <div class="exit-popup-old-price">₪149.70</div>
-      <div class="exit-popup-new-price">₪99.90</div>
-    </div>
-    <div class="exit-popup-timer">
-      <div class="exit-popup-timer-unit">
-        <span class="exit-popup-timer-val" id="ep-d">00</span>
-        <span class="exit-popup-timer-lbl">ימים</span>
-      </div>
-      <span class="exit-popup-timer-sep">:</span>
-      <div class="exit-popup-timer-unit">
-        <span class="exit-popup-timer-val" id="ep-h">00</span>
-        <span class="exit-popup-timer-lbl">שעות</span>
-      </div>
-      <span class="exit-popup-timer-sep">:</span>
-      <div class="exit-popup-timer-unit">
-        <span class="exit-popup-timer-val" id="ep-m">00</span>
-        <span class="exit-popup-timer-lbl">דקות</span>
-      </div>
-      <span class="exit-popup-timer-sep">:</span>
-      <div class="exit-popup-timer-unit">
-        <span class="exit-popup-timer-val" id="ep-s">00</span>
-        <span class="exit-popup-timer-lbl">שניות</span>
-      </div>
-    </div>
-    <button class="exit-popup-btn" id="exit-popup-cta">אני רוצה את החבילה! ⚡</button>
-    <button class="exit-popup-dismiss" id="exit-popup-dismiss">לא תודה, אמשיך בלי ההנחה</button>
-  </div>
-</div>
 </body>
 </html>
