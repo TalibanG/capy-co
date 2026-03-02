@@ -586,6 +586,50 @@
     .legal-content h3 { font-size: 14px; font-weight: 700; color: var(--brown); margin: 18px 0 5px; }
     .legal-content p  { margin-bottom: 8px; }
 
+    /* ── EXIT INTENT POPUP ── */
+    #exit-popup { display: none; position: fixed; inset: 0; z-index: 700; align-items: center; justify-content: center; padding: 16px; background: rgba(0,0,0,0.65); }
+    #exit-popup.open { display: flex; }
+    .exit-popup-card {
+      background: #fff; border-radius: 20px; padding: 32px 28px 24px;
+      max-width: 400px; width: 100%; position: relative; text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25); border: 2px solid var(--cream-2);
+    }
+    .exit-popup-close {
+      position: absolute; top: 14px; left: 14px;
+      background: none; border: none; cursor: pointer;
+      font-size: 20px; color: var(--text-soft); line-height: 1;
+      padding: 4px 8px; border-radius: 8px; transition: background 0.15s;
+    }
+    .exit-popup-close:hover { background: var(--cream-2); }
+    .exit-popup-capy { font-size: 52px; margin-bottom: 10px; }
+    .exit-popup-title { font-size: 22px; font-weight: 900; color: var(--brown); margin-bottom: 6px; letter-spacing: -0.5px; line-height: 1.25; }
+    .exit-popup-sub { font-size: 14px; color: var(--text-mid); margin-bottom: 18px; }
+    .exit-popup-items { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; text-align: right; padding: 0 8px; }
+    .exit-popup-item { font-size: 14px; font-weight: 600; color: var(--text-dark); }
+    .exit-popup-prices { margin-bottom: 14px; }
+    .exit-popup-old-price { font-size: 14px; color: var(--text-soft); text-decoration: line-through; margin-bottom: 4px; }
+    .exit-popup-new-price { font-size: 38px; font-weight: 900; color: var(--green); letter-spacing: -1px; line-height: 1; }
+    .exit-popup-timer { display: flex; justify-content: center; align-items: flex-start; gap: 8px; margin-bottom: 20px; }
+    .exit-popup-timer-unit { display: flex; flex-direction: column; align-items: center; }
+    .exit-popup-timer-val { background: var(--brown); color: #fff; font-size: 22px; font-weight: 900; min-width: 42px; padding: 6px 8px; border-radius: 8px; line-height: 1.2; }
+    .exit-popup-timer-sep { font-size: 22px; font-weight: 900; color: #f59e0b; padding-top: 8px; }
+    .exit-popup-timer-lbl { font-size: 10px; font-weight: 600; color: var(--text-soft); margin-top: 3px; letter-spacing: 0.03em; }
+    .exit-popup-btn {
+      display: block; width: 100%; background: var(--green); color: #fff;
+      font-size: 17px; font-weight: 800; border: none; border-radius: 14px;
+      padding: 15px 20px; cursor: pointer; margin-bottom: 12px;
+      box-shadow: 0 4px 16px rgba(107,143,94,0.4); transition: background 0.15s, transform 0.15s;
+    }
+    .exit-popup-btn:hover { background: #5a7a4e; transform: translateY(-1px); }
+    .exit-popup-dismiss { background: none; border: none; cursor: pointer; font-size: 13px; color: var(--text-soft); text-decoration: underline; padding: 4px; }
+    .exit-popup-dismiss:hover { color: var(--text-mid); }
+    @media (max-width: 480px) {
+      .exit-popup-card { padding: 28px 18px 20px; }
+      .exit-popup-title { font-size: 18px; }
+      .exit-popup-new-price { font-size: 30px; }
+      .exit-popup-timer-val { font-size: 18px; min-width: 36px; }
+    }
+
     /* ── FLOATING WHATSAPP BUTTON (right) ── */
     .float-whatsapp {
       position: fixed; bottom: 22px; right: 20px; z-index: 500;
@@ -2804,6 +2848,100 @@
       btn.addEventListener('click', spawnSparkles);
     });
   })();
+
+  /* ── EXIT INTENT POPUP ── */
+  (function() {
+    var popup   = document.getElementById('exit-popup');
+    var shown   = false;
+
+    function showPopup() {
+      if (shown || sessionStorage.getItem('exitShown')) return;
+      shown = true;
+      sessionStorage.setItem('exitShown', '1');
+      popup.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function hidePopup() {
+      popup.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('exit-popup-close').addEventListener('click', hidePopup);
+    document.getElementById('exit-popup-dismiss').addEventListener('click', hidePopup);
+    popup.addEventListener('click', function(e) { if (e.target === popup) hidePopup(); });
+
+    document.getElementById('exit-popup-cta').addEventListener('click', function() {
+      hidePopup();
+      if (window.openModal) openModal('bundle');
+    });
+
+    var isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 768;
+    if (!isMobile) {
+      document.addEventListener('mouseleave', function(e) {
+        if (e.clientY < 10) showPopup();
+      });
+    } else {
+      setTimeout(showPopup, 40000);
+    }
+
+    /* countdown timer */
+    function getDeadline() {
+      var now = new Date();
+      return new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0);
+    }
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+    function tick() {
+      var diff = Math.max(0, getDeadline() - new Date());
+      document.getElementById('ep-d').textContent = pad(Math.floor(diff / 86400000));
+      document.getElementById('ep-h').textContent = pad(Math.floor((diff % 86400000) / 3600000));
+      document.getElementById('ep-m').textContent = pad(Math.floor((diff % 3600000) / 60000));
+      document.getElementById('ep-s').textContent = pad(Math.floor((diff % 60000) / 1000));
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
 </script>
+
+<!-- EXIT INTENT POPUP -->
+<div id="exit-popup" aria-modal="true" role="dialog" aria-labelledby="exit-popup-heading">
+  <div class="exit-popup-card">
+    <button class="exit-popup-close" id="exit-popup-close" aria-label="סגור">✕</button>
+    <div class="exit-popup-capy">🦫</div>
+    <div class="exit-popup-title" id="exit-popup-heading">רגע לפני שאתם עוזבים...</div>
+    <div class="exit-popup-sub">יש לנו הצעה מיוחדת רק בשבילכם!</div>
+    <div class="exit-popup-items">
+      <div class="exit-popup-item">תיק בד קפיברה</div>
+      <div class="exit-popup-item">גרביים קפיברה</div>
+      <div class="exit-popup-item">חולצת קפיברה</div>
+    </div>
+    <div class="exit-popup-prices">
+      <div class="exit-popup-old-price">₪149.70</div>
+      <div class="exit-popup-new-price">₪99.90</div>
+    </div>
+    <div class="exit-popup-timer">
+      <div class="exit-popup-timer-unit">
+        <span class="exit-popup-timer-val" id="ep-d">00</span>
+        <span class="exit-popup-timer-lbl">ימים</span>
+      </div>
+      <span class="exit-popup-timer-sep">:</span>
+      <div class="exit-popup-timer-unit">
+        <span class="exit-popup-timer-val" id="ep-h">00</span>
+        <span class="exit-popup-timer-lbl">שעות</span>
+      </div>
+      <span class="exit-popup-timer-sep">:</span>
+      <div class="exit-popup-timer-unit">
+        <span class="exit-popup-timer-val" id="ep-m">00</span>
+        <span class="exit-popup-timer-lbl">דקות</span>
+      </div>
+      <span class="exit-popup-timer-sep">:</span>
+      <div class="exit-popup-timer-unit">
+        <span class="exit-popup-timer-val" id="ep-s">00</span>
+        <span class="exit-popup-timer-lbl">שניות</span>
+      </div>
+    </div>
+    <button class="exit-popup-btn" id="exit-popup-cta">אני רוצה את החבילה! ⚡</button>
+    <button class="exit-popup-dismiss" id="exit-popup-dismiss">לא תודה, אמשיך בלי ההנחה</button>
+  </div>
+</div>
 </body>
 </html>
