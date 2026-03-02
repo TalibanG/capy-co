@@ -843,7 +843,7 @@
     #products { background: var(--cream-2); }
     .products-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 24px;
       margin-top: 28px;
       align-items: stretch;
@@ -907,6 +907,20 @@
     }
     /* Full-width card button */
     .btn-card { border: none !important; width: 100%; justify-content: center; }
+    /* Outlined card button (secondary action) */
+    .btn-card-outline {
+      width: 100%; border-radius: 50px; cursor: pointer; font-weight: 700;
+      font-size: 15px; font-family: 'Rubik', sans-serif; padding: 11px 24px;
+      border: 2px solid var(--brown); background: transparent; color: var(--brown);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.18s, color 0.18s, transform 0.15s;
+    }
+    .btn-card-outline:hover { background: var(--brown); color: #fff; transform: translateY(-1px); }
+    /* Two-button stack inside a card */
+    .pc-buy-2 { display: flex; flex-direction: column; gap: 8px; }
+    @media (max-width: 860px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+    }
     @media (max-width: 640px) {
       .products-grid { grid-template-columns: 1fr; }
     }
@@ -1168,6 +1182,61 @@
               <div class="whats-included-item">
                 <span class="wi-icon"><img src="capy-logo.png" alt="קפיברה" loading="lazy" /></span>
                 <span id="socks-included-item2">אימוץ קפיברה אישית עם שם ייחודי</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TSHIRT CARD -->
+      <div class="product-card">
+        <div class="pc-img">
+          <img src="tshirt.png" alt="חולצת קפיברה Capy & Co" loading="lazy" decoding="async" />
+        </div>
+        <div class="pc-body">
+          <div class="pc-badge-row">
+            <span class="section-label" id="shirt-badge-label">חולצה</span>
+            <span class="new-badge" id="shirt-new-badge">חדש! ✨</span>
+          </div>
+          <div class="pc-title-row">
+            <h3 class="pc-title" id="shirt-h2">חולצת קפיברה 👕</h3>
+          </div>
+          <div class="adoption-badge pc-desc" id="shirt-desc">
+            חולצה איכותית עם הדפס קפיברה חמוד — נוחה, טרנדית, ועושה טוב בעולם 🌿
+          </div>
+          <div class="pc-price-top">
+            <span class="bag-price">₪49.90</span>
+            <span class="bag-price-old" id="shirt-price-old">₪100</span>
+          </div>
+          <div class="pc-meta">
+            <span class="bag-savings" id="shirt-savings">🎉 חוסכים ₪50!</span>
+            <span class="bag-delivery-sub" id="shirt-delivery">משלוח עד הבית תוך 5–7 ימי עסקים</span>
+            <span class="bag-guarantee" id="shirt-guarantee">✅ 30 יום החזרה מלאה</span>
+          </div>
+          <div class="pc-size">
+            <div class="size-label" id="shirt-size-label">בחרו מידה</div>
+            <div class="size-selector" id="shirt-size-selector">
+              <button class="size-btn" onclick="selectSize(this,'shirt-size-selector')">S</button>
+              <button class="size-btn" onclick="selectSize(this,'shirt-size-selector')">M</button>
+              <button class="size-btn" onclick="selectSize(this,'shirt-size-selector')">L</button>
+              <button class="size-btn" onclick="selectSize(this,'shirt-size-selector')">XL</button>
+            </div>
+          </div>
+          <div class="pc-bottom">
+            <div class="pc-buy-2">
+              <button class="btn-green btn-green-sm btn-card" data-product="shirt" id="shirt-btn">קנה עכשיו ⚡</button>
+              <button class="btn-card-outline" data-product="shirt" id="shirt-btn2">הוסף לעגלה 🛒</button>
+            </div>
+            <div class="bag-trust pc-trust" id="shirt-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
+            <div class="whats-included">
+              <div class="whats-included-title" id="shirt-included-title">מה מקבלים?</div>
+              <div class="whats-included-item">
+                <span class="wi-icon">👕</span>
+                <span id="shirt-included-item1">חולצת Capy &amp; Co עם הדפס קפיברה</span>
+              </div>
+              <div class="whats-included-item">
+                <span class="wi-icon"><img src="capy-logo.png" alt="קפיברה" loading="lazy" /></span>
+                <span id="shirt-included-item2">אימוץ קפיברה אישית עם שם ייחודי</span>
               </div>
             </div>
           </div>
@@ -1443,6 +1512,27 @@
               </select>
             </div>
           </div>
+          <!-- T-Shirt -->
+          <div class="m-product-row" id="mpr-shirt">
+            <label class="m-product-check">
+              <input type="checkbox" id="chk-shirt" name="order_shirt" value="1" onchange="updateOrderTotal()" />
+              <span class="m-product-name" id="mpr-shirt-name">חולצת קפיברה 👕</span>
+            </label>
+            <div class="qty-stepper">
+              <button type="button" class="qty-btn" onclick="changeQty('shirt',-1)">−</button>
+              <span class="qty-val" id="qty-shirt">1</span>
+              <button type="button" class="qty-btn" onclick="changeQty('shirt',1)">+</button>
+            </div>
+            <span class="m-product-price" id="price-shirt">₪49.90</span>
+            <div class="m-socks-size" id="shirt-size-row" style="display:none">
+              <select id="modal-shirt-size" name="shirt_size">
+                <option value="S">מידה S</option>
+                <option value="M">מידה M</option>
+                <option value="L">מידה L</option>
+                <option value="XL">מידה XL</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         <!-- Total -->
@@ -1620,6 +1710,22 @@
       socksIncludedTitle: 'מה מקבלים?',
       socksIncludedItem1: 'זוג גרביים Capy & Co עם הדפס קפיברה',
       socksIncludedItem2: 'אימוץ קפיברה אישית עם שם ייחודי',
+      shirtBadgeLabel:  'חולצה',
+      shirtNewBadge:    'חדש! ✨',
+      shirtH2:          'חולצת קפיברה 👕',
+      shirtDesc:        'חולצה איכותית עם הדפס קפיברה חמוד — נוחה, טרנדית, ועושה טוב בעולם 🌿',
+      shirtPriceOld:    '₪100',
+      shirtSavings:     '🎉 חוסכים ₪50!',
+      shirtDelivery:    'משלוח עד הבית תוך 5–7 ימי עסקים',
+      shirtGuarantee:   '✅ 30 יום החזרה מלאה',
+      shirtSizeLabel:   'בחרו מידה',
+      shirtBtn:         'קנה עכשיו ⚡',
+      shirtBtn2:        'הוסף לעגלה 🛒',
+      shirtTrust:       '🔒 תשלום מאובטח | משלוח לכל הארץ',
+      shirtIncludedTitle: 'מה מקבלים?',
+      shirtIncludedItem1: 'חולצת Capy & Co עם הדפס קפיברה',
+      shirtIncludedItem2: 'אימוץ קפיברה אישית עם שם ייחודי',
+      mprShirtName:     'חולצת קפיברה 👕',
       comingSoonLabel: 'בקרוב',
       comingSoonH2:    'עיצובים חדשים בדרך 🎨',
       comingSoonP:     'תשארו מעודכנים לעיצובים חדשים שמגיעים בקרוב',
@@ -1730,6 +1836,22 @@
       socksIncludedTitle: "What's Included?",
       socksIncludedItem1: 'A pair of Capy & Co socks with capybara print',
       socksIncludedItem2: 'Personal capybara adoption with a unique name',
+      shirtBadgeLabel:  'T-Shirt',
+      shirtNewBadge:    'New! ✨',
+      shirtH2:          'Capybara T-Shirt 👕',
+      shirtDesc:        'Quality shirt with a cute capybara print — comfy, trendy, and doing good in the world 🌿',
+      shirtPriceOld:    '₪100',
+      shirtSavings:     '🎉 Save ₪50!',
+      shirtDelivery:    'Home delivery within 5–7 business days',
+      shirtGuarantee:   '✅ 30-day full returns',
+      shirtSizeLabel:   'Choose Size',
+      shirtBtn:         'Buy Now ⚡',
+      shirtBtn2:        'Add to Cart 🛒',
+      shirtTrust:       '🔒 Secure payment | Nationwide delivery',
+      shirtIncludedTitle: "What's Included?",
+      shirtIncludedItem1: 'Capy & Co shirt with capybara print',
+      shirtIncludedItem2: 'Personal capybara adoption with a unique name',
+      mprShirtName:     'Capybara T-Shirt 👕',
       comingSoonLabel: 'Coming Soon',
       comingSoonH2:    'New Designs Coming 🎨',
       comingSoonP:     'Stay updated for new designs coming soon',
@@ -1846,6 +1968,22 @@
     document.getElementById('socks-included-title').textContent = t.socksIncludedTitle;
     document.getElementById('socks-included-item1').textContent = t.socksIncludedItem1;
     document.getElementById('socks-included-item2').textContent = t.socksIncludedItem2;
+    document.getElementById('shirt-badge-label').textContent  = t.shirtBadgeLabel;
+    document.getElementById('shirt-new-badge').textContent    = t.shirtNewBadge;
+    document.getElementById('shirt-h2').textContent           = t.shirtH2;
+    document.getElementById('shirt-desc').textContent         = t.shirtDesc;
+    document.getElementById('shirt-price-old').textContent    = t.shirtPriceOld;
+    document.getElementById('shirt-savings').textContent      = t.shirtSavings;
+    document.getElementById('shirt-delivery').textContent     = t.shirtDelivery;
+    document.getElementById('shirt-guarantee').textContent    = t.shirtGuarantee;
+    document.getElementById('shirt-size-label').textContent   = t.shirtSizeLabel;
+    document.getElementById('shirt-btn').textContent          = t.shirtBtn;
+    document.getElementById('shirt-btn2').textContent         = t.shirtBtn2;
+    document.getElementById('shirt-trust').textContent        = t.shirtTrust;
+    document.getElementById('shirt-included-title').textContent = t.shirtIncludedTitle;
+    document.getElementById('shirt-included-item1').textContent = t.shirtIncludedItem1;
+    document.getElementById('shirt-included-item2').textContent = t.shirtIncludedItem2;
+    document.getElementById('mpr-shirt-name').textContent     = t.mprShirtName;
     document.getElementById('coming-soon-label').textContent = t.comingSoonLabel;
     document.getElementById('coming-soon-h2').textContent    = t.comingSoonH2;
     document.getElementById('coming-soon-p').textContent     = t.comingSoonP;
@@ -1979,9 +2117,11 @@
       document.body.style.overflow = 'hidden';
       var chkBag   = document.getElementById('chk-bag');
       var chkSocks = document.getElementById('chk-socks');
+      var chkShirt = document.getElementById('chk-shirt');
       if (chkBag && chkSocks) {
-        chkBag.checked   = (product !== 'socks');
+        chkBag.checked   = (product === 'bag'   || !product);
         chkSocks.checked = (product === 'socks');
+        if (chkShirt) chkShirt.checked = (product === 'shirt');
         updateOrderTotal();
       }
       setTimeout(function() {
@@ -1996,8 +2136,8 @@
     window.openModal  = openModal;
     window.closeModal = closeModal;
 
-    var PRICES = { bag: 49.90, socks: 39.90 };
-    var qtys   = { bag: 1, socks: 1 };
+    var PRICES = { bag: 49.90, socks: 39.90, shirt: 49.90 };
+    var qtys   = { bag: 1, socks: 1, shirt: 1 };
 
     window.changeQty = function(product, delta) {
       qtys[product] = Math.max(1, Math.min(10, (qtys[product] || 1) + delta));
@@ -2006,7 +2146,7 @@
       updateOrderTotal();
     };
 
-    function updateStep2Summary(bagChecked, socksChecked, total) {
+    function updateStep2Summary(bagChecked, socksChecked, shirtChecked, total) {
       var linesEl = document.getElementById('modal-order-lines');
       var priceEl = document.getElementById('modal-summary-price');
       if (!linesEl) return;
@@ -2019,12 +2159,17 @@
         var sizeVal = sizeEl ? ' (' + sizeEl.value + ')' : '';
         html += '<div class="modal-order-line"><span>גרביים קפיברה' + sizeVal + ' × ' + qtys.socks + '</span><span>₪' + (PRICES.socks * qtys.socks).toFixed(2) + '</span></div>';
       }
+      if (shirtChecked) {
+        var shirtSizeEl = document.getElementById('modal-shirt-size');
+        var shirtSizeVal = shirtSizeEl ? ' (' + shirtSizeEl.value + ')' : '';
+        html += '<div class="modal-order-line"><span>חולצת קפיברה' + shirtSizeVal + ' × ' + qtys.shirt + '</span><span>₪' + (PRICES.shirt * qtys.shirt).toFixed(2) + '</span></div>';
+      }
       linesEl.innerHTML = html;
       if (priceEl) priceEl.textContent = '₪' + total.toFixed(2);
     }
 
-    function updateCartBadge(bagChecked, socksChecked) {
-      var count = (bagChecked ? qtys.bag : 0) + (socksChecked ? qtys.socks : 0);
+    function updateCartBadge(bagChecked, socksChecked, shirtChecked) {
+      var count = (bagChecked ? qtys.bag : 0) + (socksChecked ? qtys.socks : 0) + (shirtChecked ? qtys.shirt : 0);
       var badge = document.getElementById('cart-badge');
       if (badge) {
         badge.textContent = count;
@@ -2035,25 +2180,34 @@
     window.updateOrderTotal = function() {
       var chkBag   = document.getElementById('chk-bag');
       var chkSocks = document.getElementById('chk-socks');
+      var chkShirt = document.getElementById('chk-shirt');
       var bagChecked   = !!(chkBag   && chkBag.checked);
       var socksChecked = !!(chkSocks && chkSocks.checked);
+      var shirtChecked = !!(chkShirt && chkShirt.checked);
       var mprBag   = document.getElementById('mpr-bag');
       var mprSocks = document.getElementById('mpr-socks');
+      var mprShirt = document.getElementById('mpr-shirt');
       if (mprBag)   mprBag.classList.toggle('checked', bagChecked);
       if (mprSocks) mprSocks.classList.toggle('checked', socksChecked);
+      if (mprShirt) mprShirt.classList.toggle('checked', shirtChecked);
       var socksRow = document.getElementById('socks-size-row');
       if (socksRow) socksRow.style.display = socksChecked ? '' : 'none';
+      var shirtRow = document.getElementById('shirt-size-row');
+      if (shirtRow) shirtRow.style.display = shirtChecked ? '' : 'none';
       var total = 0;
       if (bagChecked)   total += PRICES.bag   * (qtys.bag   || 1);
       if (socksChecked) total += PRICES.socks * (qtys.socks || 1);
+      if (shirtChecked) total += PRICES.shirt * (qtys.shirt || 1);
       var prBag   = document.getElementById('price-bag');
       var prSocks = document.getElementById('price-socks');
+      var prShirt = document.getElementById('price-shirt');
       if (prBag)   prBag.textContent   = '₪' + (PRICES.bag   * (qtys.bag   || 1)).toFixed(2);
       if (prSocks) prSocks.textContent = '₪' + (PRICES.socks * (qtys.socks || 1)).toFixed(2);
+      if (prShirt) prShirt.textContent = '₪' + (PRICES.shirt * (qtys.shirt || 1)).toFixed(2);
       var totalEl = document.getElementById('modal-total');
       if (totalEl) totalEl.textContent = total > 0 ? '₪' + total.toFixed(2) : '₪0.00';
-      updateStep2Summary(bagChecked, socksChecked, total);
-      updateCartBadge(bagChecked, socksChecked);
+      updateStep2Summary(bagChecked, socksChecked, shirtChecked, total);
+      updateCartBadge(bagChecked, socksChecked, shirtChecked);
     };
 
     backdrop.addEventListener('click', closeModal);
@@ -2169,7 +2323,8 @@
       /* 4. Product selection */
       var bagChecked   = !!(document.getElementById('chk-bag')   && document.getElementById('chk-bag').checked);
       var socksChecked = !!(document.getElementById('chk-socks') && document.getElementById('chk-socks').checked);
-      if (!bagChecked && !socksChecked) {
+      var shirtChecked = !!(document.getElementById('chk-shirt') && document.getElementById('chk-shirt').checked);
+      if (!bagChecked && !socksChecked && !shirtChecked) {
         alert('אנא בחרו לפחות מוצר אחד');
         return;
       }
@@ -2181,7 +2336,11 @@
         var sizeEl = document.getElementById('modal-size');
         lines.push('גרביים קפיברה' + (sizeEl ? ' ' + sizeEl.value : '') + ' × ' + qtys.socks + ' = ₪' + (PRICES.socks * qtys.socks).toFixed(2));
       }
-      var total = (bagChecked ? PRICES.bag * qtys.bag : 0) + (socksChecked ? PRICES.socks * qtys.socks : 0);
+      if (shirtChecked) {
+        var shirtSizeEl = document.getElementById('modal-shirt-size');
+        lines.push('חולצת קפיברה' + (shirtSizeEl ? ' ' + shirtSizeEl.value : '') + ' × ' + qtys.shirt + ' = ₪' + (PRICES.shirt * qtys.shirt).toFixed(2));
+      }
+      var total = (bagChecked ? PRICES.bag * qtys.bag : 0) + (socksChecked ? PRICES.socks * qtys.socks : 0) + (shirtChecked ? PRICES.shirt * qtys.shirt : 0);
       lines.push('סה"כ: ₪' + total.toFixed(2));
       document.getElementById('order-summary-input').value = lines.join(' | ');
       document.getElementById('hidden-email').value = emailVal;
@@ -2221,7 +2380,7 @@
     });
 
     /* intercept all buy buttons + cart + sticky */
-    document.querySelectorAll('.btn-green, .sticky-btn, .nav-cart').forEach(function(btn) {
+    document.querySelectorAll('.btn-green, .btn-card-outline, .sticky-btn, .nav-cart').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.preventDefault();
         openModal(btn.dataset.product);
