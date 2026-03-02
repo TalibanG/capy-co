@@ -235,7 +235,7 @@
     }
 
     /* ── SECTION BASE ── */
-    section { padding: 88px 24px; }
+    section { padding: 72px 24px; }
     .section-inner { max-width: 740px; margin: 0 auto; }
     .section-label {
       display: inline-flex; align-items: center; gap: 6px;
@@ -489,7 +489,7 @@
       background:
         radial-gradient(ellipse at 20% 50%, rgba(107,143,94,0.18) 0%, transparent 60%),
         linear-gradient(145deg, #3A2418 0%, #5C3D2E 50%, #7A5240 100%);
-      color: #fff; text-align: center; padding: 88px 24px;
+      color: #fff; text-align: center; padding: 72px 24px;
     }
     #cta .section-inner { max-width: 580px; }
     .cta-emoji { display: block; margin-bottom: 16px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3)); }
@@ -850,14 +850,15 @@
       width: 100%; height: 100%; object-fit: contain;
     }
     .pc-body {
-      padding: 20px 22px 24px;
+      padding: 20px 22px 22px;
       display: flex; flex-direction: column; gap: 0;
       flex: 1;
     }
     .pc-badge-row {
       display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-      min-height: 32px; margin-bottom: 10px;
+      margin-bottom: 10px;
     }
+    .pc-badge-row .section-label { margin-bottom: 0; }
     .pc-title-row {
       display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
       margin-bottom: 10px;
@@ -869,12 +870,26 @@
     .pc-desc { margin-bottom: 14px; }
     .pc-price-top { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
     .pc-meta { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
-    .pc-size { margin-bottom: 14px; min-height: 58px; }
-    .pc-buy { margin-top: auto; padding-top: 0; }
+    .pc-size { margin-bottom: 14px; }
+    /* Bottom section pushed to card bottom — guarantees button alignment across cards */
+    .pc-bottom { margin-top: auto; }
     .pc-trust { margin-top: 8px; margin-bottom: 14px; }
+    .pc-trust:last-child { margin-bottom: 0; }
 
-    /* Card price — slightly smaller than hero price */
-    .pc-body .bag-price { font-size: clamp(32px, 4vw, 42px); }
+    /* Card price — smaller than hero price */
+    .pc-body .bag-price { font-size: clamp(30px, 4vw, 40px); }
+    .pc-body .bag-price-old { font-size: 16px; }
+
+    /* Card hover lift */
+    .product-card {
+      transition: box-shadow 0.22s ease, transform 0.22s ease;
+    }
+    .product-card:hover {
+      box-shadow: var(--sh-lg);
+      transform: translateY(-3px);
+    }
+    /* Full-width card button */
+    .btn-card { border: none !important; width: 100%; justify-content: center; }
     @media (max-width: 640px) {
       .products-grid { grid-template-columns: 1fr; }
     }
@@ -1060,23 +1075,22 @@
             <span class="bag-delivery-sub" id="bag-delivery-sub">משלוח עד הבית תוך 5–7 ימי עסקים</span>
             <span class="bag-guarantee" id="bag-guarantee">✅ 30 יום החזרה מלאה</span>
           </div>
-          <!-- spacer so buy button aligns with socks card -->
-          <div class="pc-size"></div>
-          <div class="pc-buy">
-            <button class="btn-green btn-green-sm" data-product="bag" id="bag-btn" style="border:none;width:100%;">
-              🛍️ הזמינו עכשיו
-            </button>
-          </div>
-          <div class="bag-trust pc-trust" id="bag-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
-          <div class="whats-included">
-            <div class="whats-included-title">מה מקבלים?</div>
-            <div class="whats-included-item">
-              <span class="wi-icon">🛍️</span>
-              <span>תיק בד Capy &amp; Co</span>
+          <!-- pc-bottom always sticks to card bottom via margin-top:auto -->
+          <div class="pc-bottom">
+            <div class="pc-buy">
+              <button class="btn-green btn-green-sm btn-card" data-product="bag" id="bag-btn">🛍️ הזמינו עכשיו</button>
             </div>
-            <div class="whats-included-item">
-              <span class="wi-icon"><img src="capy-logo.png" alt="קפיברה" loading="lazy" /></span>
-              <span>אימוץ קפיברה אישית עם שם ייחודי</span>
+            <div class="bag-trust pc-trust" id="bag-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
+            <div class="whats-included">
+              <div class="whats-included-title">מה מקבלים?</div>
+              <div class="whats-included-item">
+                <span class="wi-icon">🛍️</span>
+                <span>תיק בד Capy &amp; Co</span>
+              </div>
+              <div class="whats-included-item">
+                <span class="wi-icon"><img src="capy-logo.png" alt="קפיברה" loading="lazy" /></span>
+                <span>אימוץ קפיברה אישית עם שם ייחודי</span>
+              </div>
             </div>
           </div>
         </div>
@@ -1114,21 +1128,22 @@
               <button class="size-btn" onclick="selectSize(this,'socks-size-selector')">L (42–46)</button>
             </div>
           </div>
-          <div class="pc-buy">
-            <button class="btn-green btn-green-sm" data-product="socks" style="border:none;width:100%;">
-              🛍️ הזמינו עכשיו
-            </button>
-          </div>
-          <div class="bag-trust pc-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
-          <div class="whats-included">
-            <div class="whats-included-title">מה מקבלים?</div>
-            <div class="whats-included-item">
-              <span class="wi-icon">🧦</span>
-              <span>זוג גרביים Capy &amp; Co עם הדפס קפיברה</span>
+          <!-- pc-bottom always sticks to card bottom via margin-top:auto -->
+          <div class="pc-bottom">
+            <div class="pc-buy">
+              <button class="btn-green btn-green-sm btn-card" data-product="socks">🛍️ הזמינו עכשיו</button>
             </div>
-            <div class="whats-included-item">
-              <span class="wi-icon"><img src="capy-logo.png" alt="קפיברה" loading="lazy" /></span>
-              <span>אימוץ קפיברה אישית עם שם ייחודי</span>
+            <div class="bag-trust pc-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
+            <div class="whats-included">
+              <div class="whats-included-title">מה מקבלים?</div>
+              <div class="whats-included-item">
+                <span class="wi-icon">🧦</span>
+                <span>זוג גרביים Capy &amp; Co עם הדפס קפיברה</span>
+              </div>
+              <div class="whats-included-item">
+                <span class="wi-icon"><img src="capy-logo.png" alt="קפיברה" loading="lazy" /></span>
+                <span>אימוץ קפיברה אישית עם שם ייחודי</span>
+              </div>
             </div>
           </div>
         </div>
