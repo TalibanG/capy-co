@@ -719,6 +719,9 @@
       transition: border-color 0.2s, box-shadow 0.2s;
     }
     .m-field input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(107,143,94,0.15); }
+    .m-field input.field-invalid { border-color: var(--red) !important; box-shadow: 0 0 0 3px rgba(200,60,60,0.12); }
+    .field-error-msg { font-size: 12px; color: var(--red); margin-top: 2px; display: none; }
+    .field-error-msg.visible { display: block; }
     .m-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .modal-btn {
       width: 100%; background: var(--green); color: white; border: none;
@@ -1391,21 +1394,25 @@
         <!-- Contact -->
         <div class="m-field">
           <label>שם מלא</label>
-          <input type="text" name="name" placeholder="ישראל ישראלי" autocomplete="name" required />
+          <input type="text" id="name-input" name="name" placeholder="ישראל ישראלי" autocomplete="name" />
+          <span class="field-error-msg" id="name-error">נא להזין שם מלא (שם פרטי + שם משפחה)</span>
         </div>
         <div class="m-field">
           <label>טלפון</label>
-          <input type="tel" name="phone" placeholder="050-0000000" autocomplete="tel" required />
+          <input type="tel" id="phone-input" name="phone" placeholder="0501234567" autocomplete="tel" inputmode="numeric" />
+          <span class="field-error-msg" id="phone-error">נא להזין מספר טלפון ישראלי תקין (05X-XXXXXXX)</span>
         </div>
         <div class="m-field">
           <label>אימייל</label>
-          <input type="email" id="email-input" placeholder="example@email.com" autocomplete="email" required />
+          <input type="email" id="email-input" name="email_address" placeholder="example@email.com" autocomplete="email" />
+          <span class="field-error-msg" id="email-error">נא להזין כתובת אימייל תקינה</span>
         </div>
 
         <!-- Address -->
         <div class="m-field">
           <label>רחוב ומספר בית</label>
-          <input type="text" name="street" placeholder="הרצל 12" autocomplete="street-address" required />
+          <input type="text" id="street-input" name="street" placeholder="הרצל 12" autocomplete="street-address" />
+          <span class="field-error-msg" id="street-error">נא להזין רחוב ומספר בית</span>
         </div>
         <div class="m-row">
           <div class="m-field">
@@ -1420,11 +1427,13 @@
         <div class="m-row">
           <div class="m-field">
             <label>עיר</label>
-            <input type="text" name="city" placeholder="תל אביב" autocomplete="address-level2" required />
+            <input type="text" id="city-input" name="city" placeholder="תל אביב" autocomplete="address-level2" />
+            <span class="field-error-msg" id="city-error">נא להזין עיר</span>
           </div>
           <div class="m-field">
             <label>מיקוד</label>
-            <input type="text" name="zip" placeholder="6100000" autocomplete="postal-code" required />
+            <input type="text" id="zip-input" name="zip" placeholder="6100000" autocomplete="postal-code" inputmode="numeric" maxlength="7" />
+            <span class="field-error-msg" id="zip-error">נא להזין מיקוד בן 7 ספרות</span>
           </div>
         </div>
 
@@ -1862,6 +1871,37 @@
       return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim()) &&
              !/^(test|fake|spam|asdf|qwerty|aaa|bbb|ccc|noreply)@/i.test(email.trim());
     }
+    function isValidFullName(name) {
+      return name.trim().split(/\s+/).length >= 2 && name.trim().length >= 3;
+    }
+    function isValidIsraeliPhone(phone) {
+      var digits = phone.replace(/\D/g, '');
+      return digits.length === 10 && /^05/.test(digits);
+    }
+    function isValidZip(zip) {
+      return /^\d{7}$/.test(zip.trim());
+    }
+    function fieldError(inputId, errorId, show) {
+      var inp = document.getElementById(inputId);
+      var msg = document.getElementById(errorId);
+      if (show) {
+        inp.classList.add('field-invalid');
+        msg.classList.add('visible');
+      } else {
+        inp.classList.remove('field-invalid');
+        msg.classList.remove('visible');
+      }
+      return show;
+    }
+    // Clear error on user input
+    ['name-input','phone-input','email-input','street-input','city-input','zip-input'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('input', function() {
+        el.classList.remove('field-invalid');
+        var errEl = document.getElementById(id.replace('-input', '-error'));
+        if (errEl) errEl.classList.remove('visible');
+      });
+    });
 
     function startCooldown(btn) {
       var secs = 5;
@@ -1893,12 +1933,25 @@
         return;
       }
 
-      /* 3. Email validation */
-      var emailVal = document.getElementById('email-input').value.trim();
-      if (!isValidEmail(emailVal)) {
-        document.getElementById('email-input').focus();
-        document.getElementById('email-input').style.borderColor = 'var(--red)';
-        setTimeout(function() { document.getElementById('email-input').style.borderColor = ''; }, 2500);
+      /* 3. Field validation */
+      var nameVal   = document.getElementById('name-input').value.trim();
+      var phoneVal  = document.getElementById('phone-input').value.trim();
+      var emailVal  = document.getElementById('email-input').value.trim();
+      var streetVal = document.getElementById('street-input').value.trim();
+      var cityVal   = document.getElementById('city-input').value.trim();
+      var zipVal    = document.getElementById('zip-input').value.trim();
+
+      var hasError = false;
+      hasError = fieldError('name-input',   'name-error',   !isValidFullName(nameVal))   || hasError;
+      hasError = fieldError('phone-input',  'phone-error',  !isValidIsraeliPhone(phoneVal)) || hasError;
+      hasError = fieldError('email-input',  'email-error',  !isValidEmail(emailVal))     || hasError;
+      hasError = fieldError('street-input', 'street-error', streetVal.length < 2)        || hasError;
+      hasError = fieldError('city-input',   'city-error',   cityVal.length < 2)          || hasError;
+      hasError = fieldError('zip-input',    'zip-error',    !isValidZip(zipVal))         || hasError;
+
+      if (hasError) {
+        var firstInvalid = form.querySelector('.field-invalid');
+        if (firstInvalid) firstInvalid.focus();
         return;
       }
 
