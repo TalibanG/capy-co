@@ -1975,14 +1975,31 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token: tsToken.value })
-      }).then(function(r) { return r.json(); }).then(function(data) {
+      }).then(function(r) {
+        console.log('[Form] verify-turnstile HTTP status:', r.status);
+        if (!r.ok) {
+          // Non-2xx — log and fail open so order isn't lost
+          console.warn('[Form] verify-turnstile returned', r.status, '— proceeding anyway');
+          return { success: true, warning: 'http_' + r.status };
+        }
+        return r.json().catch(function() {
+          console.warn('[Form] verify-turnstile response was not JSON — proceeding anyway');
+          return { success: true, warning: 'non_json' };
+        });
+      }).then(function(data) {
         console.log('[Form] Turnstile server verify result:', data);
+        if (data.warning) console.warn('[Form] Turnstile warning:', data.warning);
+        if (data.errorCodes && data.errorCodes.length) console.warn('[Form] Turnstile error codes:', data.errorCodes);
+
         if (!data.success) {
+          console.error('[Form] Turnstile failed — blocking submission');
           btn.disabled = true;
           btn.textContent = 'אימות נכשל, נסה שוב';
           if (window.turnstile) { try { window.turnstile.reset(); } catch(ex) {} }
           return;
         }
+
+        // Verification passed — submit to Formspree
         console.log('[Form] submitting to Formspree…');
         fetch(form.action, {
           method: 'POST',
@@ -1991,7 +2008,7 @@
         }).then(function(res) {
           console.log('[Form] Formspree response status:', res.status);
         }).catch(function(err) {
-          console.error('[Form] fetch error:', err);
+          console.error('[Form] Formspree fetch error:', err);
         }).finally(function() {
           if (window.turnstile) { try { window.turnstile.reset(); } catch(ex) {} }
           btn.disabled = true;
@@ -2000,9 +2017,19 @@
           modal.querySelector('.modal-box').scrollTop = 0;
         });
       }).catch(function(err) {
-        console.error('[Form] verify-turnstile error:', err);
-        btn.disabled = false;
-        btn.textContent = 'המשך לתשלום ←';
+        // Network failure calling the API — fail open, log, proceed
+        console.error('[Form] verify-turnstile network error:', err.message, '— proceeding anyway');
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        }).finally(function() {
+          if (window.turnstile) { try { window.turnstile.reset(); } catch(ex) {} }
+          btn.disabled = true;
+          s1.style.display = 'none'; s2.style.display = '';
+          dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
+          modal.querySelector('.modal-box').scrollTop = 0;
+        });
       });
     });
 
