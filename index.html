@@ -1340,8 +1340,8 @@
         <input type="hidden" name="email" id="hidden-email" />
         <input type="hidden" name="order_summary" id="order-summary-input" />
         <!-- Honeypot: hidden from real users, bots fill it -->
-        <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;" aria-hidden="true">
-          <input type="text" name="website" id="honeypot" tabindex="-1" autocomplete="off" />
+        <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;pointer-events:none;">
+          <input type="text" name="website" id="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
         </div>
 
         <!-- Products -->
@@ -1429,7 +1429,7 @@
           </div>
         </div>
 
-        <div class="cf-turnstile" data-sitekey="0x4AAAAAAACkoEAYheOAjNtk4" data-callback="onTurnstileSuccess" data-error-callback="onTurnstileError" data-expired-callback="onTurnstileExpired" style="margin-bottom:12px;"></div>
+        <div id="turnstile-container" style="margin-bottom:12px;min-height:65px;"></div>
         <button type="submit" class="modal-btn" id="submit-btn" disabled>המשך לתשלום ←</button>
       </form>
     </div>
@@ -1769,11 +1769,29 @@
       dot1.className = 'ms-dot active'; dot2.className = 'ms-dot';
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
-      // Reset Turnstile and disable submit on every open
+      // Render Turnstile explicitly now that the modal is visible
       window.turnstileToken = null;
       var submitBtn = document.getElementById('submit-btn');
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'המשך לתשלום ←'; }
-      if (window.turnstile) { try { window.turnstile.reset(); } catch(ex) {} }
+      var tsContainer = document.getElementById('turnstile-container');
+      if (tsContainer) {
+        tsContainer.innerHTML = ''; // clear any previous widget
+        if (window.turnstile) {
+          try {
+            window._tsWidgetId = window.turnstile.render(tsContainer, {
+              sitekey: '0x4AAAAAAACkoEAYheOAjNtk4',
+              callback: window.onTurnstileSuccess,
+              'error-callback': window.onTurnstileError,
+              'expired-callback': window.onTurnstileExpired
+            });
+            console.log('[Turnstile] rendered widget id:', window._tsWidgetId);
+          } catch(ex) {
+            console.error('[Turnstile] render error:', ex);
+          }
+        } else {
+          console.warn('[Turnstile] script not loaded yet');
+        }
+      }
       var chkBag   = document.getElementById('chk-bag');
       var chkSocks = document.getElementById('chk-socks');
       if (chkBag && chkSocks) {
@@ -2002,7 +2020,7 @@
           console.error('[Form] Turnstile failed — blocking submission');
           btn.disabled = true;
           btn.textContent = 'אימות נכשל, נסה שוב';
-          if (window.turnstile) { try { window.turnstile.reset(); } catch(ex) {} }
+          if (window.turnstile && window._tsWidgetId != null) { try { window.turnstile.reset(window._tsWidgetId); } catch(ex) {} }
           return;
         }
 
@@ -2017,7 +2035,7 @@
         }).catch(function(err) {
           console.error('[Form] Formspree fetch error:', err);
         }).finally(function() {
-          if (window.turnstile) { try { window.turnstile.reset(); } catch(ex) {} }
+          if (window.turnstile && window._tsWidgetId != null) { try { window.turnstile.reset(window._tsWidgetId); } catch(ex) {} }
           btn.disabled = true;
           s1.style.display = 'none'; s2.style.display = '';
           dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
@@ -2031,7 +2049,7 @@
           body: new FormData(form),
           headers: { 'Accept': 'application/json' }
         }).finally(function() {
-          if (window.turnstile) { try { window.turnstile.reset(); } catch(ex) {} }
+          if (window.turnstile && window._tsWidgetId != null) { try { window.turnstile.reset(window._tsWidgetId); } catch(ex) {} }
           btn.disabled = true;
           s1.style.display = 'none'; s2.style.display = '';
           dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
