@@ -586,9 +586,8 @@
     .legal-content h3 { font-size: 14px; font-weight: 700; color: var(--brown); margin: 18px 0 5px; }
     .legal-content p  { margin-bottom: 8px; }
 
-    /* ── EXIT INTENT POPUP ── */
-    #exit-popup { display: none; position: fixed; inset: 0; z-index: 700; align-items: center; justify-content: center; padding: 16px; background: rgba(0,0,0,0.65); }
-    #exit-popup.open { display: flex; }
+    /* ── BUNDLE POPUP ── */
+    #bundlePopup { display: none; position: fixed; inset: 0; z-index: 700; align-items: center; justify-content: center; padding: 16px; background: rgba(0,0,0,0.65); }
     .exit-popup-card {
       background: #fff; border-radius: 20px; padding: 32px 28px 24px;
       max-width: 400px; width: 100%; position: relative; text-align: center;
@@ -1907,7 +1906,7 @@
 </div>
 
 <!-- EXIT INTENT POPUP -->
-<div id="exit-popup" aria-modal="true" role="dialog" aria-labelledby="exit-popup-heading">
+<div id="bundlePopup" aria-modal="true" role="dialog" aria-labelledby="exit-popup-heading">
   <div class="exit-popup-card">
     <button class="exit-popup-close" id="exit-popup-close" aria-label="סגור">✕</button>
     <div class="exit-popup-capy">🦫</div>
@@ -2891,33 +2890,24 @@
     });
   })();
 
-  /* ── EXIT INTENT POPUP ── */
+  /* ── BUNDLE POPUP ── */
+  setTimeout(function() {
+    document.getElementById('bundlePopup').style.display = 'flex';
+  }, 15000);
+
   (function() {
-    var popup   = document.getElementById('exit-popup');
-    var shown   = false;
-
-    function showPopup() {
-      if (shown || sessionStorage.getItem('exitShown')) return;
-      shown = true;
-      sessionStorage.setItem('exitShown', '1');
-      popup.classList.add('open');
-      document.body.style.overflow = 'hidden';
+    function closePopup() {
+      document.getElementById('bundlePopup').style.display = 'none';
     }
-    function hidePopup() {
-      popup.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    document.getElementById('exit-popup-close').addEventListener('click', hidePopup);
-    document.getElementById('exit-popup-dismiss').addEventListener('click', hidePopup);
-    popup.addEventListener('click', function(e) { if (e.target === popup) hidePopup(); });
-
+    document.getElementById('exit-popup-close').addEventListener('click', closePopup);
+    document.getElementById('exit-popup-dismiss').addEventListener('click', closePopup);
+    document.getElementById('bundlePopup').addEventListener('click', function(e) {
+      if (e.target === this) closePopup();
+    });
     document.getElementById('exit-popup-cta').addEventListener('click', function() {
-      hidePopup();
+      closePopup();
       if (window.openModal) openModal('bundle');
     });
-
-    setTimeout(showPopup, 15000);
 
     /* countdown timer */
     function getDeadline() {
