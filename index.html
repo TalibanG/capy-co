@@ -925,7 +925,6 @@
     }
 
   </style>
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 
@@ -1429,8 +1428,7 @@
           </div>
         </div>
 
-        <div id="turnstile-container" style="margin-bottom:12px;min-height:65px;"></div>
-        <button type="submit" class="modal-btn" id="submit-btn" disabled>המשך לתשלום ←</button>
+        <button type="submit" class="modal-btn" id="submit-btn">המשך לתשלום ←</button>
       </form>
     </div>
 
@@ -1769,29 +1767,6 @@
       dot1.className = 'ms-dot active'; dot2.className = 'ms-dot';
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
-      // Render Turnstile explicitly now that the modal is visible
-      window.turnstileToken = null;
-      var submitBtn = document.getElementById('submit-btn');
-      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'המשך לתשלום ←'; }
-      var tsContainer = document.getElementById('turnstile-container');
-      if (tsContainer) {
-        tsContainer.innerHTML = ''; // clear any previous widget
-        if (window.turnstile) {
-          try {
-            window._tsWidgetId = window.turnstile.render(tsContainer, {
-              sitekey: '0x4AAAAAAACkoEAYheOAjNtk4',
-              callback: window.onTurnstileSuccess,
-              'error-callback': window.onTurnstileError,
-              'expired-callback': window.onTurnstileExpired
-            });
-            console.log('[Turnstile] rendered widget id:', window._tsWidgetId);
-          } catch(ex) {
-            console.error('[Turnstile] render error:', ex);
-          }
-        } else {
-          console.warn('[Turnstile] script not loaded yet');
-        }
-      }
       var chkBag   = document.getElementById('chk-bag');
       var chkSocks = document.getElementById('chk-socks');
       if (chkBag && chkSocks) {
@@ -1866,38 +1841,6 @@
     document.getElementById('modal-done-btn').addEventListener('click', closeModal);
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
 
-    /* ── TURNSTILE ── */
-    // Must be on window — Turnstile data-callback looks up global scope
-    window.turnstileToken = null;
-    window.turnstileFailed = false;
-
-    window.onTurnstileSuccess = function(token) {
-      console.log('[Turnstile] callback fired, token length:', token ? token.length : 0);
-      window.turnstileToken = token;
-      var btn = document.getElementById('submit-btn');
-      btn.disabled = false;
-      btn.textContent = 'המשך לתשלום ←';
-    };
-    window.onTurnstileError = function() {
-      console.warn('[Turnstile] error 400020 — likely domain not authorized in Cloudflare dashboard. Check: Cloudflare → Turnstile → Edit widget → add capyco.shop to allowed domains.');
-      window.turnstileToken = null;
-      window.turnstileFailed = true; // flag: skip server verify, use fallback protection only
-      var btn = document.getElementById('submit-btn');
-      btn.textContent = 'אימות...';
-      // Enable after 3s so legitimate users aren't permanently blocked
-      setTimeout(function() {
-        btn.disabled = false;
-        btn.textContent = 'המשך לתשלום ←';
-      }, 3000);
-    };
-    window.onTurnstileExpired = function() {
-      console.warn('[Turnstile] token expired');
-      window.turnstileToken = null;
-      var btn = document.getElementById('submit-btn');
-      btn.disabled = true;
-      btn.textContent = 'אנא המתן לאימות...';
-    };
-
     /* ── SPAM PROTECTION ── */
     var submitTimes = []; // in-memory rate limit (resets on page refresh)
     var RATE_MAX    = 3;
@@ -1947,17 +1890,7 @@
         return;
       }
 
-      /* 2. Turnstile token — use the value stored directly from the callback */
-      var tsTokenValue = window.turnstileToken;
-      var tsSkip = window.turnstileFailed; // Turnstile errored (e.g. domain not authorized) — skip verify
-      console.log('[Form] turnstileToken:', tsTokenValue ? ('length ' + tsTokenValue.length) : 'null', '| turnstileFailed:', tsSkip);
-      if (!tsTokenValue && !tsSkip) {
-        btn.textContent = 'אנא המתן לאימות...';
-        btn.disabled = true;
-        return;
-      }
-
-      /* 3. Rate limit */
+      /* 2. Rate limit */
       if (checkRateLimit()) {
         console.warn('[Form] rate limit hit');
         btn.disabled = true;
@@ -1996,74 +1929,24 @@
       document.getElementById('order-summary-input').value = lines.join(' | ');
       document.getElementById('hidden-email').value = emailVal;
 
-      /* 7. Verify Turnstile server-side (or skip if Turnstile failed to load), then submit */
+      /* 7. Submit */
       submitTimes.push(Date.now());
-      window.turnstileToken = null; // consume token — prevent reuse
       btn.disabled = true;
-
-      function doFormspreeSubmit() {
-        console.log('[Form] submitting to Formspree…');
-        fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
-        }).then(function(res) {
-          console.log('[Form] Formspree response status:', res.status);
-        }).catch(function(err) {
-          console.error('[Form] Formspree fetch error:', err);
-        }).finally(function() {
-          if (window.turnstile && window._tsWidgetId != null) { try { window.turnstile.reset(window._tsWidgetId); } catch(ex) {} }
-          btn.disabled = true;
-          s1.style.display = 'none'; s2.style.display = '';
-          dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
-          modal.querySelector('.modal-box').scrollTop = 0;
-        });
-      }
-
-      if (tsSkip) {
-        console.warn('[Form] Turnstile unavailable — skipping server verify, using fallback protection only');
-        btn.textContent = 'שולח...';
-        doFormspreeSubmit();
-        return;
-      }
-
-      btn.textContent = 'מאמת...';
-      console.log('[Form] calling /api/verify-turnstile…');
-
-      fetch('/api/verify-turnstile', {
+      btn.textContent = 'שולח...';
+      console.log('[Form] submitting to Formspree…');
+      fetch(form.action, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: tsTokenValue })
-      }).then(function(r) {
-        console.log('[Form] verify-turnstile HTTP status:', r.status);
-        if (!r.ok) {
-          // Non-2xx — log and fail open so order isn't lost
-          console.warn('[Form] verify-turnstile returned', r.status, '— proceeding anyway');
-          return { success: true, warning: 'http_' + r.status };
-        }
-        return r.json().catch(function() {
-          console.warn('[Form] verify-turnstile response was not JSON — proceeding anyway');
-          return { success: true, warning: 'non_json' };
-        });
-      }).then(function(data) {
-        console.log('[Form] Turnstile server verify result:', data);
-        if (data.warning) console.warn('[Form] Turnstile warning:', data.warning);
-        if (data.errorCodes && data.errorCodes.length) console.warn('[Form] Turnstile error codes:', data.errorCodes);
-
-        if (!data.success) {
-          console.error('[Form] Turnstile failed — blocking submission');
-          btn.disabled = true;
-          btn.textContent = 'אימות נכשל, נסה שוב';
-          if (window.turnstile && window._tsWidgetId != null) { try { window.turnstile.reset(window._tsWidgetId); } catch(ex) {} }
-          return;
-        }
-
-        // Verification passed — submit
-        doFormspreeSubmit();
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(function(res) {
+        console.log('[Form] Formspree response status:', res.status);
       }).catch(function(err) {
-        // Network failure calling the API — fail open, log, proceed
-        console.error('[Form] verify-turnstile network error:', err.message, '— proceeding anyway');
-        doFormspreeSubmit();
+        console.error('[Form] Formspree fetch error:', err);
+      }).finally(function() {
+        btn.disabled = true;
+        s1.style.display = 'none'; s2.style.display = '';
+        dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
+        modal.querySelector('.modal-box').scrollTop = 0;
       });
     });
 
