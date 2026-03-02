@@ -33,9 +33,7 @@
   }
   </script>
   <link rel="icon" href="capy-logo.png" type="image/png" />
-  <!-- reCAPTCHA v3 — replace YOUR_SITE_KEY with key from g.co/recaptcha -->
-  <script src="https://www.google.com/recaptcha/api.js?render=YOUR_SITE_KEY" async defer></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="preload" as="image" href="capy-logo.png" />
@@ -1340,7 +1338,6 @@
       <form id="shipping-form" action="https://formspree.io/f/xnjbyadk" method="POST" novalidate>
         <input type="hidden" name="email" id="hidden-email" />
         <input type="hidden" name="order_summary" id="order-summary-input" />
-        <input type="hidden" name="g-recaptcha-response" id="recaptcha-token" />
         <!-- Honeypot: hidden from real users, bots fill it -->
         <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;" aria-hidden="true">
           <input type="text" name="website" id="honeypot" tabindex="-1" autocomplete="off" />
@@ -1844,34 +1841,30 @@
     document.getElementById('modal-done-btn').addEventListener('click', closeModal);
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
 
-    var RECAPTCHA_SITE_KEY = 'YOUR_SITE_KEY'; // ← replace with your key from g.co/recaptcha
-    var RATE_LIMIT_MAX     = 3;   // max submissions
-    var RATE_LIMIT_WINDOW  = 10 * 60 * 1000; // 10 minutes in ms
-    var COOLDOWN_SECS      = 3;   // seconds to lock button after each submit
+    /* ── SPAM PROTECTION ── */
+    var submitTimes = []; // in-memory rate limit (resets on page refresh)
+    var RATE_MAX    = 3;
+    var RATE_WINDOW = 10 * 60 * 1000; // 10 minutes
 
-    function getRateData() {
-      try { return JSON.parse(localStorage.getItem('capy_submit') || '{"count":0,"since":0}'); }
-      catch(e) { return { count: 0, since: 0 }; }
-    }
-    function saveRateData(d) {
-      try { localStorage.setItem('capy_submit', JSON.stringify(d)); } catch(e) {}
-    }
-    function isRateLimited() {
-      var d = getRateData();
+    function checkRateLimit() {
       var now = Date.now();
-      if (now - d.since > RATE_LIMIT_WINDOW) return false; // window expired
-      return d.count >= RATE_LIMIT_MAX;
+      submitTimes = submitTimes.filter(function(t) { return now - t < RATE_WINDOW; });
+      return submitTimes.length >= RATE_MAX;
     }
-    function recordSubmission() {
-      var d = getRateData();
-      var now = Date.now();
-      if (now - d.since > RATE_LIMIT_WINDOW) { d = { count: 0, since: now }; }
-      d.count++;
-      saveRateData(d);
+
+    function minutesUntilReset() {
+      if (!submitTimes.length) return 0;
+      var oldest = submitTimes[0];
+      return Math.ceil((RATE_WINDOW - (Date.now() - oldest)) / 60000);
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim()) &&
+             !/^(test|fake|spam|asdf|qwerty|aaa|bbb|ccc|noreply)@/i.test(email.trim());
     }
 
     function startCooldown(btn) {
-      var secs = COOLDOWN_SECS;
+      var secs = 5;
       btn.disabled = true;
       btn.textContent = 'אנא המתן ' + secs + '...';
       var iv = setInterval(function() {
@@ -1890,17 +1883,26 @@
       e.preventDefault();
       var btn = form.querySelector('button[type="submit"]');
 
-      /* ── 1. Honeypot check ── */
-      if (document.getElementById('honeypot').value !== '') return; // silent reject
+      /* 1. Honeypot */
+      if (document.getElementById('honeypot').value !== '') return;
 
-      /* ── 2. Rate limit check ── */
-      if (isRateLimited()) {
+      /* 2. Rate limit */
+      if (checkRateLimit()) {
         btn.disabled = true;
-        btn.textContent = 'נסה שוב מאוחר יותר';
+        btn.textContent = 'נסה שוב בעוד ' + minutesUntilReset() + ' דקות';
         return;
       }
 
-      /* ── 3. Product selection ── */
+      /* 3. Email validation */
+      var emailVal = document.getElementById('email-input').value.trim();
+      if (!isValidEmail(emailVal)) {
+        document.getElementById('email-input').focus();
+        document.getElementById('email-input').style.borderColor = 'var(--red)';
+        setTimeout(function() { document.getElementById('email-input').style.borderColor = ''; }, 2500);
+        return;
+      }
+
+      /* 4. Product selection */
       var bagChecked   = !!(document.getElementById('chk-bag')   && document.getElementById('chk-bag').checked);
       var socksChecked = !!(document.getElementById('chk-socks') && document.getElementById('chk-socks').checked);
       if (!bagChecked && !socksChecked) {
@@ -1908,7 +1910,7 @@
         return;
       }
 
-      /* ── 4. Build order summary ── */
+      /* 5. Build order summary */
       var lines = [];
       if (bagChecked)   lines.push('תיק בד × ' + qtys.bag + ' = ₪' + (PRICES.bag * qtys.bag).toFixed(2));
       if (socksChecked) {
@@ -1918,34 +1920,21 @@
       var total = (bagChecked ? PRICES.bag * qtys.bag : 0) + (socksChecked ? PRICES.socks * qtys.socks : 0);
       lines.push('סה"כ: ₪' + total.toFixed(2));
       document.getElementById('order-summary-input').value = lines.join(' | ');
-      document.getElementById('hidden-email').value = document.getElementById('email-input').value;
+      document.getElementById('hidden-email').value = emailVal;
 
-      /* ── 5. reCAPTCHA v3 → submit ── */
-      function doSubmit() {
-        btn.disabled = true;
-        recordSubmission();
-        fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
-        }).finally(function() {
-          startCooldown(btn);
-          s1.style.display = 'none'; s2.style.display = '';
-          dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
-          modal.querySelector('.modal-box').scrollTop = 0;
-        });
-      }
-
-      if (typeof grecaptcha !== 'undefined' && RECAPTCHA_SITE_KEY !== 'YOUR_SITE_KEY') {
-        grecaptcha.ready(function() {
-          grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'order' }).then(function(token) {
-            document.getElementById('recaptcha-token').value = token;
-            doSubmit();
-          });
-        });
-      } else {
-        doSubmit(); // reCAPTCHA not configured yet, submit normally
-      }
+      /* 6. Submit */
+      submitTimes.push(Date.now());
+      btn.disabled = true;
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).finally(function() {
+        startCooldown(btn);
+        s1.style.display = 'none'; s2.style.display = '';
+        dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
+        modal.querySelector('.modal-box').scrollTop = 0;
+      });
     });
 
     document.getElementById('place-order-btn').addEventListener('click', function() {
