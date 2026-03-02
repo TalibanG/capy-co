@@ -42,6 +42,8 @@
   <meta name="twitter:title" content="Capy & Co | תיק בד קפיברה" />
   <meta name="twitter:description" content="תיק בד עם לוגו קפיברה חמוד. 10% מכל מכירה תורם לחוות קפיברות 🦫" />
   <meta name="twitter:image" content="https://capyco.shop/bag.png" />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init("7OVQ6e_RpoaPjIGmX");</script>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -954,6 +956,46 @@
       .trust-strip-item { font-size: 12px; }
     }
 
+    /* ── OTP SCREEN ── */
+    .otp-email-hint {
+      text-align: center; font-size: 13px; color: var(--text-soft);
+      margin-bottom: 20px; line-height: 1.5;
+    }
+    .otp-digits {
+      display: flex; gap: 8px; justify-content: center;
+      direction: ltr; margin-bottom: 16px;
+    }
+    .otp-digit {
+      width: 44px; height: 54px;
+      border: 2px solid var(--cream-3); border-radius: var(--r-sm);
+      font-size: 22px; font-weight: 700; text-align: center;
+      font-family: 'Rubik', sans-serif; color: var(--text-dark);
+      background: var(--white); outline: none; caret-color: var(--green);
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+    .otp-digit:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(107,143,94,0.15); }
+    .otp-digit.otp-invalid { border-color: var(--red); box-shadow: 0 0 0 3px rgba(220,38,38,0.1); }
+    .otp-msg {
+      text-align: center; font-size: 14px; font-weight: 600;
+      min-height: 22px; margin-bottom: 12px;
+    }
+    .otp-msg.otp-error   { color: var(--red); }
+    .otp-msg.otp-success { color: var(--green); }
+    .otp-resend {
+      text-align: center; margin-top: 14px;
+      font-size: 13px; color: var(--text-soft);
+    }
+    .otp-resend button {
+      background: none; border: none; color: var(--green);
+      font-family: 'Rubik', sans-serif; font-size: 13px; font-weight: 700;
+      cursor: pointer; text-decoration: underline; padding: 0;
+    }
+    .otp-resend button:disabled { color: var(--text-soft); cursor: default; text-decoration: none; }
+    @media (max-width: 400px) {
+      .otp-digit { width: 38px; height: 48px; font-size: 19px; }
+      .otp-digits { gap: 6px; }
+    }
+
   </style>
 </head>
 <body>
@@ -1476,6 +1518,25 @@
       </form>
     </div>
 
+    <!-- Step OTP: Email verification -->
+    <div id="modal-s-otp" style="display:none">
+      <h2 style="text-align:center;margin-bottom:8px;">אימות אימייל 📧</h2>
+      <p class="otp-email-hint" id="otp-email-hint">הכניסו את הקוד שנשלח לאימייל שלכם</p>
+      <div class="otp-digits" id="otp-digits">
+        <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code" aria-label="ספרה 1" />
+        <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="ספרה 2" />
+        <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="ספרה 3" />
+        <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="ספרה 4" />
+        <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="ספרה 5" />
+        <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="ספרה 6" />
+      </div>
+      <div class="otp-msg" id="otp-msg"></div>
+      <button class="modal-btn" id="otp-verify-btn">אמת קוד ✓</button>
+      <div class="otp-resend">
+        <button id="otp-resend-btn" disabled>שלח שוב <span id="otp-countdown"></span></button>
+      </div>
+    </div>
+
     <!-- Step 2: Payment -->
     <div id="modal-s2" style="display:none">
       <h2>תשלום מאובטח 🔒</h2>
@@ -1949,6 +2010,7 @@
 
     function openModal(product) {
       s1.style.display = ''; s2.style.display = 'none'; s3.style.display = 'none';
+      document.getElementById('modal-s-otp').style.display = 'none';
       dot1.className = 'ms-dot active'; dot2.className = 'ms-dot';
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -2151,26 +2213,188 @@
       document.getElementById('order-summary-input').value = lines.join(' | ');
       document.getElementById('hidden-email').value = emailVal;
 
-      /* 6. Submit */
-      submitTimes.push(Date.now());
+      /* 6. Send OTP */
       btn.disabled = true;
-      btn.textContent = 'שולח...';
-      fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      }).finally(function() {
-        startCooldown(btn);
-        s1.style.display = 'none'; s2.style.display = '';
-        dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
-        modal.querySelector('.modal-box').scrollTop = 0;
-      });
+      btn.textContent = 'שולח קוד...';
+      otpSendAndShow(emailVal, btn);
     });
 
     document.getElementById('place-order-btn').addEventListener('click', function() {
       s2.style.display = 'none'; s3.style.display = '';
       dot2.className = 'ms-dot done';
       modal.querySelector('.modal-box').scrollTop = 0;
+    });
+
+    /* ── OTP LOGIC ── */
+    var otpCode       = null;
+    var otpExpiry     = null;
+    var otpEmail      = null;
+    var otpResendTimer = null;
+    var otpSubmitBtn  = null; // reference to form submit btn for re-enabling on error
+
+    var otpScreen  = document.getElementById('modal-s-otp');
+    var otpMsgEl   = document.getElementById('otp-msg');
+    var otpDigits  = Array.from(document.querySelectorAll('#otp-digits .otp-digit'));
+    var otpVerifyBtn = document.getElementById('otp-verify-btn');
+    var otpResendBtn = document.getElementById('otp-resend-btn');
+    var otpCountdown = document.getElementById('otp-countdown');
+
+    function generateOtp() {
+      return String(Math.floor(100000 + Math.random() * 900000));
+    }
+
+    function sendOtpEmail(email, code, callback) {
+      emailjs.send('service_kwfxgie', 'template_wr1el7z', {
+        email: email,
+        passcode: code
+      }).then(function() { callback(null); }, function(err) { callback(err); });
+    }
+
+    function startResendCountdown() {
+      var secs = 60;
+      otpResendBtn.disabled = true;
+      otpCountdown.textContent = '(' + secs + ')';
+      if (otpResendTimer) clearInterval(otpResendTimer);
+      otpResendTimer = setInterval(function() {
+        secs--;
+        if (secs > 0) {
+          otpCountdown.textContent = '(' + secs + ')';
+        } else {
+          clearInterval(otpResendTimer);
+          otpResendTimer = null;
+          otpResendBtn.disabled = false;
+          otpCountdown.textContent = '';
+        }
+      }, 1000);
+    }
+
+    function clearOtpMsg() {
+      otpMsgEl.textContent = '';
+      otpMsgEl.className = 'otp-msg';
+    }
+
+    function setOtpMsg(text, type) { // type: 'error' | 'success' | ''
+      otpMsgEl.textContent = text;
+      otpMsgEl.className = 'otp-msg' + (type ? ' otp-' + type : '');
+    }
+
+    function otpSendAndShow(email, submitBtnEl) {
+      otpSubmitBtn = submitBtnEl;
+      otpEmail  = email;
+      otpCode   = generateOtp();
+      otpExpiry = Date.now() + 10 * 60 * 1000;
+
+      sendOtpEmail(email, otpCode, function(err) {
+        if (err) {
+          // Failed to send — re-enable form submit button
+          submitBtnEl.disabled = false;
+          submitBtnEl.textContent = 'המשך לתשלום ←';
+          setOtpMsg('שגיאה בשליחת הקוד. נסה שוב.', 'error');
+          // Show OTP screen anyway so user sees the error
+        }
+        // Switch to OTP screen regardless (show error inline)
+        s1.style.display = 'none';
+        otpScreen.style.display = '';
+        document.getElementById('otp-email-hint').textContent =
+          'הכניסו את הקוד שנשלח לאימייל: ' + email;
+        // Reset digits
+        otpDigits.forEach(function(d) { d.value = ''; d.classList.remove('otp-invalid'); });
+        if (!err) clearOtpMsg();
+        startResendCountdown();
+        modal.querySelector('.modal-box').scrollTop = 0;
+        setTimeout(function() { otpDigits[0].focus(); }, 80);
+      });
+    }
+
+    function submitOrderToFormspree() {
+      submitTimes.push(Date.now());
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).finally(function() {
+        otpScreen.style.display = 'none';
+        s2.style.display = '';
+        dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
+        modal.querySelector('.modal-box').scrollTop = 0;
+        if (otpSubmitBtn) {
+          otpSubmitBtn.disabled = false;
+          otpSubmitBtn.textContent = 'המשך לתשלום ←';
+        }
+      });
+    }
+
+    // Digit input behaviour: auto-advance, backspace, paste
+    otpDigits.forEach(function(input, i) {
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Backspace' && !input.value && i > 0) {
+          otpDigits[i - 1].focus();
+          otpDigits[i - 1].value = '';
+        }
+      });
+      input.addEventListener('input', function() {
+        var val = input.value.replace(/\D/g, '');
+        input.value = val ? val[0] : '';
+        input.classList.remove('otp-invalid');
+        clearOtpMsg();
+        if (input.value && i < otpDigits.length - 1) {
+          otpDigits[i + 1].focus();
+        }
+        // Auto-verify when all filled
+        if (otpDigits.every(function(d) { return d.value.length === 1; })) {
+          setTimeout(function() { otpVerifyBtn.click(); }, 120);
+        }
+      });
+      input.addEventListener('paste', function(e) {
+        e.preventDefault();
+        var pasted = (e.clipboardData || window.clipboardData).getData('text')
+          .replace(/\D/g, '').slice(0, 6);
+        pasted.split('').forEach(function(ch, idx) {
+          if (otpDigits[idx]) otpDigits[idx].value = ch;
+        });
+        var nextEmpty = otpDigits.findIndex(function(d) { return !d.value; });
+        (otpDigits[nextEmpty >= 0 ? nextEmpty : otpDigits.length - 1]).focus();
+      });
+    });
+
+    otpVerifyBtn.addEventListener('click', function() {
+      var entered = otpDigits.map(function(d) { return d.value; }).join('');
+      if (entered.length < 6) {
+        setOtpMsg('אנא הכניסו את כל 6 הספרות', 'error');
+        return;
+      }
+      if (Date.now() > otpExpiry) {
+        setOtpMsg('הקוד פג תוקף, בקש קוד חדש', 'error');
+        otpDigits.forEach(function(d) { d.classList.add('otp-invalid'); });
+        return;
+      }
+      if (entered === otpCode) {
+        setOtpMsg('✓ הקוד אומת בהצלחה!', 'success');
+        otpVerifyBtn.disabled = true;
+        setTimeout(submitOrderToFormspree, 600);
+      } else {
+        setOtpMsg('קוד שגוי, נסה שוב ❌', 'error');
+        otpDigits.forEach(function(d) { d.classList.add('otp-invalid'); });
+        otpDigits[0].focus();
+      }
+    });
+
+    otpResendBtn.addEventListener('click', function() {
+      if (!otpEmail) return;
+      otpCode   = generateOtp();
+      otpExpiry = Date.now() + 10 * 60 * 1000;
+      setOtpMsg('שולח קוד חדש...', '');
+      otpVerifyBtn.disabled = false;
+      sendOtpEmail(otpEmail, otpCode, function(err) {
+        if (err) {
+          setOtpMsg('שגיאה בשליחת הקוד, נסה שוב', 'error');
+        } else {
+          setOtpMsg('קוד חדש נשלח! ✓', 'success');
+          otpDigits.forEach(function(d) { d.value = ''; d.classList.remove('otp-invalid'); });
+          startResendCountdown();
+          setTimeout(function() { otpDigits[0].focus(); }, 80);
+        }
+      });
     });
 
     /* card number auto-spacing */
