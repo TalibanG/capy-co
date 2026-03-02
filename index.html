@@ -1882,25 +1882,19 @@
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       var btn = form.querySelector('button[type="submit"]');
-      console.log('[Form] submit triggered');
 
       /* 1. Honeypot */
-      if (document.getElementById('honeypot').value !== '') {
-        console.warn('[Form] honeypot filled — rejecting');
-        return;
-      }
+      if (document.getElementById('honeypot').value !== '') return;
 
       /* 2. Rate limit */
       if (checkRateLimit()) {
-        console.warn('[Form] rate limit hit');
         btn.disabled = true;
         btn.textContent = 'נסה שוב בעוד ' + minutesUntilReset() + ' דקות';
         return;
       }
 
-      /* 4. Email validation */
+      /* 3. Email validation */
       var emailVal = document.getElementById('email-input').value.trim();
-      console.log('[Form] email valid:', isValidEmail(emailVal));
       if (!isValidEmail(emailVal)) {
         document.getElementById('email-input').focus();
         document.getElementById('email-input').style.borderColor = 'var(--red)';
@@ -1908,16 +1902,15 @@
         return;
       }
 
-      /* 5. Product selection */
+      /* 4. Product selection */
       var bagChecked   = !!(document.getElementById('chk-bag')   && document.getElementById('chk-bag').checked);
       var socksChecked = !!(document.getElementById('chk-socks') && document.getElementById('chk-socks').checked);
-      console.log('[Form] products — bag:', bagChecked, 'socks:', socksChecked);
       if (!bagChecked && !socksChecked) {
         alert('אנא בחרו לפחות מוצר אחד');
         return;
       }
 
-      /* 6. Build order summary */
+      /* 5. Build order summary */
       var lines = [];
       if (bagChecked)   lines.push('תיק בד × ' + qtys.bag + ' = ₪' + (PRICES.bag * qtys.bag).toFixed(2));
       if (socksChecked) {
@@ -1929,21 +1922,16 @@
       document.getElementById('order-summary-input').value = lines.join(' | ');
       document.getElementById('hidden-email').value = emailVal;
 
-      /* 7. Submit */
+      /* 6. Submit */
       submitTimes.push(Date.now());
       btn.disabled = true;
       btn.textContent = 'שולח...';
-      console.log('[Form] submitting to Formspree…');
       fetch(form.action, {
         method: 'POST',
         body: new FormData(form),
         headers: { 'Accept': 'application/json' }
-      }).then(function(res) {
-        console.log('[Form] Formspree response status:', res.status);
-      }).catch(function(err) {
-        console.error('[Form] Formspree fetch error:', err);
       }).finally(function() {
-        btn.disabled = true;
+        startCooldown(btn);
         s1.style.display = 'none'; s2.style.display = '';
         dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
         modal.querySelector('.modal-box').scrollTop = 0;
