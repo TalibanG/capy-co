@@ -1429,7 +1429,7 @@
           </div>
         </div>
 
-        <div class="cf-turnstile" data-sitekey="0x4AAAAAAACkoEAYheOAjNtk4" data-callback="onTurnstileSuccess" data-error-callback="onTurnstileError" style="margin-bottom:12px;"></div>
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAACkoEAYheOAjNtk4" data-callback="onTurnstileSuccess" data-error-callback="onTurnstileError" data-expired-callback="onTurnstileExpired" style="margin-bottom:12px;"></div>
         <button type="submit" class="modal-btn" id="submit-btn" disabled>המשך לתשלום ←</button>
       </form>
     </div>
@@ -1769,6 +1769,10 @@
       dot1.className = 'ms-dot active'; dot2.className = 'ms-dot';
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
+      // Reset Turnstile and disable submit on every open
+      var submitBtn = document.getElementById('submit-btn');
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'המשך לתשלום ←'; }
+      if (window.turnstile) { try { window.turnstile.reset(); } catch(ex) {} }
       var chkBag   = document.getElementById('chk-bag');
       var chkSocks = document.getElementById('chk-socks');
       if (chkBag && chkSocks) {
@@ -1844,14 +1848,25 @@
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
 
     /* ── TURNSTILE ── */
-    function onTurnstileSuccess(token) {
-      document.getElementById('submit-btn').disabled = false;
-    }
-    function onTurnstileError() {
+    // Must be on window — Turnstile data-callback looks up global scope
+    window.onTurnstileSuccess = function(token) {
+      console.log('[Turnstile] verified, enabling submit button');
+      var btn = document.getElementById('submit-btn');
+      btn.disabled = false;
+      btn.textContent = 'המשך לתשלום ←';
+    };
+    window.onTurnstileError = function() {
+      console.warn('[Turnstile] verification failed');
       var btn = document.getElementById('submit-btn');
       btn.disabled = true;
       btn.textContent = 'אימות נכשל, נסה שוב';
-    }
+    };
+    window.onTurnstileExpired = function() {
+      console.warn('[Turnstile] token expired, resetting');
+      var btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'אנא המתן לאימות...';
+    };
 
     /* ── SPAM PROTECTION ── */
     var submitTimes = []; // in-memory rate limit (resets on page refresh)
@@ -1894,26 +1909,34 @@
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       var btn = form.querySelector('button[type="submit"]');
+      console.log('[Form] submit triggered');
 
       /* 1. Honeypot */
-      if (document.getElementById('honeypot').value !== '') return;
-
-      /* 1b. Turnstile token */
-      var tsToken = form.querySelector('[name="cf-turnstile-response"]');
-      if (!tsToken || !tsToken.value) {
-        btn.textContent = 'אימות נכשל, נסה שוב';
+      if (document.getElementById('honeypot').value !== '') {
+        console.warn('[Form] honeypot filled — rejecting');
         return;
       }
 
-      /* 2. Rate limit */
+      /* 2. Turnstile token */
+      var tsToken = form.querySelector('[name="cf-turnstile-response"]');
+      console.log('[Form] Turnstile token:', tsToken ? (tsToken.value ? 'present' : 'empty') : 'element missing');
+      if (!tsToken || !tsToken.value) {
+        btn.textContent = 'אנא המתן לאימות...';
+        btn.disabled = true;
+        return;
+      }
+
+      /* 3. Rate limit */
       if (checkRateLimit()) {
+        console.warn('[Form] rate limit hit');
         btn.disabled = true;
         btn.textContent = 'נסה שוב בעוד ' + minutesUntilReset() + ' דקות';
         return;
       }
 
-      /* 3. Email validation */
+      /* 4. Email validation */
       var emailVal = document.getElementById('email-input').value.trim();
+      console.log('[Form] email valid:', isValidEmail(emailVal));
       if (!isValidEmail(emailVal)) {
         document.getElementById('email-input').focus();
         document.getElementById('email-input').style.borderColor = 'var(--red)';
@@ -1921,15 +1944,16 @@
         return;
       }
 
-      /* 4. Product selection */
+      /* 5. Product selection */
       var bagChecked   = !!(document.getElementById('chk-bag')   && document.getElementById('chk-bag').checked);
       var socksChecked = !!(document.getElementById('chk-socks') && document.getElementById('chk-socks').checked);
+      console.log('[Form] products — bag:', bagChecked, 'socks:', socksChecked);
       if (!bagChecked && !socksChecked) {
         alert('אנא בחרו לפחות מוצר אחד');
         return;
       }
 
-      /* 5. Build order summary */
+      /* 6. Build order summary */
       var lines = [];
       if (bagChecked)   lines.push('תיק בד × ' + qtys.bag + ' = ₪' + (PRICES.bag * qtys.bag).toFixed(2));
       if (socksChecked) {
@@ -1941,15 +1965,22 @@
       document.getElementById('order-summary-input').value = lines.join(' | ');
       document.getElementById('hidden-email').value = emailVal;
 
-      /* 6. Submit */
+      /* 7. Submit */
+      console.log('[Form] submitting to Formspree…');
       submitTimes.push(Date.now());
       btn.disabled = true;
       fetch(form.action, {
         method: 'POST',
         body: new FormData(form),
         headers: { 'Accept': 'application/json' }
+      }).then(function(res) {
+        console.log('[Form] Formspree response status:', res.status);
+      }).catch(function(err) {
+        console.error('[Form] fetch error:', err);
       }).finally(function() {
-        startCooldown(btn);
+        // Reset Turnstile so token is fresh for next open
+        if (window.turnstile) { try { window.turnstile.reset(); } catch(ex) {} }
+        btn.disabled = true; // keep disabled; Turnstile re-enables on next verify
         s1.style.display = 'none'; s2.style.display = '';
         dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
         modal.querySelector('.modal-box').scrollTop = 0;
