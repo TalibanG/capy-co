@@ -925,6 +925,7 @@
     }
 
   </style>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 
@@ -1428,7 +1429,8 @@
           </div>
         </div>
 
-        <button type="submit" class="modal-btn">המשך לתשלום ←</button>
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAACkoEAYheOAjNtk4" data-callback="onTurnstileSuccess" data-error-callback="onTurnstileError" style="margin-bottom:12px;"></div>
+        <button type="submit" class="modal-btn" id="submit-btn" disabled>המשך לתשלום ←</button>
       </form>
     </div>
 
@@ -1841,6 +1843,16 @@
     document.getElementById('modal-done-btn').addEventListener('click', closeModal);
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
 
+    /* ── TURNSTILE ── */
+    function onTurnstileSuccess(token) {
+      document.getElementById('submit-btn').disabled = false;
+    }
+    function onTurnstileError() {
+      var btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'אימות נכשל, נסה שוב';
+    }
+
     /* ── SPAM PROTECTION ── */
     var submitTimes = []; // in-memory rate limit (resets on page refresh)
     var RATE_MAX    = 3;
@@ -1885,6 +1897,13 @@
 
       /* 1. Honeypot */
       if (document.getElementById('honeypot').value !== '') return;
+
+      /* 1b. Turnstile token */
+      var tsToken = form.querySelector('[name="cf-turnstile-response"]');
+      if (!tsToken || !tsToken.value) {
+        btn.textContent = 'אימות נכשל, נסה שוב';
+        return;
+      }
 
       /* 2. Rate limit */
       if (checkRateLimit()) {
