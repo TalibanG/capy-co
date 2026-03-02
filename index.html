@@ -1045,8 +1045,8 @@
 <!-- 4. PRODUCTS -->
 <section id="products">
   <div class="section-inner" style="max-width:920px;">
-    <span class="section-label">המוצרים שלנו</span>
-    <h2>המוצרים שלנו 🛍️</h2>
+    <span class="section-label" id="products-label">המוצרים שלנו</span>
+    <h2 id="products-h2">המוצרים שלנו 🛍️</h2>
     <div class="section-divider"></div>
 
     <div class="products-grid">
@@ -1064,7 +1064,7 @@
             <h3 class="pc-title" id="bag-h2">תיק בד שעושה טוב לעולם</h3>
           </div>
           <div class="adoption-badge pc-desc">
-            <img src="capy-logo.png" alt="" class="capy-xs-icon" /> כל תיק מגיע עם כרטיס אימוץ קפיברה אישי בפנים!
+            <img src="capy-logo.png" alt="" class="capy-xs-icon" /> <span id="bag-adoption-text">כל תיק מגיע עם כרטיס אימוץ קפיברה אישי בפנים!</span>
           </div>
           <div class="pc-price-top">
             <span class="bag-price">₪49.90</span>
@@ -1082,14 +1082,14 @@
             </div>
             <div class="bag-trust pc-trust" id="bag-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
             <div class="whats-included">
-              <div class="whats-included-title">מה מקבלים?</div>
+              <div class="whats-included-title" id="bag-included-title">מה מקבלים?</div>
               <div class="whats-included-item">
                 <span class="wi-icon">🛍️</span>
-                <span>תיק בד Capy &amp; Co</span>
+                <span id="bag-included-item1">תיק בד Capy &amp; Co</span>
               </div>
               <div class="whats-included-item">
                 <span class="wi-icon"><img src="capy-logo.png" alt="קפיברה" loading="lazy" /></span>
-                <span>אימוץ קפיברה אישית עם שם ייחודי</span>
+                <span id="bag-included-item2">אימוץ קפיברה אישית עם שם ייחודי</span>
               </div>
             </div>
           </div>
@@ -1103,26 +1103,26 @@
         </div>
         <div class="pc-body">
           <div class="pc-badge-row">
-            <span class="section-label">גרביים</span>
-            <span class="new-badge">חדש! ✨</span>
+            <span class="section-label" id="socks-badge-label">גרביים</span>
+            <span class="new-badge" id="socks-new-badge">חדש! ✨</span>
           </div>
           <div class="pc-title-row">
-            <h3 class="pc-title">גרביים קפיברה 🧦</h3>
+            <h3 class="pc-title" id="socks-h2">גרביים קפיברה 🧦</h3>
           </div>
-          <div class="adoption-badge pc-desc">
+          <div class="adoption-badge pc-desc" id="socks-desc">
             🧦 גרביים עם הדפס קפיברה חמוד — נוחות, איכותיות, ומושלמות למתנה 🎁
           </div>
           <div class="pc-price-top">
             <span class="bag-price">₪39.90</span>
-            <span class="bag-price-old">₪65</span>
+            <span class="bag-price-old" id="socks-price-old">₪65</span>
           </div>
           <div class="pc-meta">
-            <span class="bag-savings">🎉 חוסכים ₪25!</span>
-            <span class="bag-delivery-sub">משלוח עד הבית תוך 5–7 ימי עסקים</span>
-            <span class="bag-guarantee">✅ 30 יום החזרה מלאה</span>
+            <span class="bag-savings" id="socks-savings">🎉 חוסכים ₪25!</span>
+            <span class="bag-delivery-sub" id="socks-delivery">משלוח עד הבית תוך 5–7 ימי עסקים</span>
+            <span class="bag-guarantee" id="socks-guarantee">✅ 30 יום החזרה מלאה</span>
           </div>
           <div class="pc-size">
-            <div class="size-label">בחרו מידה</div>
+            <div class="size-label" id="socks-size-label">בחרו מידה</div>
             <div class="size-selector" id="socks-size-selector">
               <button class="size-btn" onclick="selectSize(this,'socks-size-selector')">M (36–41)</button>
               <button class="size-btn" onclick="selectSize(this,'socks-size-selector')">L (42–46)</button>
@@ -1131,18 +1131,18 @@
           <!-- pc-bottom always sticks to card bottom via margin-top:auto -->
           <div class="pc-bottom">
             <div class="pc-buy">
-              <button class="btn-green btn-green-sm btn-card" data-product="socks">🛍️ הזמינו עכשיו</button>
+              <button class="btn-green btn-green-sm btn-card" data-product="socks" id="socks-btn">🛍️ הזמינו עכשיו</button>
             </div>
-            <div class="bag-trust pc-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
+            <div class="bag-trust pc-trust" id="socks-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
             <div class="whats-included">
-              <div class="whats-included-title">מה מקבלים?</div>
+              <div class="whats-included-title" id="socks-included-title">מה מקבלים?</div>
               <div class="whats-included-item">
                 <span class="wi-icon">🧦</span>
-                <span>זוג גרביים Capy &amp; Co עם הדפס קפיברה</span>
+                <span id="socks-included-item1">זוג גרביים Capy &amp; Co עם הדפס קפיברה</span>
               </div>
               <div class="whats-included-item">
                 <span class="wi-icon"><img src="capy-logo.png" alt="קפיברה" loading="lazy" /></span>
-                <span>אימוץ קפיברה אישית עם שם ייחודי</span>
+                <span id="socks-included-item2">אימוץ קפיברה אישית עם שם ייחודי</span>
               </div>
             </div>
           </div>
@@ -1175,11 +1175,11 @@
 <!-- 6. COMING SOON -->
 <section id="coming-soon" style="background:var(--cream-2);">
   <div class="section-inner" style="text-align:center;">
-    <span class="section-label">בקרוב</span>
-    <h2 style="margin-bottom:12px;">עיצובים חדשים בדרך 🎨</h2>
+    <span class="section-label" id="coming-soon-label">בקרוב</span>
+    <h2 id="coming-soon-h2" style="margin-bottom:12px;">עיצובים חדשים בדרך 🎨</h2>
     <div class="section-divider" style="margin:0 auto 24px;"></div>
     <div style="background:var(--white);border-radius:var(--r-lg);padding:36px 28px;box-shadow:var(--sh-md);border:1px solid var(--cream-3);max-width:480px;margin:0 auto;">
-      <p style="font-size:16px;color:var(--text-mid);line-height:1.75;margin-bottom:0;">תשארו מעודכנים לעיצובים חדשים שמגיעים בקרוב</p>
+      <p id="coming-soon-p" style="font-size:16px;color:var(--text-mid);line-height:1.75;margin-bottom:0;">תשארו מעודכנים לעיצובים חדשים שמגיעים בקרוב</p>
     </div>
   </div>
 </section>
@@ -1383,14 +1383,14 @@
 
         <!-- Products -->
         <div class="m-field" style="margin-bottom:6px;">
-          <label>בחרו מוצרים</label>
+          <label id="label-products">בחרו מוצרים</label>
         </div>
         <div class="m-products-list">
           <!-- Bag -->
           <div class="m-product-row" id="mpr-bag">
             <label class="m-product-check">
               <input type="checkbox" id="chk-bag" name="order_bag" value="1" onchange="updateOrderTotal()" />
-              <span class="m-product-name">תיק בד Capy &amp; Co</span>
+              <span class="m-product-name" id="mpr-bag-name">תיק בד Capy &amp; Co</span>
             </label>
             <div class="qty-stepper">
               <button type="button" class="qty-btn" onclick="changeQty('bag',-1)">−</button>
@@ -1403,7 +1403,7 @@
           <div class="m-product-row" id="mpr-socks">
             <label class="m-product-check">
               <input type="checkbox" id="chk-socks" name="order_socks" value="1" onchange="updateOrderTotal()" />
-              <span class="m-product-name">גרביים קפיברה 🧦</span>
+              <span class="m-product-name" id="mpr-socks-name">גרביים קפיברה 🧦</span>
             </label>
             <div class="qty-stepper">
               <button type="button" class="qty-btn" onclick="changeQty('socks',-1)">−</button>
@@ -1422,51 +1422,51 @@
 
         <!-- Total -->
         <div class="m-total-row">
-          <span class="m-total-label">סה״כ</span>
+          <span class="m-total-label" id="label-total">סה״כ</span>
           <span class="m-total-price" id="modal-total">₪0.00</span>
         </div>
 
         <!-- Contact -->
         <div class="m-field">
-          <label>שם מלא</label>
+          <label id="label-name">שם מלא</label>
           <input type="text" id="name-input" name="name" placeholder="ישראל ישראלי" autocomplete="name" />
           <span class="field-error-msg" id="name-error">נא להזין שם מלא (שם פרטי + שם משפחה)</span>
         </div>
         <div class="m-field">
-          <label>טלפון</label>
+          <label id="label-phone">טלפון</label>
           <input type="tel" id="phone-input" name="phone" placeholder="0501234567" autocomplete="tel" inputmode="numeric" />
           <span class="field-error-msg" id="phone-error">נא להזין מספר טלפון ישראלי תקין (05X-XXXXXXX)</span>
         </div>
         <div class="m-field">
-          <label>אימייל</label>
+          <label id="label-email">אימייל</label>
           <input type="email" id="email-input" name="email_address" placeholder="example@email.com" autocomplete="email" />
           <span class="field-error-msg" id="email-error">נא להזין כתובת אימייל תקינה</span>
         </div>
 
         <!-- Address -->
         <div class="m-field">
-          <label>רחוב ומספר בית</label>
+          <label id="label-street">רחוב ומספר בית</label>
           <input type="text" id="street-input" name="street" placeholder="הרצל 12" autocomplete="street-address" />
           <span class="field-error-msg" id="street-error">נא להזין רחוב ומספר בית</span>
         </div>
         <div class="m-row">
           <div class="m-field">
-            <label>קומה <span class="opt-label">(לא חובה)</span></label>
+            <label id="label-floor">קומה <span class="opt-label">(לא חובה)</span></label>
             <input type="text" name="floor" placeholder="3" />
           </div>
           <div class="m-field">
-            <label>דירה <span class="opt-label">(לא חובה)</span></label>
+            <label id="label-apt">דירה <span class="opt-label">(לא חובה)</span></label>
             <input type="text" name="apartment" placeholder="5" />
           </div>
         </div>
         <div class="m-row">
           <div class="m-field">
-            <label>עיר</label>
+            <label id="label-city">עיר</label>
             <input type="text" id="city-input" name="city" placeholder="תל אביב" autocomplete="address-level2" />
             <span class="field-error-msg" id="city-error">נא להזין עיר</span>
           </div>
           <div class="m-field">
-            <label>מיקוד</label>
+            <label id="label-zip">מיקוד</label>
             <input type="text" id="zip-input" name="zip" placeholder="6100000" autocomplete="postal-code" inputmode="numeric" maxlength="7" />
             <span class="field-error-msg" id="zip-error">נא להזין מיקוד בן 7 ספרות</span>
           </div>
@@ -1558,6 +1558,7 @@
       heroH1:        'סטייל עם לב גדול,<br><em>קפיברה תודה לכם 🦫</em>',
       heroP:         'תיקי בד וגרביים עם לוגו קפיברה חמוד — כי אפשר להיות אופנתיים ולעשות טוב בעולם',
       heroBtn:       'הזמינו עכשיו 🛍️',
+      heroGhost:     '← גלו את המוצרים',
       causeTag:      'המטרה שלנו',
       causeH2:       'למה קפיברות? כי הן חשובות 🌿',
       causeP:        'קפיברות הן חלק בלתי נפרד מהמערכת האקולוגית של דרום אמריקה. חוות קפיברות קטנות ומשפחתיות מגנות על המין, מגדלות אותו בתנאים הומניים ומשמרות מסורת ייחודית. לצערנו, בגלל לחצים כלכליים, רבות מהחוות הללו נסגרות. עם כל תיק שנרכש, 10% מהתמורה מועברים ישירות לחוות הקפיברות הפעילות — כדי שיוכלו להמשיך את העבודה החשובה שלהן.',
@@ -1565,6 +1566,8 @@
       aboutTag:      'עלינו',
       aboutH2:       'מי אנחנו?',
       aboutP:        'אנחנו צעירים שאוהבים קפיבראות ומאמינים שאפשר להיות אופנתיים ולעשות טוב בעולם בו זמנית. כל תיק שנמכר הוא צעד קטן למען בעלי החיים החמודים האלה',
+      productsLabel: 'המוצרים שלנו',
+      productsH2:    'המוצרים שלנו 🛍️',
       bagTag:        'התיק',
       bagH2:         'תיק בד שעושה טוב לעולם',
       bagPriceOld:   '₪100',
@@ -1574,6 +1577,50 @@
       bagBtn:        'הזמינו עכשיו 🛍️',
 
       bagTrust:      '🔒 תשלום מאובטח | משלוח לכל הארץ',
+      bagAdoptionText: 'כל תיק מגיע עם כרטיס אימוץ קפיברה אישי בפנים!',
+      bagIncludedTitle: 'מה מקבלים?',
+      bagIncludedItem1: 'תיק בד Capy & Co',
+      bagIncludedItem2: 'אימוץ קפיברה אישית עם שם ייחודי',
+      socksBadgeLabel: 'גרביים',
+      socksNewBadge:   'חדש! ✨',
+      socksH2:         'גרביים קפיברה 🧦',
+      socksDesc:       '🧦 גרביים עם הדפס קפיברה חמוד — נוחות, איכותיות, ומושלמות למתנה 🎁',
+      socksPriceOld:   '₪65',
+      socksSavings:    '🎉 חוסכים ₪25!',
+      socksDelivery:   'משלוח עד הבית תוך 5–7 ימי עסקים',
+      socksGuarantee:  '✅ 30 יום החזרה מלאה',
+      socksSizeLabel:  'בחרו מידה',
+      socksBtn:        '🛍️ הזמינו עכשיו',
+      socksTrust:      '🔒 תשלום מאובטח | משלוח לכל הארץ',
+      socksIncludedTitle: 'מה מקבלים?',
+      socksIncludedItem1: 'זוג גרביים Capy & Co עם הדפס קפיברה',
+      socksIncludedItem2: 'אימוץ קפיברה אישית עם שם ייחודי',
+      comingSoonLabel: 'בקרוב',
+      comingSoonH2:    'עיצובים חדשים בדרך 🎨',
+      comingSoonP:     'תשארו מעודכנים לעיצובים חדשים שמגיעים בקרוב',
+      modalTitle:      'פרטי הזמנה 📦',
+      labelProducts:   'בחרו מוצרים',
+      mprBagName:      'תיק בד Capy & Co',
+      mprSocksName:    'גרביים קפיברה 🧦',
+      labelTotal:      'סה״כ',
+      labelName:       'שם מלא',
+      labelPhone:      'טלפון',
+      labelEmail:      'אימייל',
+      labelStreet:     'רחוב ומספר בית',
+      labelFloor:      'קומה <span class="opt-label">(לא חובה)</span>',
+      labelApt:        'דירה <span class="opt-label">(לא חובה)</span>',
+      labelCity:       'עיר',
+      labelZip:        'מיקוד',
+      submitBtn:       'המשך לתשלום ←',
+      phName:          'ישראל ישראלי',
+      phStreet:        'הרצל 12',
+      phCity:          'תל אביב',
+      nameError:   'נא להזין שם מלא (שם פרטי + שם משפחה)',
+      phoneError:  'נא להזין מספר טלפון ישראלי תקין (05X-XXXXXXX)',
+      emailError:  'נא להזין כתובת אימייל תקינה',
+      streetError: 'נא להזין רחוב ומספר בית',
+      cityError:   'נא להזין עיר',
+      zipError:    'נא להזין מיקוד בן 7 ספרות',
       b1Title: 'ידידותי לסביבה', b1Text: 'עשוי מ-100% כותנה טבעית — עוד צעד קטן למען כדור הארץ',
       b2Title: 'עיצוב מקסים',   b2Text: 'לוגו קפיברה חמוד שיגרום לכולם לשאול מאיפה הגיע התיק',
       b3Title: 'מלאי מוגבל',    b3Text: 'מייצרים בכמויות קטנות — כשנגמר, נגמר. אל תחמיצו',
@@ -1620,6 +1667,7 @@
       heroH1:        'Style With a Big Heart,<br><em>The Capybara Thanks You 🦫</em>',
       heroP:         'Tote bags and socks with a cute capybara logo — stylish and doing good in the world',
       heroBtn:       'Order Now 🛍️',
+      heroGhost:     '← Explore Products',
       causeTag:      'Our Mission',
       causeH2:       'Why Capybaras? Because They Matter 🌿',
       causeP:        'Capybaras are an essential part of South America\'s ecosystem. Small family-run farms protect the species, raise them humanely, and preserve a unique tradition. Sadly many are closing due to economic pressures. With every bag purchased, 10% goes directly to active capybara farms.',
@@ -1627,6 +1675,8 @@
       aboutTag:      'About Us',
       aboutH2:       'Who Are We?',
       aboutP:        'We\'re young people who love capybaras and believe you can be stylish and do good at the same time. Every bag sold is a small step for these adorable creatures.',
+      productsLabel: 'Our Products',
+      productsH2:    'Our Products 🛍️',
       bagTag:        'The Bag',
       bagH2:         'A Tote Bag That Does Good',
       bagPriceOld:   '₪100',
@@ -1637,6 +1687,50 @@
       stockSold:     '13 units sold',
       stockLeft:     '⚠️ Only 7 left!',
       bagTrust:      '🔒 Secure payment | Nationwide delivery',
+      bagAdoptionText: 'Every bag includes a personal capybara adoption card inside!',
+      bagIncludedTitle: "What's Included?",
+      bagIncludedItem1: 'Capy & Co tote bag',
+      bagIncludedItem2: 'Personal capybara adoption with a unique name',
+      socksBadgeLabel: 'Socks',
+      socksNewBadge:   'New! ✨',
+      socksH2:         'Capybara Socks 🧦',
+      socksDesc:       '🧦 Socks with a cute capybara print — comfy, quality, and perfect as a gift 🎁',
+      socksPriceOld:   '₪65',
+      socksSavings:    '🎉 Save ₪25!',
+      socksDelivery:   'Home delivery within 5–7 business days',
+      socksGuarantee:  '✅ 30-day full returns',
+      socksSizeLabel:  'Choose Size',
+      socksBtn:        '🛍️ Order Now',
+      socksTrust:      '🔒 Secure payment | Nationwide delivery',
+      socksIncludedTitle: "What's Included?",
+      socksIncludedItem1: 'A pair of Capy & Co socks with capybara print',
+      socksIncludedItem2: 'Personal capybara adoption with a unique name',
+      comingSoonLabel: 'Coming Soon',
+      comingSoonH2:    'New Designs Coming 🎨',
+      comingSoonP:     'Stay updated for new designs coming soon',
+      modalTitle:      'Order Details 📦',
+      labelProducts:   'Choose Products',
+      mprBagName:      'Capy & Co tote bag',
+      mprSocksName:    'Capybara Socks 🧦',
+      labelTotal:      'Total',
+      labelName:       'Full Name',
+      labelPhone:      'Phone',
+      labelEmail:      'Email',
+      labelStreet:     'Street & House No.',
+      labelFloor:      'Floor <span class="opt-label">(optional)</span>',
+      labelApt:        'Apt. <span class="opt-label">(optional)</span>',
+      labelCity:       'City',
+      labelZip:        'ZIP Code',
+      submitBtn:       'Continue to Payment →',
+      phName:          'John Smith',
+      phStreet:        '12 Herzl St',
+      phCity:          'Tel Aviv',
+      nameError:   'Please enter your full name (first and last)',
+      phoneError:  'Please enter a valid Israeli phone number (05X-XXXXXXX)',
+      emailError:  'Please enter a valid email address',
+      streetError: 'Please enter street & house number',
+      cityError:   'Please enter city',
+      zipError:    'Please enter a 7-digit ZIP code',
       b1Title: 'Eco-Friendly', b1Text: 'Made from 100% natural cotton — one small step for the planet',
       b2Title: 'Cute Design',  b2Text: 'An adorable capybara logo everyone will ask about',
       b3Title: 'Limited Stock',b3Text: 'Small batches only — when it\'s gone, it\'s gone',
@@ -1691,6 +1785,7 @@
     document.getElementById('hero-h1').innerHTML             = t.heroH1;
     document.getElementById('hero-p').textContent            = t.heroP;
     document.getElementById('hero-btn').textContent          = t.heroBtn;
+    document.getElementById('hero-ghost').textContent        = t.heroGhost;
     document.getElementById('cause-tag').textContent         = t.causeTag;
     document.getElementById('cause-h2').textContent          = t.causeH2;
     document.getElementById('cause-p').textContent           = t.causeP;
@@ -1698,6 +1793,8 @@
     document.getElementById('about-tag').textContent         = t.aboutTag;
     document.getElementById('about-h2').textContent          = t.aboutH2;
     document.getElementById('about-p').textContent           = t.aboutP;
+    document.getElementById('products-label').textContent    = t.productsLabel;
+    document.getElementById('products-h2').textContent       = t.productsH2;
     document.getElementById('bag-tag').textContent           = t.bagTag;
     document.getElementById('bag-h2').textContent            = t.bagH2;
     document.getElementById('bag-price-old').textContent     = t.bagPriceOld;
@@ -1706,6 +1803,50 @@
     document.getElementById('bag-guarantee').textContent     = t.bagGuarantee;
     document.getElementById('bag-btn').textContent           = t.bagBtn;
     document.getElementById('bag-trust').textContent         = t.bagTrust;
+    document.getElementById('bag-adoption-text').textContent = t.bagAdoptionText;
+    document.getElementById('bag-included-title').textContent = t.bagIncludedTitle;
+    document.getElementById('bag-included-item1').textContent = t.bagIncludedItem1;
+    document.getElementById('bag-included-item2').textContent = t.bagIncludedItem2;
+    document.getElementById('socks-badge-label').textContent = t.socksBadgeLabel;
+    document.getElementById('socks-new-badge').textContent   = t.socksNewBadge;
+    document.getElementById('socks-h2').textContent          = t.socksH2;
+    document.getElementById('socks-desc').textContent        = t.socksDesc;
+    document.getElementById('socks-price-old').textContent   = t.socksPriceOld;
+    document.getElementById('socks-savings').textContent     = t.socksSavings;
+    document.getElementById('socks-delivery').textContent    = t.socksDelivery;
+    document.getElementById('socks-guarantee').textContent   = t.socksGuarantee;
+    document.getElementById('socks-size-label').textContent  = t.socksSizeLabel;
+    document.getElementById('socks-btn').textContent         = t.socksBtn;
+    document.getElementById('socks-trust').textContent       = t.socksTrust;
+    document.getElementById('socks-included-title').textContent = t.socksIncludedTitle;
+    document.getElementById('socks-included-item1').textContent = t.socksIncludedItem1;
+    document.getElementById('socks-included-item2').textContent = t.socksIncludedItem2;
+    document.getElementById('coming-soon-label').textContent = t.comingSoonLabel;
+    document.getElementById('coming-soon-h2').textContent    = t.comingSoonH2;
+    document.getElementById('coming-soon-p').textContent     = t.comingSoonP;
+    document.getElementById('modal-title').textContent       = t.modalTitle;
+    document.getElementById('label-products').textContent    = t.labelProducts;
+    document.getElementById('mpr-bag-name').textContent      = t.mprBagName;
+    document.getElementById('mpr-socks-name').textContent    = t.mprSocksName;
+    document.getElementById('label-total').textContent       = t.labelTotal;
+    document.getElementById('label-name').textContent        = t.labelName;
+    document.getElementById('label-phone').textContent       = t.labelPhone;
+    document.getElementById('label-email').textContent       = t.labelEmail;
+    document.getElementById('label-street').textContent      = t.labelStreet;
+    document.getElementById('label-floor').innerHTML         = t.labelFloor;
+    document.getElementById('label-apt').innerHTML           = t.labelApt;
+    document.getElementById('label-city').textContent        = t.labelCity;
+    document.getElementById('label-zip').textContent         = t.labelZip;
+    document.getElementById('submit-btn').textContent        = t.submitBtn;
+    document.getElementById('name-input').placeholder        = t.phName;
+    document.getElementById('street-input').placeholder      = t.phStreet;
+    document.getElementById('city-input').placeholder        = t.phCity;
+    document.getElementById('name-error').textContent        = t.nameError;
+    document.getElementById('phone-error').textContent       = t.phoneError;
+    document.getElementById('email-error').textContent       = t.emailError;
+    document.getElementById('street-error').textContent      = t.streetError;
+    document.getElementById('city-error').textContent        = t.cityError;
+    document.getElementById('zip-error').textContent         = t.zipError;
     document.getElementById('b1-title').textContent          = t.b1Title;
     document.getElementById('b1-text').textContent           = t.b1Text;
     document.getElementById('b2-title').textContent          = t.b2Title;
