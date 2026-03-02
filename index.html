@@ -1965,25 +1965,44 @@
       document.getElementById('order-summary-input').value = lines.join(' | ');
       document.getElementById('hidden-email').value = emailVal;
 
-      /* 7. Submit */
-      console.log('[Form] submitting to Formspree…');
+      /* 7. Verify Turnstile server-side, then submit */
       submitTimes.push(Date.now());
       btn.disabled = true;
-      fetch(form.action, {
+      btn.textContent = 'מאמת...';
+      console.log('[Form] calling /api/verify-turnstile…');
+
+      fetch('/api/verify-turnstile', {
         method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      }).then(function(res) {
-        console.log('[Form] Formspree response status:', res.status);
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: tsToken.value })
+      }).then(function(r) { return r.json(); }).then(function(data) {
+        console.log('[Form] Turnstile server verify result:', data);
+        if (!data.success) {
+          btn.disabled = true;
+          btn.textContent = 'אימות נכשל, נסה שוב';
+          if (window.turnstile) { try { window.turnstile.reset(); } catch(ex) {} }
+          return;
+        }
+        console.log('[Form] submitting to Formspree…');
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        }).then(function(res) {
+          console.log('[Form] Formspree response status:', res.status);
+        }).catch(function(err) {
+          console.error('[Form] fetch error:', err);
+        }).finally(function() {
+          if (window.turnstile) { try { window.turnstile.reset(); } catch(ex) {} }
+          btn.disabled = true;
+          s1.style.display = 'none'; s2.style.display = '';
+          dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
+          modal.querySelector('.modal-box').scrollTop = 0;
+        });
       }).catch(function(err) {
-        console.error('[Form] fetch error:', err);
-      }).finally(function() {
-        // Reset Turnstile so token is fresh for next open
-        if (window.turnstile) { try { window.turnstile.reset(); } catch(ex) {} }
-        btn.disabled = true; // keep disabled; Turnstile re-enables on next verify
-        s1.style.display = 'none'; s2.style.display = '';
-        dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
-        modal.querySelector('.modal-box').scrollTop = 0;
+        console.error('[Form] verify-turnstile error:', err);
+        btn.disabled = false;
+        btn.textContent = 'המשך לתשלום ←';
       });
     });
 
