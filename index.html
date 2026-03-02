@@ -1770,6 +1770,7 @@
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
       // Reset Turnstile and disable submit on every open
+      window.turnstileToken = null;
       var submitBtn = document.getElementById('submit-btn');
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'המשך לתשלום ←'; }
       if (window.turnstile) { try { window.turnstile.reset(); } catch(ex) {} }
@@ -1849,20 +1850,25 @@
 
     /* ── TURNSTILE ── */
     // Must be on window — Turnstile data-callback looks up global scope
+    window.turnstileToken = null;
+
     window.onTurnstileSuccess = function(token) {
-      console.log('[Turnstile] verified, enabling submit button');
+      console.log('[Turnstile] callback fired, token length:', token ? token.length : 0);
+      window.turnstileToken = token;
       var btn = document.getElementById('submit-btn');
       btn.disabled = false;
       btn.textContent = 'המשך לתשלום ←';
     };
     window.onTurnstileError = function() {
       console.warn('[Turnstile] verification failed');
+      window.turnstileToken = null;
       var btn = document.getElementById('submit-btn');
       btn.disabled = true;
       btn.textContent = 'אימות נכשל, נסה שוב';
     };
     window.onTurnstileExpired = function() {
-      console.warn('[Turnstile] token expired, resetting');
+      console.warn('[Turnstile] token expired');
+      window.turnstileToken = null;
       var btn = document.getElementById('submit-btn');
       btn.disabled = true;
       btn.textContent = 'אנא המתן לאימות...';
@@ -1917,10 +1923,10 @@
         return;
       }
 
-      /* 2. Turnstile token */
-      var tsToken = form.querySelector('[name="cf-turnstile-response"]');
-      console.log('[Form] Turnstile token:', tsToken ? (tsToken.value ? 'present' : 'empty') : 'element missing');
-      if (!tsToken || !tsToken.value) {
+      /* 2. Turnstile token — use the value stored directly from the callback */
+      var tsTokenValue = window.turnstileToken;
+      console.log('[Form] turnstileToken:', tsTokenValue ? ('length ' + tsTokenValue.length) : 'null');
+      if (!tsTokenValue) {
         btn.textContent = 'אנא המתן לאימות...';
         btn.disabled = true;
         return;
@@ -1967,6 +1973,7 @@
 
       /* 7. Verify Turnstile server-side, then submit */
       submitTimes.push(Date.now());
+      window.turnstileToken = null; // consume token — prevent reuse
       btn.disabled = true;
       btn.textContent = 'מאמת...';
       console.log('[Form] calling /api/verify-turnstile…');
@@ -1974,7 +1981,7 @@
       fetch('/api/verify-turnstile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: tsToken.value })
+        body: JSON.stringify({ token: tsTokenValue })
       }).then(function(r) {
         console.log('[Form] verify-turnstile HTTP status:', r.status);
         if (!r.ok) {
