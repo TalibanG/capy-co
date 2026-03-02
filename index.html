@@ -78,20 +78,20 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── STICKY BUY BAR ── */
+    /* ── STICKY BUY BAR (mobile bottom) ── */
     #sticky-bar {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      bottom: 0; left: 0; right: 0;
       z-index: 300;
       background: var(--white);
-      border-bottom: 1px solid var(--cream-3);
-      box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+      border-top: 1px solid var(--cream-3);
+      box-shadow: 0 -2px 16px rgba(0,0,0,0.09);
       padding: 10px 20px;
-      display: flex;
+      display: none; /* hidden on desktop, shown only on mobile via media query */
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      transform: translateY(-110%);
+      transform: translateY(110%);
       transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
     }
     #sticky-bar.visible { transform: translateY(0); }
@@ -99,47 +99,33 @@
       display: flex; align-items: center; gap: 8px;
       font-size: 15px; font-weight: 800; color: var(--brown);
     }
-    .sticky-price { font-size: 17px; font-weight: 900; color: var(--brown); }
+    .sticky-brand { font-size: 14px; font-weight: 800; color: var(--brown); }
+    .sticky-price { font-size: 18px; font-weight: 900; color: var(--brown); }
     .sticky-old {
       font-size: 12px; color: var(--text-soft);
       text-decoration: line-through; font-weight: 500;
     }
-    .sticky-price-wrap { display: flex; align-items: baseline; gap: 6px; }
+    .sticky-price-wrap { display: flex; align-items: baseline; gap: 5px; }
     .sticky-btn {
       background: #22C55E; color: #fff;
       border: none; border-radius: 50px;
-      padding: 9px 22px; font-size: 14px; font-weight: 700;
+      padding: 10px 22px; font-size: 14px; font-weight: 700;
       font-family: 'Rubik', sans-serif; cursor: pointer;
       text-decoration: none; white-space: nowrap;
       box-shadow: 0 3px 12px rgba(34,197,94,0.35);
       transition: background 0.18s, transform 0.15s;
     }
     .sticky-btn:hover { background: #16A34A; transform: scale(1.04); }
-    @media (max-width: 480px) {
-      .sticky-left span:first-child { display: none; }
-      .sticky-btn { padding: 9px 16px; font-size: 13px; }
+    @media (max-width: 767px) {
+      #sticky-bar { display: flex; }
     }
-
-    /* ── LANG TOGGLE ── */
-    #lang-toggle {
-      position: fixed; top: 14px; left: 16px; z-index: 999;
-      background: rgba(255,255,255,0.92); color: var(--brown);
-      border: 1.5px solid var(--cream-3); border-radius: 20px;
-      padding: 5px 14px; font-size: 12px; font-weight: 700;
-      font-family: 'Rubik', sans-serif; cursor: pointer;
-      box-shadow: var(--sh-sm);
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
-      letter-spacing: 0.5px; backdrop-filter: blur(8px);
-    }
-    #lang-toggle:hover { background: var(--brown); color: #fff; border-color: var(--brown); }
-    html[lang="en"] #lang-toggle { left: auto; right: 16px; }
 
     /* ── NAV ── */
     nav {
       background: rgba(92,61,46,0.97);
       backdrop-filter: blur(12px);
-      padding: 0 24px; height: 60px;
-      display: flex; align-items: center; justify-content: center;
+      padding: 0 20px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
       box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 4px 20px rgba(0,0,0,0.18);
       position: sticky; top: 0; z-index: 100;
     }
@@ -147,6 +133,37 @@
       font-size: 20px; font-weight: 800; color: #fff;
       letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;
     }
+    .nav-actions {
+      display: flex; align-items: center; gap: 8px; direction: ltr;
+    }
+    #lang-toggle {
+      background: rgba(255,255,255,0.15); color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.28); border-radius: 20px;
+      padding: 5px 13px; font-size: 12px; font-weight: 700;
+      font-family: 'Rubik', sans-serif; cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    #lang-toggle:hover { background: rgba(255,255,255,0.28); border-color: rgba(255,255,255,0.5); }
+    .nav-cart {
+      position: relative;
+      background: rgba(255,255,255,0.15); color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.28); border-radius: 20px;
+      padding: 6px 10px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .nav-cart:hover { background: rgba(255,255,255,0.28); border-color: rgba(255,255,255,0.5); }
+    .nav-cart svg { width: 18px; height: 18px; display: block; }
+    .nav-cart-badge {
+      position: absolute; top: -5px; right: -5px;
+      background: #22C55E; color: #fff;
+      border-radius: 50%; min-width: 17px; height: 17px;
+      font-size: 10px; font-weight: 800; font-family: 'Rubik', sans-serif;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 3px; line-height: 1; border: 1.5px solid rgba(92,61,46,0.97);
+    }
+    .nav-cart-badge[data-count="0"] { display: none; }
 
     /* ── HERO ── */
     #hero {
@@ -1000,21 +1017,17 @@
 </head>
 <body>
 
-<!-- Sticky bar -->
+<!-- Sticky buy bar (bottom, mobile only) -->
 <div id="sticky-bar">
   <div class="sticky-left">
-    <span><img src="capy-logo.png" alt="" class="capy-nav-icon" /> Capy &amp; Co</span>
+    <span class="sticky-brand">Capy &amp; Co</span>
     <div class="sticky-price-wrap">
       <span class="sticky-price">₪49.90</span>
       <span class="sticky-old">₪100</span>
     </div>
   </div>
-  <a class="sticky-btn" href="https://wa.me/972XXXXXXXXX" target="_blank" id="sticky-btn-text">הזמינו עכשיו 🛍️</a>
+  <button class="sticky-btn" data-product="bag" id="sticky-btn-text">הזמינו עכשיו 🛍️</button>
 </div>
-
-<!-- Lang Toggle -->
-<button id="lang-toggle" onclick="toggleLang()">EN</button>
-
 
 <!-- Floating WhatsApp (right) -->
 <a class="float-whatsapp" href="https://wa.me/972XXXXXXXXX" target="_blank" rel="noopener noreferrer">
@@ -1030,6 +1043,17 @@
 <nav>
   <div class="nav-logo">
     <img src="capy-logo.png" alt="" class="capy-nav-icon" /> Capy &amp; Co
+  </div>
+  <div class="nav-actions">
+    <button id="lang-toggle" onclick="toggleLang()">EN</button>
+    <button class="nav-cart" id="nav-cart-btn" data-product="bag" aria-label="עגלת קניות">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 01-8 0"/>
+      </svg>
+      <span class="nav-cart-badge" id="cart-badge" data-count="0">0</span>
+    </button>
   </div>
 </nav>
 
@@ -2060,6 +2084,15 @@
       if (priceEl) priceEl.textContent = '₪' + total.toFixed(2);
     }
 
+    function updateCartBadge(bagChecked, socksChecked) {
+      var count = (bagChecked ? qtys.bag : 0) + (socksChecked ? qtys.socks : 0);
+      var badge = document.getElementById('cart-badge');
+      if (badge) {
+        badge.textContent = count;
+        badge.setAttribute('data-count', count);
+      }
+    }
+
     window.updateOrderTotal = function() {
       var chkBag   = document.getElementById('chk-bag');
       var chkSocks = document.getElementById('chk-socks');
@@ -2081,6 +2114,7 @@
       var totalEl = document.getElementById('modal-total');
       if (totalEl) totalEl.textContent = total > 0 ? '₪' + total.toFixed(2) : '₪0.00';
       updateStep2Summary(bagChecked, socksChecked, total);
+      updateCartBadge(bagChecked, socksChecked);
     };
 
     backdrop.addEventListener('click', closeModal);
@@ -2409,8 +2443,8 @@
       this.value = v;
     });
 
-    /* intercept all buy buttons */
-    document.querySelectorAll('.btn-green, .sticky-btn').forEach(function(btn) {
+    /* intercept all buy buttons + cart + sticky */
+    document.querySelectorAll('.btn-green, .sticky-btn, .nav-cart').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.preventDefault();
         openModal(btn.dataset.product);
