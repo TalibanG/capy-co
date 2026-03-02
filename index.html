@@ -693,6 +693,36 @@
       100% { transform: translate(var(--tx,0px), var(--ty,-90px)) scale(0.1) rotate(var(--r,360deg)); opacity: 0; }
     }
 
+    /* ── MOBILE ENHANCEMENTS (768px) ── */
+    @media (max-width: 768px) {
+      /* Nav: ensure touch targets ≥ 44px */
+      #lang-toggle { min-height: 44px; padding: 8px 14px; }
+      .nav-cart    { min-height: 44px; padding: 10px 12px; }
+
+      /* Hero: stack CTA buttons vertically */
+      .hero-btns { flex-direction: column; align-items: stretch; }
+
+      /* Donation badge: wrap gracefully on narrow screens */
+      .donation-badge { display: flex; flex-wrap: wrap; justify-content: center; text-align: center; gap: 8px; }
+
+      /* Popup: ensure close button & dismiss are 44px touch targets */
+      .exit-popup-close {
+        min-width: 44px; min-height: 44px;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .exit-popup-dismiss {
+        min-height: 44px; display: flex;
+        align-items: center; justify-content: center; width: 100%;
+      }
+      /* Popup card: scrollable if content overflows small screens */
+      .exit-popup-card { overflow-y: auto; max-height: 88vh; }
+
+      /* Modal: full-width inputs easy to tap */
+      .modal-box input, .modal-box select, .modal-box textarea {
+        font-size: 16px; /* prevents iOS auto-zoom */
+      }
+    }
+
     /* ── MOBILE ENHANCEMENTS ── */
     @media (max-width: 480px) {
       section { padding: 64px 18px; }
@@ -1246,7 +1276,7 @@
     <span class="section-label" id="about-tag">עלינו</span>
     <h2 id="about-h2">מי אנחנו?</h2>
     <div class="section-divider"></div>
-    <p id="about-p">אנחנו צעירים שאוהבים קפיבראות ומאמינים שאפשר להיות אופנתיים ולעשות טוב בעולם בו זמנית. כל תיק שנמכר הוא צעד קטן למען בעלי החיים החמודים האלה</p>
+    <p id="about-p">אנחנו צעירים שאוהבים קפיברות ומאמינים שאפשר להיות אופנתיים ולעשות טוב בעולם בו זמנית. כל תיק שנמכר הוא צעד קטן למען בעלי החיים החמודים האלה</p>
   </div>
 </section>
 
@@ -1986,7 +2016,7 @@
       causeBadge:    'מכל מכירה תרומה לחוות קפיברות',
       aboutTag:      'עלינו',
       aboutH2:       'מי אנחנו?',
-      aboutP:        'אנחנו צעירים שאוהבים קפיבראות ומאמינים שאפשר להיות אופנתיים ולעשות טוב בעולם בו זמנית. כל תיק שנמכר הוא צעד קטן למען בעלי החיים החמודים האלה',
+      aboutP:        'אנחנו צעירים שאוהבים קפיברות ומאמינים שאפשר להיות אופנתיים ולעשות טוב בעולם בו זמנית. כל תיק שנמכר הוא צעד קטן למען בעלי החיים החמודים האלה',
       productsLabel: 'המוצרים שלנו',
       productsH2:    'המוצרים שלנו 🛍️',
       bagTag:        'התיק',
