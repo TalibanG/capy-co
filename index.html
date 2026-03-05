@@ -189,6 +189,31 @@
     }
     .capybox-banner:hover { opacity: .9; }
 
+    /* ── CAPYBOX SECTION ── */
+    #capybox-section { background: var(--cream); }
+    .capybox-wrap {
+      text-align: center; padding: 20px 0 10px;
+    }
+    .capybox-mystery {
+      width: 140px; height: 140px; margin: 0 auto 24px;
+      background: linear-gradient(135deg, #c5943a 0%, #d4a94e 50%, #c5943a 100%);
+      border-radius: var(--r-lg); display: flex; align-items: center; justify-content: center;
+      font-size: 64px; box-shadow: var(--sh-md);
+      animation: capybox-pulse 2.5s ease-in-out infinite;
+    }
+    .capybox-wrap p {
+      font-size: 17px; color: var(--text-mid); line-height: 1.7; max-width: 420px; margin: 0 auto 28px;
+    }
+    .btn-capybox {
+      display: inline-block; padding: 16px 36px;
+      background: linear-gradient(135deg, #c5943a 0%, #d4a94e 100%);
+      color: #fff; font-size: 1.1rem; font-weight: 700;
+      border: none; border-radius: var(--r-md); cursor: pointer;
+      text-decoration: none; box-shadow: var(--sh-md);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .btn-capybox:hover { transform: translateY(-2px); box-shadow: var(--sh-lg); }
+
     /* ── HERO ── */
     #hero {
       background:
@@ -1502,6 +1527,20 @@
   </div>
 </section>
 
+<!-- CAPYBOX SECTION -->
+<section id="capybox-section">
+  <div class="section-inner" style="max-width:640px;">
+    <span class="section-label" id="capybox-label">חדש!</span>
+    <h2 id="capybox-h2">CapyBox 🎁 קופסת המסתורין שלנו</h2>
+    <div class="section-divider"></div>
+    <div class="capybox-wrap">
+      <div class="capybox-mystery">🦫❓</div>
+      <p id="capybox-desc">בובת קפיברה פרוותית מסתורית — איזו דמות תקבל?</p>
+      <a href="https://capybox.shop" target="_blank" rel="noopener" class="btn-capybox" id="capybox-cta">גלו את CapyBox</a>
+    </div>
+  </div>
+</section>
+
 <!-- 5b. BUNDLE -->
 <section id="bundle">
   <div class="section-inner" style="max-width:640px;">
@@ -2096,6 +2135,10 @@
       shirtIncludedItem2: 'אימוץ קפיברה אישית עם שם ייחודי',
       mprShirtName:     'חולצת קפיברה 👕',
       capyboxBannerText: '🎁 הכירו את CapyBox — קופסת המסתורין שלנו! לחצו לגילוי',
+      capyboxLabel:      'חדש!',
+      capyboxH2:         'CapyBox 🎁 קופסת המסתורין שלנו',
+      capyboxDesc:       'בובת קפיברה פרוותית מסתורית — איזו דמות תקבל?',
+      capyboxCta:        'גלו את CapyBox',
       bundleFireBadge:  '🔥 הצעה מיוחדת חיסכון של ₪50!',
       bundleTitle:      'חבילת הקפיברה המלאה 🦫',
       bundleItem1:      '✅ תיק בד',
@@ -2240,6 +2283,10 @@
       shirtIncludedItem2: 'Personal capybara adoption with a unique name',
       mprShirtName:     'Capybara T-Shirt 👕',
       capyboxBannerText: '🎁 Meet CapyBox — our mystery box! Click to discover',
+      capyboxLabel:      'New!',
+      capyboxH2:         'CapyBox 🎁 Our Mystery Box',
+      capyboxDesc:       'A mysterious furry capybara plush — which character will you get?',
+      capyboxCta:        'Discover CapyBox',
       bundleFireBadge:  '🔥 Special Deal Save ₪50!',
       bundleTitle:      'The Full Capybara Bundle 🦫',
       bundleItem1:      '✅ Tote Bag',
@@ -2390,6 +2437,10 @@
     document.getElementById('shirt-included-item2').textContent = t.shirtIncludedItem2;
     document.getElementById('mpr-shirt-name').textContent     = t.mprShirtName;
     document.getElementById('capybox-banner-text').textContent = t.capyboxBannerText;
+    document.getElementById('capybox-label').textContent       = t.capyboxLabel;
+    document.getElementById('capybox-h2').textContent          = t.capyboxH2;
+    document.getElementById('capybox-desc').textContent        = t.capyboxDesc;
+    document.getElementById('capybox-cta').textContent         = t.capyboxCta;
     document.getElementById('bundle-fire-badge').textContent  = t.bundleFireBadge;
     document.getElementById('bundle-title').textContent       = t.bundleTitle;
     document.getElementById('bundle-item1').textContent       = t.bundleItem1;
