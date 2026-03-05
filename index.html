@@ -167,45 +167,81 @@
     .nav-cart-badge[data-count="0"] { display: none; }
 
     /* ── CAPYBOX BANNER ── */
-    @keyframes capybox-pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: .82; }
+    @keyframes capybox-shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
     }
     .capybox-banner {
       display: block;
       width: 100%;
       text-align: center;
-      padding: 12px 16px;
-      background: linear-gradient(135deg, #c5943a 0%, #d4a94e 50%, #c5943a 100%);
+      padding: 13px 16px;
+      background: linear-gradient(90deg, #b8852f 0%, #d4a94e 25%, #f0d48a 50%, #d4a94e 75%, #b8852f 100%);
+      background-size: 200% 100%;
+      animation: capybox-shimmer 3s linear infinite;
       color: #fff;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 1.05rem;
       text-decoration: none;
       letter-spacing: .02em;
-      animation: capybox-pulse 2.5s ease-in-out infinite;
       cursor: pointer;
       position: relative;
       z-index: 99;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.2);
     }
-    .capybox-banner:hover { opacity: .9; }
+    .capybox-banner:hover { filter: brightness(1.1); }
 
     /* ── CAPYBOX SECTION ── */
-    #capybox-section { background: var(--cream); }
-    .capybox-wrap {
-      text-align: center; padding: 20px 0 10px;
+    @keyframes capybox-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(196,148,58,0.15), var(--sh-md); }
+      50% { box-shadow: 0 0 35px rgba(196,148,58,0.3), var(--sh-lg); }
     }
-    .capybox-wrap p {
-      font-size: 17px; color: var(--text-mid); line-height: 1.7; max-width: 420px; margin: 0 auto 28px;
+    #capybox-section {
+      background: linear-gradient(170deg, #fffdf7 0%, #fff8ed 50%, #f8f0e0 100%);
+      border-top: 3px solid #d4a94e;
+      border-bottom: 3px solid #d4a94e;
+      position: relative;
+    }
+    .capybox-card {
+      background: #fff;
+      border: 2px solid #e8d5a8;
+      border-radius: var(--r-lg);
+      padding: 36px 28px;
+      text-align: center;
+      animation: capybox-glow 3s ease-in-out infinite;
+      position: relative;
+      overflow: hidden;
+    }
+    .capybox-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #c5943a, #f0d48a, #c5943a);
+    }
+    .capybox-card h2 {
+      font-size: clamp(22px, 5vw, 34px);
+      color: #8b6914;
+      margin-bottom: 12px;
+    }
+    .capybox-card p {
+      font-size: 17px; color: var(--text-mid); line-height: 1.7;
+      max-width: 420px; margin: 0 auto 24px;
     }
     .btn-capybox {
-      display: inline-block; padding: 16px 36px;
-      background: linear-gradient(135deg, #c5943a 0%, #d4a94e 100%);
-      color: #fff; font-size: 1.1rem; font-weight: 700;
-      border: none; border-radius: var(--r-md); cursor: pointer;
-      text-decoration: none; box-shadow: var(--sh-md);
-      transition: transform .15s, box-shadow .15s;
+      display: inline-block; padding: 16px 44px;
+      background: linear-gradient(135deg, #c5943a 0%, #d4a94e 50%, #e8c05a 100%);
+      color: #fff; font-size: 1.15rem; font-weight: 800;
+      border: none; border-radius: 50px; cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(196,148,58,0.35);
+      transition: transform .2s, box-shadow .2s;
+      letter-spacing: .3px;
     }
-    .btn-capybox:hover { transform: translateY(-2px); box-shadow: var(--sh-lg); }
+    .btn-capybox:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 8px 30px rgba(196,148,58,0.45);
+    }
 
     /* ── HERO ── */
     #hero {
@@ -1332,10 +1368,9 @@
 
 <!-- CAPYBOX SECTION -->
 <section id="capybox-section">
-  <div class="section-inner" style="max-width:640px;">
-    <h2 id="capybox-h2">CapyBox 🎁 קופסת המסתורין שלנו</h2>
-    <div class="section-divider"></div>
-    <div class="capybox-wrap">
+  <div class="section-inner" style="max-width:600px;">
+    <div class="capybox-card">
+      <h2 id="capybox-h2">CapyBox 🎁 קופסת המסתורין שלנו</h2>
       <p id="capybox-desc">בובת קפיברה פרוותית מסתורית — איזו דמות תקבל?</p>
       <a href="https://capybox.shop" target="_blank" rel="noopener" class="btn-capybox" id="capybox-cta">גלו את CapyBox</a>
     </div>
