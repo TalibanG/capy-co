@@ -2666,8 +2666,8 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     window.openModal  = openModal;
     window.closeModal = closeModal;
 
-    var PRICES = { bag: 49.90, socks: 39.90, shirt: 49.90, bundle: 99.90 };
-    var qtys   = { bag: 1, socks: 1, shirt: 1, bundle: 1 };
+    var PRICES = window.PRICES = { bag: 49.90, socks: 39.90, shirt: 49.90, bundle: 99.90 };
+    var qtys   = window.qtys   = { bag: 1, socks: 1, shirt: 1, bundle: 1 };
 
     window.changeQty = function(product, delta) {
       qtys[product] = Math.max(1, Math.min(10, (qtys[product] || 1) + delta));
@@ -3086,15 +3086,16 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
 </script>
 <script>
   function getCartTotal() {
+    var P = window.PRICES, Q = window.qtys;
     var bagChecked    = !!(document.getElementById('chk-bag')    && document.getElementById('chk-bag').checked);
     var socksChecked  = !!(document.getElementById('chk-socks')  && document.getElementById('chk-socks').checked);
     var shirtChecked  = !!(document.getElementById('chk-shirt')  && document.getElementById('chk-shirt').checked);
     var bundleChecked = !!(document.getElementById('chk-bundle') && document.getElementById('chk-bundle').checked);
     var total = 0;
-    if (bagChecked)    total += PRICES.bag    * (qtys.bag    || 1);
-    if (socksChecked)  total += PRICES.socks  * (qtys.socks  || 1);
-    if (shirtChecked)  total += PRICES.shirt  * (qtys.shirt  || 1);
-    if (bundleChecked) total += PRICES.bundle * (qtys.bundle || 1);
+    if (bagChecked)    total += P.bag    * (Q.bag    || 1);
+    if (socksChecked)  total += P.socks  * (Q.socks  || 1);
+    if (shirtChecked)  total += P.shirt  * (Q.shirt  || 1);
+    if (bundleChecked) total += P.bundle * (Q.bundle || 1);
     return total;
   }
 
