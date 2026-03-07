@@ -1296,6 +1296,8 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
+<script src="https://www.paypal.com/sdk/js?client-id=AQTFD2C4a1IYyqfMGs_C4liyon6__oc5P2OVTy0lex-H3UvvmWhu9qgy0ANV5kJMsZldG-3DPYalzTqX&currency=ILS"></script>
+
 </head>
 <body>
 
@@ -2008,7 +2010,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
           </div>
         </div>
 
-        <button type="submit" class="modal-btn" id="submit-btn">המשך לתשלום ←</button>
+        <div id="paypal-button-container"></div>
       </form>
     </div>
 
@@ -3081,6 +3083,25 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       if (window.openModal) openModal('bundle');
     });
   })();
+</script>
+<script>
+  paypal.Buttons({
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: '0.00',
+            currency_code: 'ILS'
+          }
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        alert('התשלום בוצע בהצלחה! תודה ' + details.payer.name.given_name);
+      });
+    }
+  }).render('#paypal-button-container');
 </script>
 </body>
 </html>
