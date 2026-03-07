@@ -2803,6 +2803,11 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       }
       return show;
     }
+    window.isValidEmail = isValidEmail;
+    window.isValidFullName = isValidFullName;
+    window.isValidIsraeliPhone = isValidIsraeliPhone;
+    window.isValidZip = isValidZip;
+    window.fieldError = fieldError;
     // Clear error on user input
     ['name-input','phone-input','email-input','street-input','city-input','zip-input'].forEach(function(id) {
       var el = document.getElementById(id);
@@ -3099,13 +3104,39 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     return total;
   }
 
+  function validateFormFields() {
+    var nameVal   = (document.getElementById('name-input')   || {}).value || '';
+    var phoneVal  = (document.getElementById('phone-input')  || {}).value || '';
+    var emailVal  = (document.getElementById('email-input')  || {}).value || '';
+    var streetVal = (document.getElementById('street-input') || {}).value || '';
+    var cityVal   = (document.getElementById('city-input')   || {}).value || '';
+    var zipVal    = (document.getElementById('zip-input')    || {}).value || '';
+    var hasError = false;
+    hasError = window.fieldError('name-input',   'name-error',   !window.isValidFullName(nameVal))       || hasError;
+    hasError = window.fieldError('phone-input',  'phone-error',  !window.isValidIsraeliPhone(phoneVal))  || hasError;
+    hasError = window.fieldError('email-input',  'email-error',  !window.isValidEmail(emailVal))         || hasError;
+    hasError = window.fieldError('street-input', 'street-error', streetVal.trim().length < 2)            || hasError;
+    hasError = window.fieldError('city-input',   'city-error',   cityVal.trim().length < 2)              || hasError;
+    hasError = window.fieldError('zip-input',    'zip-error',    !window.isValidZip(zipVal))             || hasError;
+    if (hasError) {
+      var firstInvalid = document.querySelector('.field-invalid');
+      if (firstInvalid) { firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' }); firstInvalid.focus(); }
+    }
+    return !hasError;
+  }
+
   paypal.Buttons({
-    createOrder: function(data, actions) {
+    onClick: function(data, actions) {
+      if (!validateFormFields()) return actions.reject();
       var total = getCartTotal();
       if (total <= 0) {
-        alert('אנא בחרו לפחות מוצר אחד');
-        return;
+        alert('יש להוסיף מוצרים לסל לפני התשלום');
+        return actions.reject();
       }
+      return actions.resolve();
+    },
+    createOrder: function(data, actions) {
+      var total = getCartTotal();
       var nameVal   = (document.getElementById('name-input')   || {}).value || '';
       var phoneVal  = (document.getElementById('phone-input')  || {}).value || '';
       var emailVal  = (document.getElementById('email-input')  || {}).value || '';
