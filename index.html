@@ -3085,15 +3085,54 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
   })();
 </script>
 <script>
+  function getCartTotal() {
+    var bagChecked    = !!(document.getElementById('chk-bag')    && document.getElementById('chk-bag').checked);
+    var socksChecked  = !!(document.getElementById('chk-socks')  && document.getElementById('chk-socks').checked);
+    var shirtChecked  = !!(document.getElementById('chk-shirt')  && document.getElementById('chk-shirt').checked);
+    var bundleChecked = !!(document.getElementById('chk-bundle') && document.getElementById('chk-bundle').checked);
+    var total = 0;
+    if (bagChecked)    total += PRICES.bag    * (qtys.bag    || 1);
+    if (socksChecked)  total += PRICES.socks  * (qtys.socks  || 1);
+    if (shirtChecked)  total += PRICES.shirt  * (qtys.shirt  || 1);
+    if (bundleChecked) total += PRICES.bundle * (qtys.bundle || 1);
+    return total;
+  }
+
   paypal.Buttons({
     createOrder: function(data, actions) {
+      var total = getCartTotal();
+      if (total <= 0) {
+        alert('אנא בחרו לפחות מוצר אחד');
+        return;
+      }
+      var nameVal   = (document.getElementById('name-input')   || {}).value || '';
+      var phoneVal  = (document.getElementById('phone-input')  || {}).value || '';
+      var emailVal  = (document.getElementById('email-input')  || {}).value || '';
+      var streetVal = (document.getElementById('street-input') || {}).value || '';
+      var cityVal   = (document.getElementById('city-input')   || {}).value || '';
+      var zipVal    = (document.getElementById('zip-input')    || {}).value || '';
       return actions.order.create({
         purchase_units: [{
           amount: {
-            value: '0.00',
+            value: total.toFixed(2),
             currency_code: 'ILS'
+          },
+          description: 'Capy & Co Order',
+          shipping: {
+            name: { full_name: nameVal },
+            address: {
+              address_line_1: streetVal,
+              admin_area_2: cityVal,
+              postal_code: zipVal,
+              country_code: 'IL'
+            }
           }
-        }]
+        }],
+        payer: {
+          name: { given_name: nameVal },
+          email_address: emailVal,
+          phone: { phone_number: { national_number: phoneVal } }
+        }
       });
     },
     onApprove: function(data, actions) {
