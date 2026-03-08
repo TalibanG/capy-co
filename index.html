@@ -3243,5 +3243,35 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     }
   }).render('#paypal-button-container');
 </script>
+<button id="test-email-btn" onclick="testConfirmationEmail()" style="display:none">Test Email</button>
+<script>
+  function testConfirmationEmail() {
+    var orderNum = 'CAPY-TEST01';
+    fetch('https://formspree.io/f/xnjbyadk', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'אישור הזמנה מ-Capy & Co 🐾 - ' + orderNum,
+        order_number: orderNum,
+        name: 'לקוח בדיקה',
+        product: 'CapyBox מיסטרי בוקס',
+        total: '₪59.90',
+        address: 'רחוב בדיקה 1, תל אביב',
+        message: 'שלום לקוח בדיקה! 🐾\n\n' +
+          'תודה שהזמנת מ-Capy & Co!\n\n' +
+          'מספר הזמנה: ' + orderNum + '\n' +
+          'מוצר: CapyBox מיסטרי בוקס\n' +
+          'סה"כ: ₪59.90\n' +
+          'כתובת למשלוח: רחוב בדיקה 1, תל אביב\n\n' +
+          'ההזמנה שלך בדרך אליך! משלוח תוך 5-7 ימי עסקים.\n' +
+          'לכל שאלה: support@capyco.shop\n\n' +
+          'תודה רבה! 💚\nצוות Capy & Co'
+      })
+    }).then(function(res) {
+      if (res.ok) alert('מייל נשלח בהצלחה!');
+      else alert('שגיאה בשליחת מייל');
+    });
+  }
+</script>
 </body>
 </html>
