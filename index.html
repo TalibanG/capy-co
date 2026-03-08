@@ -3169,7 +3169,76 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     },
     onApprove: function(data, actions) {
       return actions.order.capture().then(function(details) {
-        alert('התשלום בוצע בהצלחה! תודה ' + details.payer.name.given_name);
+        var orderNum = 'CAPY-' + String(Math.floor(100000 + Math.random() * 900000));
+        var nameVal   = (document.getElementById('name-input')   || {}).value || '';
+        var phoneVal  = (document.getElementById('phone-input')  || {}).value || '';
+        var emailVal  = (document.getElementById('email-input')  || {}).value || '';
+        var streetVal = (document.getElementById('street-input') || {}).value || '';
+        var cityVal   = (document.getElementById('city-input')   || {}).value || '';
+        var zipVal    = (document.getElementById('zip-input')    || {}).value || '';
+        var total     = getCartTotal();
+        var endpoint  = 'https://formspree.io/f/xnjbyadk';
+
+        var P = window.PRICES, Q = window.qtys;
+        var items = [];
+        var bagChecked    = !!(document.getElementById('chk-bag')    && document.getElementById('chk-bag').checked);
+        var socksChecked  = !!(document.getElementById('chk-socks')  && document.getElementById('chk-socks').checked);
+        var shirtChecked  = !!(document.getElementById('chk-shirt')  && document.getElementById('chk-shirt').checked);
+        var bundleChecked = !!(document.getElementById('chk-bundle') && document.getElementById('chk-bundle').checked);
+        if (bundleChecked) items.push('חבילת הקפיברה המלאה × ' + Q.bundle + ' = ₪' + (P.bundle * Q.bundle).toFixed(2));
+        if (bagChecked)    items.push('תיק בד × ' + Q.bag + ' = ₪' + (P.bag * Q.bag).toFixed(2));
+        if (socksChecked)  items.push('גרביים קפיברה × ' + Q.socks + ' = ₪' + (P.socks * Q.socks).toFixed(2));
+        if (shirtChecked)  items.push('חולצת קפיברה × ' + Q.shirt + ' = ₪' + (P.shirt * Q.shirt).toFixed(2));
+        var productList = items.join(' | ');
+        var address = streetVal + ', ' + cityVal + ' ' + zipVal;
+
+        // Email 1: Customer confirmation
+        fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            _replyto: emailVal,
+            _subject: 'אישור הזמנה מ-Capy & Co 🐾 - ' + orderNum,
+            email: emailVal,
+            message: 'שלום ' + nameVal + '! 🐾\n\n' +
+              'תודה שהזמנת מ-Capy & Co!\n\n' +
+              'מספר הזמנה: ' + orderNum + '\n' +
+              'מוצרים: ' + productList + '\n' +
+              'סה"כ: ₪' + total.toFixed(2) + '\n' +
+              'כתובת למשלוח: ' + address + '\n\n' +
+              'ההזמנה שלך בדרך אליך! משלוח תוך 5-7 ימי עסקים.\n' +
+              'לכל שאלה: support@capyco.shop\n\n' +
+              'תודה רבה! 💚\nצוות Capy & Co'
+          })
+        });
+
+        // Email 2: Order notification to store owner
+        fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            _subject: 'הזמנה חדשה! ' + orderNum,
+            order_number: orderNum,
+            name: nameVal,
+            phone: phoneVal,
+            email: emailVal,
+            address: address,
+            products: productList,
+            total: '₪' + total.toFixed(2),
+            payment_id: data.orderID,
+            message: 'הזמנה חדשה התקבלה!\n\n' +
+              'מספר הזמנה: ' + orderNum + '\n' +
+              'שם: ' + nameVal + '\n' +
+              'טלפון: ' + phoneVal + '\n' +
+              'אימייל: ' + emailVal + '\n' +
+              'כתובת: ' + address + '\n' +
+              'מוצרים: ' + productList + '\n' +
+              'סה"כ: ₪' + total.toFixed(2) + '\n' +
+              'PayPal Order ID: ' + data.orderID
+          })
+        });
+
+        alert('התשלום בוצע בהצלחה! תודה ' + (details.payer.name.given_name || nameVal) + '\nמספר הזמנה: ' + orderNum);
       });
     }
   }).render('#paypal-button-container');
