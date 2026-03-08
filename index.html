@@ -1898,7 +1898,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
           </div>
         </div>
 
-        <div id="paypal-button-container"></div>
+        <button type="submit" class="modal-btn" id="continue-to-payment-btn">המשך לתשלום ←</button>
       </form>
     </div>
 
@@ -1938,7 +1938,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
         <span>סה״כ לתשלום</span>
         <span class="modal-order-price" id="modal-summary-price">₪0.00</span>
       </div>
-      <button class="modal-btn" id="place-order-btn">בצע הזמנה</button>
+      <div id="paypal-button-container"></div>
     </div>
 
     <!-- Success -->
@@ -2412,7 +2412,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     document.getElementById('label-apt').innerHTML           = t.labelApt;
     document.getElementById('label-city').textContent        = t.labelCity;
     document.getElementById('label-zip').textContent         = t.labelZip;
-    var submitBtn = document.getElementById('submit-btn');
+    var submitBtn = document.getElementById('continue-to-payment-btn');
     if (submitBtn) submitBtn.textContent = t.submitBtn;
     document.getElementById('name-input').placeholder        = t.phName;
     document.getElementById('street-input').placeholder      = t.phStreet;
@@ -2720,7 +2720,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
-      var btn = form.querySelector('button[type="submit"]');
+      var btn = document.getElementById('continue-to-payment-btn');
 
       /* 1. Honeypot */
       if (document.getElementById('honeypot').value !== '') return;
@@ -2801,11 +2801,11 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       });
     });
 
-    document.getElementById('place-order-btn').addEventListener('click', function() {
+    window.showOrderSuccess = function() {
       s2.style.display = 'none'; s3.style.display = '';
       dot2.className = 'ms-dot done';
       modal.querySelector('.modal-box').scrollTop = 0;
-    });
+    };
 
     /* card number auto-spacing */
     cardNum.addEventListener('input', function() {
@@ -3011,7 +3011,6 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
 
   paypal.Buttons({
     onClick: function(data, actions) {
-      if (!validateFormFields()) return actions.reject();
       var total = getCartTotal();
       if (total <= 0) {
         alert('יש להוסיף מוצרים לסל לפני התשלום');
@@ -3021,6 +3020,11 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     },
     createOrder: function(data, actions) {
       var total = getCartTotal();
+      console.log('PayPal createOrder amount:', total.toFixed(2), 'ILS');
+      if (!total || total <= 0) {
+        alert('שגיאה: סכום ההזמנה לא תקין');
+        return;
+      }
       var nameVal   = (document.getElementById('name-input')   || {}).value || '';
       var phoneVal  = (document.getElementById('phone-input')  || {}).value || '';
       var emailVal  = (document.getElementById('email-input')  || {}).value || '';
@@ -3133,7 +3137,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
           address: address
         }, "7OVQ6e_RpoaPjIGmX");
 
-        alert('התשלום בוצע בהצלחה! תודה ' + (details.payer.name.given_name || nameVal) + '\nמספר הזמנה: ' + orderNum);
+        if (window.showOrderSuccess) window.showOrderSuccess();
       });
     }
   }).render('#paypal-button-container');
