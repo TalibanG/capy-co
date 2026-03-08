@@ -843,7 +843,7 @@
       display: none; position: fixed; inset: 0; z-index: 500;
       align-items: center; justify-content: center; padding: 16px;
     }
-    #checkout-modal.open { display: flex; }
+    #checkout-modal.open { display: flex; overflow-y: auto; -webkit-overflow-scrolling: touch; }
     .modal-backdrop {
       position: absolute; inset: 0;
       background: rgba(44, 31, 22, 0.62);
@@ -918,7 +918,7 @@
     .modal-success-capy { font-size: 72px; display: block; margin-bottom: 18px; animation: capy-bob 2s ease-in-out infinite; }
     .modal-success-msg { font-size: 17px; font-weight: 700; color: var(--brown); line-height: 1.65; margin-bottom: 24px; }
     @media (max-width: 480px) {
-      .modal-box { padding: 28px 18px 22px; border-radius: var(--r-md); max-height: 95vh; }
+      .modal-box { padding: 36px 18px 22px; border-radius: var(--r-md); max-height: 95vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
       .modal-box h2 { font-size: 18px; }
       .modal-btn { font-size: 15px; padding: 13px 20px; }
     }
