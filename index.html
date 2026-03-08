@@ -2670,10 +2670,10 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     }
     function isValidIsraeliPhone(phone) {
       var digits = phone.replace(/\D/g, '');
-      return digits.length === 10 && /^05/.test(digits);
+      return /^05\d{8}$/.test(digits);
     }
     function isValidZip(zip) {
-      return /^\d{7}$/.test(zip.trim());
+      return /^\d{5,7}$/.test(zip.trim());
     }
     function fieldError(inputId, errorId, show) {
       var inp = document.getElementById(inputId);
@@ -2745,7 +2745,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       hasError = fieldError('phone-input',  'phone-error',  !isValidIsraeliPhone(phoneVal)) || hasError;
       hasError = fieldError('email-input',  'email-error',  !isValidEmail(emailVal))     || hasError;
       hasError = fieldError('street-input', 'street-error', streetVal.length < 2)        || hasError;
-      hasError = fieldError('city-input',   'city-error',   cityVal.length < 2)          || hasError;
+      hasError = fieldError('city-input',   'city-error',   !cityVal.trim())          || hasError;
       hasError = fieldError('zip-input',    'zip-error',    !isValidZip(zipVal))         || hasError;
 
       if (hasError) {
@@ -3000,7 +3000,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     hasError = window.fieldError('phone-input',  'phone-error',  !window.isValidIsraeliPhone(phoneVal))  || hasError;
     hasError = window.fieldError('email-input',  'email-error',  !window.isValidEmail(emailVal))         || hasError;
     hasError = window.fieldError('street-input', 'street-error', streetVal.trim().length < 2)            || hasError;
-    hasError = window.fieldError('city-input',   'city-error',   cityVal.trim().length < 2)              || hasError;
+    hasError = window.fieldError('city-input',   'city-error',   !cityVal.trim())              || hasError;
     hasError = window.fieldError('zip-input',    'zip-error',    !window.isValidZip(zipVal))             || hasError;
     if (hasError) {
       var firstInvalid = document.querySelector('.field-invalid');
