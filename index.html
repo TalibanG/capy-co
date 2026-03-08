@@ -1297,6 +1297,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
 <!-- End Meta Pixel Code -->
 
 <script src="https://www.paypal.com/sdk/js?client-id=AXlngCiK3uhpf3KCUN64hpVB55sQwXm31496llOfjAlItAsqFKT68kD___pULpak09QBfE5R7qUePref&currency=ILS"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 </head>
 <body>
@@ -3238,6 +3239,16 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
               'PayPal Order ID: ' + data.orderID
           })
         });
+
+        // Email 3: EmailJS customer confirmation
+        emailjs.send("service_4pcxje5", "template_3nwxfc2", {
+          customer_name: nameVal,
+          customer_email: emailVal,
+          order_number: orderNum,
+          product_name: productList,
+          price: '₪' + total.toFixed(2),
+          address: address
+        }, "7OVQ6e_RpoaPjIGmX");
 
         alert('התשלום בוצע בהצלחה! תודה ' + (details.payer.name.given_name || nameVal) + '\nמספר הזמנה: ' + orderNum);
       });
