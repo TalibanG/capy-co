@@ -500,60 +500,6 @@
     .benefit-card p { font-size: 14px; color: var(--text-mid); line-height: 1.55; }
 
     /* ── REVIEWS ── */
-    #reviews { background: var(--white); }
-    .reviews-header {
-      display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;
-    }
-    .reviews-header h2 { margin-bottom: 0; }
-    .happy-badge {
-      display: inline-flex; align-items: center; gap: 5px;
-      background: #FEF9C3; color: #92400E;
-      border: 1px solid #FDE68A; border-radius: 20px;
-      padding: 4px 12px; font-size: 12px; font-weight: 700; white-space: nowrap;
-    }
-    .rating-summary {
-      display: flex; align-items: center; gap: 14px;
-      padding: 16px 20px; background: var(--cream);
-      border-radius: var(--r-md); border: 1px solid var(--cream-3);
-      margin-bottom: 24px;
-    }
-    .rating-big { font-size: 40px; font-weight: 900; color: var(--brown); line-height: 1; }
-    .rating-details { display: flex; flex-direction: column; gap: 2px; }
-    .rating-stars { font-size: 18px; color: #F59E0B; letter-spacing: 2px; }
-    .rating-count { font-size: 13px; color: var(--text-soft); }
-    .reviews-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-    }
-    .review-card {
-      background: var(--cream); border-radius: var(--r-md);
-      padding: 24px 22px 22px; box-shadow: var(--sh-sm);
-      border: 1px solid var(--cream-3);
-      position: relative;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .review-card:hover { transform: translateY(-4px); box-shadow: var(--sh-md); }
-    .quote-mark {
-      position: absolute; top: 14px; inset-inline-end: 18px;
-      font-size: 52px; color: var(--cream-3); line-height: 1;
-      font-family: Georgia, serif; pointer-events: none; user-select: none;
-    }
-    .stars { color: #F59E0B; font-size: 15px; margin-bottom: 10px; letter-spacing: 2px; }
-    .review-text {
-      font-size: 14px; color: var(--text-mid); line-height: 1.65;
-      margin-bottom: 16px; font-style: italic;
-    }
-    .reviewer { display: flex; align-items: center; gap: 10px; }
-    .reviewer-avatar {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--cream-3), var(--green-pale));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 17px; flex-shrink: 0;
-    }
-    .reviewer-name { font-size: 13px; font-weight: 700; color: var(--brown); }
-    .reviewer-sub  { font-size: 12px; color: var(--text-soft); margin-top: 1px; }
-
     /* ── FAQ ── */
     #faq { background: var(--cream-2); }
     .faq-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
@@ -819,13 +765,11 @@
       .bag-purchase-row { flex-direction: column; align-items: stretch; }
       .bag-purchase-row .btn-green-sm { margin-top: 4px; }
       .benefits-grid  { grid-template-columns: 1fr; }
-      .reviews-grid   { grid-template-columns: 1fr; }
       .bag-price { font-size: 40px; }
       .bag-image-wrap { max-width: 100%; }
       #hero { padding: 60px 20px 72px; }
       .cta-trust { gap: 10px; font-size: 12px; }
       .rating-summary { flex-direction: column; gap: 6px; text-align: center; }
-      .reviews-header { flex-direction: column; align-items: flex-start; gap: 6px; }
       .hero-capybara img { width: 200px; }
       .cta-emoji img { width: 180px; }
     }
@@ -1574,7 +1518,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     </div><!-- /products-grid -->
 
     <!-- Bundle teaser -->
-    <button class="bundle-teaser" onclick="document.getElementById('bundle').scrollIntoView({behavior:'smooth'})">
+    <button class="bundle-teaser" id="bundle-teaser" onclick="document.getElementById('bundle').scrollIntoView({behavior:'smooth'})">
       🔥 קנו את כל 3 המוצרים יחד וחסכו ₪50! לחצו לפרטים ←
     </button>
 
@@ -1677,63 +1621,6 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
 </section>
 
 <!-- 6. REVIEWS -->
-<section id="reviews">
-  <div class="section-inner">
-    <span class="section-label" id="reviews-tag">מה אומרים הלקוחות</span>
-    <div class="reviews-header">
-      <h2 id="reviews-h2">מה אומרים הלקוחות</h2>
-      <span class="happy-badge" id="happy-badge">⭐ לקוחות מרוצים</span>
-    </div>
-    <div class="section-divider"></div>
-    <!-- Rating summary -->
-    <div class="rating-summary">
-      <div class="rating-big">4.9</div>
-      <div class="rating-details">
-        <div class="rating-stars">★★★★★</div>
-        <div class="rating-count" id="rating-count">על בסיס 127 רוכשים מרוצים</div>
-      </div>
-    </div>
-    <div class="reviews-grid">
-      <div class="review-card">
-        <div class="quote-mark">"</div>
-        <div class="stars">★★★★★</div>
-        <p class="review-text" id="r1-text">"התיק הגיע ואני לא מצליח להוריד אותו כולם שואלים מאיפה, ומרגיש טוב לדעת שיש מאחוריו תרומה אמיתית לקפיברות"</p>
-        <div class="reviewer">
-          <div class="reviewer-avatar">🌿</div>
-          <div>
-            <div class="reviewer-name" id="r1-name">דן מ.</div>
-            <div class="reviewer-sub" id="r1-sub">תל אביב</div>
-          </div>
-        </div>
-      </div>
-      <div class="review-card">
-        <div class="quote-mark">"</div>
-        <div class="stars">★★★★★</div>
-        <p class="review-text" id="r2-text">"האיכות מדהימה, הבד עבה ונעים. הזמנתי לעצמי ולחברים מתנה מושלמת שגם עושה טוב לעולם"</p>
-        <div class="reviewer">
-          <div class="reviewer-avatar">🌻</div>
-          <div>
-            <div class="reviewer-name" id="r2-name">נועה ש.</div>
-            <div class="reviewer-sub" id="r2-sub">חיפה</div>
-          </div>
-        </div>
-      </div>
-      <div class="review-card">
-        <div class="quote-mark">"</div>
-        <div class="stars">★★★★★</div>
-        <p class="review-text" id="r3-text">"כל פעם שיוצאים עם התיק לשוק מקבלים מחמאות. הקפיברה על הלוגו פשוט הכי חמודה שראיתי"</p>
-        <div class="reviewer">
-          <div class="reviewer-avatar">🎋</div>
-          <div>
-            <div class="reviewer-name" id="r3-name">רוני א.</div>
-            <div class="reviewer-sub" id="r3-sub">ירושלים</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- 6. FAQ -->
 <section id="faq">
   <div class="section-inner">
@@ -2071,11 +1958,11 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     <button class="exit-popup-close" id="exit-popup-close" aria-label="סגור">✕</button>
     <div class="exit-popup-capy">🦫</div>
     <div class="exit-popup-title" id="exit-popup-heading">🔥 הצעה מיוחדת רק להיום!</div>
-    <div class="exit-popup-sub">חבילת הקפיברה המלאה במחיר מיוחד לזמן מוגבל בלבד!</div>
+    <div class="exit-popup-sub" id="exit-popup-sub">חבילת הקפיברה המלאה במחיר מיוחד לזמן מוגבל בלבד!</div>
     <div class="exit-popup-items">
-      <div class="exit-popup-item">תיק בד קפיברה</div>
-      <div class="exit-popup-item">גרביים קפיברה</div>
-      <div class="exit-popup-item">חולצת קפיברה</div>
+      <div class="exit-popup-item" id="exit-popup-item1">תיק בד קפיברה</div>
+      <div class="exit-popup-item" id="exit-popup-item2">גרביים קפיברה</div>
+      <div class="exit-popup-item" id="exit-popup-item3">חולצת קפיברה</div>
     </div>
     <div class="exit-popup-prices">
       <div class="exit-popup-old-price">₪139.70</div>
@@ -2084,22 +1971,22 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     <div class="exit-popup-timer">
       <div class="exit-popup-timer-unit">
         <span class="exit-popup-timer-val" id="ep-d">00</span>
-        <span class="exit-popup-timer-lbl">ימים</span>
+        <span class="exit-popup-timer-lbl" id="ep-d-lbl">ימים</span>
       </div>
       <span class="exit-popup-timer-sep">:</span>
       <div class="exit-popup-timer-unit">
         <span class="exit-popup-timer-val" id="ep-h">00</span>
-        <span class="exit-popup-timer-lbl">שעות</span>
+        <span class="exit-popup-timer-lbl" id="ep-h-lbl">שעות</span>
       </div>
       <span class="exit-popup-timer-sep">:</span>
       <div class="exit-popup-timer-unit">
         <span class="exit-popup-timer-val" id="ep-m">00</span>
-        <span class="exit-popup-timer-lbl">דקות</span>
+        <span class="exit-popup-timer-lbl" id="ep-m-lbl">דקות</span>
       </div>
       <span class="exit-popup-timer-sep">:</span>
       <div class="exit-popup-timer-unit">
         <span class="exit-popup-timer-val" id="ep-s">00</span>
-        <span class="exit-popup-timer-lbl">שניות</span>
+        <span class="exit-popup-timer-lbl" id="ep-s-lbl">שניות</span>
       </div>
     </div>
     <button class="exit-popup-btn" id="exit-popup-cta">אני רוצה את החבילה! ⚡</button>
@@ -2242,16 +2129,6 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       b1Title: 'ידידותי לסביבה', b1Text: 'עשוי מ-100% כותנה טבעית עוד צעד קטן למען כדור הארץ',
       b2Title: 'עיצוב מקסים',   b2Text: 'לוגו קפיברה חמוד שיגרום לכולם לשאול מאיפה הגיע התיק',
       b3Title: 'מלאי מוגבל',    b3Text: 'מייצרים בכמויות קטנות כשנגמר, נגמר. אל תחמיצו',
-      reviewsTag:    'מה אומרים הלקוחות',
-      reviewsH2:     'מה אומרים הלקוחות',
-      happyBadge:    '⭐ לקוחות מרוצים',
-      ratingCount:   'על בסיס 127 רוכשים מרוצים',
-      r1Text: '"התיק הגיע ואני לא מצליח להוריד אותו כולם שואלים מאיפה, ומרגיש טוב לדעת שיש מאחוריו תרומה אמיתית לקפיברות"',
-      r1Name: 'דן מ.',   r1Sub: 'תל אביב',
-      r2Text: '"האיכות מדהימה, הבד עבה ונעים. הזמנתי לעצמי ולחברים מתנה מושלמת שגם עושה טוב לעולם"',
-      r2Name: 'נועה ש.', r2Sub: 'חיפה',
-      r3Text: '"כל פעם שיוצאים עם התיק לשוק מקבלים מחמאות. הקפיברה על הלוגו פשוט הכי חמודה שראיתי"',
-      r3Name: 'רוני א.', r3Sub: 'ירושלים',
       faqTag: 'שאלות נפוצות',
       faqH2:  'יש לכם שאלות? יש לנו תשובות 💬',
       faq1q: 'מה החומר של התיק?',
@@ -2268,6 +2145,14 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       ctaTrust1: '🔒 תשלום מאובטח', ctaTrust2: '🚚 משלוח לכל הארץ', ctaTrust3: '↩️ 30 יום החזרה',
       tsCustomers: 'לקוחות מרוצים', tsRating: 'דירוג ממוצע', tsShipping: 'משלוח עד הבית', tsReturns: '30 יום החזרה',
       footerSub: 'כי לכל תיק יש סיפור 🦫',
+      exitPopupHeading: '🔥 הצעה מיוחדת רק להיום!',
+      exitPopupSub:     'חבילת הקפיברה המלאה במחיר מיוחד לזמן מוגבל בלבד!',
+      exitPopupItem1:   'תיק בד קפיברה',
+      exitPopupItem2:   'גרביים קפיברה',
+      exitPopupItem3:   'חולצת קפיברה',
+      exitPopupCta:     'אני רוצה את החבילה! ⚡',
+      exitPopupDismiss: 'לא תודה, אמשיך בלי ההנחה',
+      bundleTeaser:     '🔥 קנו את כל 3 המוצרים יחד וחסכו ₪50! לחצו לפרטים ←',
       ftTagline: 'תיק בד עם לב גדול 🦫',
       ftMission: 'כל תיק שנמכר תורם 10% לחוות קפיברות בדרום אמריקה',
       ftColProduct: 'מוצר', ftLinkBag: 'המוצרים שלנו', ftLinkAdoption: 'אימוץ קפיברה', ftLinkShipping: 'משלוח והחזרות',
@@ -2389,16 +2274,6 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       b1Title: 'Eco-Friendly', b1Text: 'Made from 100% natural cotton one small step for the planet',
       b2Title: 'Cute Design',  b2Text: 'An adorable capybara logo everyone will ask about',
       b3Title: 'Limited Stock',b3Text: 'Small batches only when it\'s gone, it\'s gone',
-      reviewsTag:   'What Customers Say',
-      reviewsH2:    'What Customers Say',
-      happyBadge:   '⭐ Happy Customers',
-      ratingCount:  'Based on 127 happy buyers',
-      r1Text: '"The bag arrived and I can\'t put it down everyone asks where it\'s from, and it feels great knowing there\'s a real donation behind it"',
-      r1Name: 'Dan M.',  r1Sub: 'Tel Aviv',
-      r2Text: '"The quality is amazing, thick and soft. I ordered for myself and friends the perfect gift that also does good"',
-      r2Name: 'Noa S.',  r2Sub: 'Haifa',
-      r3Text: '"Every time we take the bag to the market we get compliments. The capybara logo is just the cutest thing"',
-      r3Name: 'Roni A.', r3Sub: 'Jerusalem',
       faqTag: 'FAQ',
       faqH2:  'Got Questions? We Have Answers 💬',
       faq1q: 'What is the bag made of?',
@@ -2415,6 +2290,14 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       ctaTrust1: '🔒 Secure Payment', ctaTrust2: '🚚 Nationwide Delivery', ctaTrust3: '↩️ 30-Day Returns',
       tsCustomers: 'happy customers', tsRating: 'avg. rating', tsShipping: 'home delivery', tsReturns: '30-day returns',
       footerSub: 'Because every bag has a story 🦫',
+      exitPopupHeading: '🔥 Special Offer — Today Only!',
+      exitPopupSub:     'The Full Capybara Bundle at a special limited-time price!',
+      exitPopupItem1:   'Capybara Tote Bag',
+      exitPopupItem2:   'Capybara Socks',
+      exitPopupItem3:   'Capybara T-Shirt',
+      exitPopupCta:     'I Want the Bundle! ⚡',
+      exitPopupDismiss: 'No thanks, I\'ll continue without the deal',
+      bundleTeaser:     '🔥 Buy all 3 products together and save ₪50! Click for details →',
       ftTagline: 'A Tote Bag with a Big Heart 🦫',
       ftMission: 'Every bag sold donates 10% to capybara farms in South America',
       ftColProduct: 'Product', ftLinkBag: 'Our Products', ftLinkAdoption: 'Capybara Adoption', ftLinkShipping: 'Shipping & Returns',
@@ -2529,7 +2412,8 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     document.getElementById('label-apt').innerHTML           = t.labelApt;
     document.getElementById('label-city').textContent        = t.labelCity;
     document.getElementById('label-zip').textContent         = t.labelZip;
-    document.getElementById('submit-btn').textContent        = t.submitBtn;
+    var submitBtn = document.getElementById('submit-btn');
+    if (submitBtn) submitBtn.textContent = t.submitBtn;
     document.getElementById('name-input').placeholder        = t.phName;
     document.getElementById('street-input').placeholder      = t.phStreet;
     document.getElementById('city-input').placeholder        = t.phCity;
@@ -2545,19 +2429,6 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     document.getElementById('b2-text').textContent           = t.b2Text;
     document.getElementById('b3-title').textContent          = t.b3Title;
     document.getElementById('b3-text').textContent           = t.b3Text;
-    document.getElementById('reviews-tag').textContent       = t.reviewsTag;
-    document.getElementById('reviews-h2').textContent        = t.reviewsH2;
-    document.getElementById('happy-badge').textContent       = t.happyBadge;
-    document.getElementById('rating-count').textContent      = t.ratingCount;
-    document.getElementById('r1-text').textContent           = t.r1Text;
-    document.getElementById('r1-name').textContent           = t.r1Name;
-    document.getElementById('r1-sub').textContent            = t.r1Sub;
-    document.getElementById('r2-text').textContent           = t.r2Text;
-    document.getElementById('r2-name').textContent           = t.r2Name;
-    document.getElementById('r2-sub').textContent            = t.r2Sub;
-    document.getElementById('r3-text').textContent           = t.r3Text;
-    document.getElementById('r3-name').textContent           = t.r3Name;
-    document.getElementById('r3-sub').textContent            = t.r3Sub;
     document.getElementById('faq-tag').textContent           = t.faqTag;
     document.getElementById('faq-h2').textContent            = t.faqH2;
     document.getElementById('faq1q').textContent             = t.faq1q;
@@ -2586,6 +2457,18 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     document.getElementById('ft-col-contact').textContent    = t.ftColContact;
     document.getElementById('ft-wa-label').textContent       = t.ftWaLabel;
     document.getElementById('ft-copy').textContent           = t.ftCopy;
+    document.getElementById('exit-popup-heading').textContent = t.exitPopupHeading;
+    document.getElementById('exit-popup-sub').textContent     = t.exitPopupSub;
+    document.getElementById('exit-popup-item1').textContent   = t.exitPopupItem1;
+    document.getElementById('exit-popup-item2').textContent   = t.exitPopupItem2;
+    document.getElementById('exit-popup-item3').textContent   = t.exitPopupItem3;
+    document.getElementById('exit-popup-cta').textContent     = t.exitPopupCta;
+    document.getElementById('exit-popup-dismiss').textContent = t.exitPopupDismiss;
+    document.getElementById('bundle-teaser').textContent      = t.bundleTeaser;
+    document.getElementById('ep-d-lbl').textContent           = t.bTimerDLbl;
+    document.getElementById('ep-h-lbl').textContent           = t.bTimerHLbl;
+    document.getElementById('ep-m-lbl').textContent           = t.bTimerMLbl;
+    document.getElementById('ep-s-lbl').textContent           = t.bTimerSLbl;
     document.getElementById('ts-customers-label').textContent = t.tsCustomers;
     document.getElementById('ts-rating-label').textContent   = t.tsRating;
     document.getElementById('ts-shipping-label').textContent = t.tsShipping;
@@ -2617,7 +2500,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     });
 
     // Stagger children inside grids/lists
-    ['.benefits-grid', '.reviews-grid', '.faq-list'].forEach(function(sel) {
+    ['.benefits-grid', '.faq-list'].forEach(function(sel) {
       var container = document.querySelector(sel);
       if (!container) return;
       Array.from(container.children).forEach(function(child, i) {
