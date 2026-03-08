@@ -1742,14 +1742,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
   <div class="modal-box">
     <button class="modal-close" id="modal-close-btn" aria-label="סגור">✕</button>
 
-    <!-- Step progress -->
-    <div class="modal-progress">
-      <div class="ms-dot active" id="msdot1">1</div>
-      <div class="ms-line"></div>
-      <div class="ms-dot" id="msdot2">2</div>
-    </div>
-
-    <!-- Step 1: Shipping -->
+    <!-- Step 1: Shipping + Payment -->
     <div id="modal-s1">
       <h2 id="modal-title">פרטי הזמנה 📦</h2>
       <form id="shipping-form" action="https://formspree.io/f/xnjbyadk" method="POST" novalidate>
@@ -1898,47 +1891,13 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
           </div>
         </div>
 
-        <button type="submit" class="modal-btn" id="continue-to-payment-btn">המשך לתשלום ←</button>
+        <div class="modal-order-lines" id="modal-order-lines"></div>
+        <div class="modal-order-summary">
+          <span>סה״כ לתשלום</span>
+          <span class="modal-order-price" id="modal-summary-price">₪0.00</span>
+        </div>
+        <div id="paypal-button-container" style="margin-top:16px;"></div>
       </form>
-    </div>
-
-    <!-- Step 2: Payment -->
-    <div id="modal-s2" style="display:none">
-      <h2>תשלום מאובטח 🔒</h2>
-      <div class="modal-cards">
-        <!-- Visa -->
-        <svg viewBox="0 0 80 50" xmlns="http://www.w3.org/2000/svg">
-          <rect width="80" height="50" rx="6" fill="#1A1F71"/>
-          <text x="40" y="34" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="22" font-weight="bold" font-style="italic">VISA</text>
-        </svg>
-        <!-- Mastercard -->
-        <svg viewBox="0 0 80 50" xmlns="http://www.w3.org/2000/svg">
-          <rect width="80" height="50" rx="6" fill="#252525"/>
-          <circle cx="30" cy="25" r="15" fill="#EB001B"/>
-          <circle cx="50" cy="25" r="15" fill="#F79E1B"/>
-          <path d="M40 12.8a15 15 0 010 24.4 15 15 0 010-24.4z" fill="#FF5F00"/>
-        </svg>
-      </div>
-      <div class="m-field">
-        <label>מספר כרטיס</label>
-        <input type="text" id="card-num" placeholder="0000  0000  0000  0000" maxlength="22" inputmode="numeric" />
-      </div>
-      <div class="m-row">
-        <div class="m-field">
-          <label>תוקף</label>
-          <input type="text" id="card-exp" placeholder="MM/YY" maxlength="5" inputmode="numeric" />
-        </div>
-        <div class="m-field">
-          <label>CVV</label>
-          <input type="text" placeholder="123" maxlength="4" inputmode="numeric" />
-        </div>
-      </div>
-      <div class="modal-order-lines" id="modal-order-lines"></div>
-      <div class="modal-order-summary">
-        <span>סה״כ לתשלום</span>
-        <span class="modal-order-price" id="modal-summary-price">₪0.00</span>
-      </div>
-      <div id="paypal-button-container"></div>
     </div>
 
     <!-- Success -->
@@ -2514,17 +2473,11 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     var modal    = document.getElementById('checkout-modal');
     var backdrop = document.getElementById('modal-backdrop');
     var s1       = document.getElementById('modal-s1');
-    var s2       = document.getElementById('modal-s2');
     var s3       = document.getElementById('modal-s3');
-    var dot1     = document.getElementById('msdot1');
-    var dot2     = document.getElementById('msdot2');
     var form     = document.getElementById('shipping-form');
-    var cardNum  = document.getElementById('card-num');
-    var cardExp  = document.getElementById('card-exp');
 
     function openModal(product) {
-      s1.style.display = ''; s2.style.display = 'none'; s3.style.display = 'none';
-      dot1.className = 'ms-dot active'; dot2.className = 'ms-dot';
+      s1.style.display = ''; s3.style.display = 'none';
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
       var chkBag    = document.getElementById('chk-bag');
@@ -2702,122 +2655,14 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       });
     });
 
-    function startCooldown(btn) {
-      var secs = 5;
-      btn.disabled = true;
-      btn.textContent = 'אנא המתן ' + secs + '...';
-      var iv = setInterval(function() {
-        secs--;
-        if (secs > 0) {
-          btn.textContent = 'אנא המתן ' + secs + '...';
-        } else {
-          clearInterval(iv);
-          btn.disabled = false;
-          btn.textContent = 'המשך לתשלום ←';
-        }
-      }, 1000);
-    }
-
     form.addEventListener('submit', function(e) {
       e.preventDefault();
-      var btn = document.getElementById('continue-to-payment-btn');
-
-      /* 1. Honeypot */
-      if (document.getElementById('honeypot').value !== '') return;
-
-      /* 2. Rate limit */
-      if (checkRateLimit()) {
-        btn.disabled = true;
-        btn.textContent = 'נסה שוב בעוד ' + minutesUntilReset() + ' דקות';
-        return;
-      }
-
-      /* 3. Field validation */
-      var nameVal   = document.getElementById('name-input').value.trim();
-      var phoneVal  = document.getElementById('phone-input').value.trim();
-      var emailVal  = document.getElementById('email-input').value.trim();
-      var streetVal = document.getElementById('street-input').value.trim();
-      var cityVal   = document.getElementById('city-input').value.trim();
-      var zipVal    = document.getElementById('zip-input').value.trim();
-
-      var hasError = false;
-      hasError = fieldError('name-input',   'name-error',   !isValidFullName(nameVal))   || hasError;
-      hasError = fieldError('phone-input',  'phone-error',  !isValidIsraeliPhone(phoneVal)) || hasError;
-      hasError = fieldError('email-input',  'email-error',  !isValidEmail(emailVal))     || hasError;
-      hasError = fieldError('street-input', 'street-error', streetVal.length < 2)        || hasError;
-      hasError = fieldError('city-input',   'city-error',   !cityVal.trim())          || hasError;
-      hasError = fieldError('zip-input',    'zip-error',    !isValidZip(zipVal))         || hasError;
-
-      if (hasError) {
-        var firstInvalid = form.querySelector('.field-invalid');
-        if (firstInvalid) firstInvalid.focus();
-        return;
-      }
-
-      /* 4. Product selection */
-      var bagChecked    = !!(document.getElementById('chk-bag')    && document.getElementById('chk-bag').checked);
-      var socksChecked  = !!(document.getElementById('chk-socks')  && document.getElementById('chk-socks').checked);
-      var shirtChecked  = !!(document.getElementById('chk-shirt')  && document.getElementById('chk-shirt').checked);
-      var bundleChecked = !!(document.getElementById('chk-bundle') && document.getElementById('chk-bundle').checked);
-      if (!bagChecked && !socksChecked && !shirtChecked && !bundleChecked) {
-        alert('אנא בחרו לפחות מוצר אחד');
-        return;
-      }
-
-      /* 5. Build order summary */
-      var lines = [];
-      if (bundleChecked) {
-        var bSocksEl = document.getElementById('bundle-modal-socks-size');
-        var bShirtEl = document.getElementById('bundle-modal-shirt-size');
-        lines.push('חבילת הקפיברה המלאה' + (bSocksEl ? ' גרביים ' + bSocksEl.value : '') + (bShirtEl ? ' חולצה ' + bShirtEl.value : '') + ' × ' + qtys.bundle + ' = ₪' + (PRICES.bundle * qtys.bundle).toFixed(2));
-      }
-      if (bagChecked)   lines.push('תיק בד × ' + qtys.bag + ' = ₪' + (PRICES.bag * qtys.bag).toFixed(2));
-      if (socksChecked) {
-        var sizeEl = document.getElementById('modal-size');
-        lines.push('גרביים קפיברה' + (sizeEl ? ' ' + sizeEl.value : '') + ' × ' + qtys.socks + ' = ₪' + (PRICES.socks * qtys.socks).toFixed(2));
-      }
-      if (shirtChecked) {
-        var shirtSizeEl = document.getElementById('modal-shirt-size');
-        lines.push('חולצת קפיברה' + (shirtSizeEl ? ' ' + shirtSizeEl.value : '') + ' × ' + qtys.shirt + ' = ₪' + (PRICES.shirt * qtys.shirt).toFixed(2));
-      }
-      var total = (bagChecked ? PRICES.bag * qtys.bag : 0) + (socksChecked ? PRICES.socks * qtys.socks : 0) + (shirtChecked ? PRICES.shirt * qtys.shirt : 0) + (bundleChecked ? PRICES.bundle * qtys.bundle : 0);
-      lines.push('סה"כ: ₪' + total.toFixed(2));
-      document.getElementById('order-summary-input').value = lines.join(' | ');
-      document.getElementById('hidden-email').value = emailVal;
-
-      /* 6. Submit */
-      submitTimes.push(Date.now());
-      btn.disabled = true;
-      btn.textContent = 'שולח...';
-      fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      }).finally(function() {
-        startCooldown(btn);
-        s1.style.display = 'none'; s2.style.display = '';
-        dot1.className = 'ms-dot done'; dot2.className = 'ms-dot active';
-        modal.querySelector('.modal-box').scrollTop = 0;
-      });
     });
 
     window.showOrderSuccess = function() {
-      s2.style.display = 'none'; s3.style.display = '';
-      dot2.className = 'ms-dot done';
+      s1.style.display = 'none'; s3.style.display = '';
       modal.querySelector('.modal-box').scrollTop = 0;
     };
-
-    /* card number auto-spacing */
-    cardNum.addEventListener('input', function() {
-      var digits = this.value.replace(/\D/g, '').substring(0, 16);
-      this.value = digits.replace(/(.{4})/g, '$1  ').trimEnd();
-    });
-    /* expiry auto-slash */
-    cardExp.addEventListener('input', function() {
-      var v = this.value.replace(/\D/g, '').substring(0, 4);
-      if (v.length >= 3) v = v.slice(0,2) + '/' + v.slice(2);
-      this.value = v;
-    });
 
     /* intercept all buy buttons + cart + sticky */
     document.querySelectorAll('.btn-green, .btn-card-outline, .bundle-btn, .sticky-btn, .nav-cart').forEach(function(btn) {
@@ -3011,6 +2856,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
 
   paypal.Buttons({
     onClick: function(data, actions) {
+      if (!validateFormFields()) return actions.reject();
       var total = getCartTotal();
       if (total <= 0) {
         alert('יש להוסיף מוצרים לסל לפני התשלום');
