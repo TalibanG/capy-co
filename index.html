@@ -8,7 +8,7 @@
   <meta name="keywords" content="תיק בד, תיק קנבס, קפיברה, תיק עם הדפסה, תיק ידידותי לסביבה, מתנה מקורית, capybara bag, tote bag israel">
   <meta property="og:title" content="Capy & Co | תיק בד קפיברה">
   <meta property="og:description" content="תיק בד עם לוגו קפיברה חמוד. 10% מכל מכירה תורם לחוות קפיברות 🦫">
-  <meta property="og:image" content="https://capyco.shop/bag.png">
+  <meta property="og:image" content="https://capyco.shop/bag.png.png">
   <meta property="og:url" content="https://capyco.shop">
   <meta property="og:type" content="website">
   <link rel="canonical" href="https://www.capyco.shop/" />
@@ -30,7 +30,7 @@
       "availability": "https://schema.org/InStock"
     },
     "url": "https://capyco.shop",
-    "image": "https://capyco.shop/bag.png"
+    "image": "https://capyco.shop/bag.png.png"
   }
   </script>
   <link rel="icon" href="capy-logo.png" type="image/png" />
@@ -42,7 +42,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Capy & Co | תיק בד קפיברה" />
   <meta name="twitter:description" content="תיק בד עם לוגו קפיברה חמוד. 10% מכל מכירה תורם לחוות קפיברות 🦫" />
-  <meta name="twitter:image" content="https://capyco.shop/bag.png" />
+  <meta name="twitter:image" content="https://capyco.shop/bag.png.png" />
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -866,6 +866,9 @@
       .modal-box h2 { font-size: 18px; }
       .modal-btn { font-size: 15px; padding: 13px 20px; }
     }
+    @media (max-width: 400px) {
+      .m-row { grid-template-columns: 1fr; }
+    }
 
     /* ── MODAL PRODUCT LIST ── */
     .m-products-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
@@ -1211,6 +1214,43 @@
     }
 
 
+    /* Loading screen */
+    #page-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: #f5f0e8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    #page-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    #page-loader .loader-brand {
+      font-family: 'Rubik', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: #6b4226;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+      direction: ltr;
+    }
+    #page-loader .loader-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #e8ddd0;
+      border-top-color: #6b4226;
+      border-radius: 50%;
+      animation: loaderSpin 0.8s linear infinite;
+    }
+    @keyframes loaderSpin {
+      to { transform: rotate(360deg); }
+    }
+
   </style>
 
 <!-- Google Analytics -->
@@ -1240,10 +1280,20 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 </head>
 <body>
+
+<div id="page-loader">
+  <div class="loader-brand">Capy &amp; Co</div>
+  <div class="loader-spinner"></div>
+</div>
+
+<script>
+  window.addEventListener('load', function() {
+    document.getElementById('page-loader').classList.add('hidden');
+  });
+</script>
 
 <!-- Sticky buy bar (bottom, mobile only) -->
 <div id="sticky-bar">
@@ -1308,8 +1358,8 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
 <!-- TRUST STRIP -->
 <div id="trust-strip">
   <div class="trust-strip-inner">
-    <div class="trust-strip-item">⭐ <span class="trust-strip-num" id="ts-customers">127+</span> <span id="ts-customers-label">לקוחות מרוצים</span></div>
-    <div class="trust-strip-item">🏆 <span id="ts-rating-label">דירוג ממוצע</span> <span class="trust-strip-num">4.9/5</span></div>
+    <div class="trust-strip-item">⭐ <span id="ts-customers-label">לקוחות מרוצים</span></div>
+    <div class="trust-strip-item">🏆 <span id="ts-rating-label">שביעות רצון גבוהה</span></div>
     <div class="trust-strip-item">🚚 <span id="ts-shipping-label">משלוח עד הבית</span></div>
     <div class="trust-strip-item">↩️ <span id="ts-returns-label">30 יום החזרה</span></div>
   </div>
@@ -1526,17 +1576,17 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       <div class="benefit-card">
         <span class="benefit-icon">🌱</span>
         <h3 id="b1-title">ידידותי לסביבה</h3>
-        <p id="b1-text">עשוי מ-100% כותנה טבעית עוד צעד קטן למען כדור הארץ</p>
+        <p id="b1-text">עשוי מ-100% כותנה טבעית, עוד צעד קטן למען כדור הארץ</p>
       </div>
       <div class="benefit-card">
         <span class="benefit-icon"><img src="capy-logo.png" alt="קפיברה" /></span>
         <h3 id="b2-title">עיצוב מקסים</h3>
-        <p id="b2-text">לוגו קפיברה חמוד שיגרום לכולם לשאול מאיפה הגיע התיק</p>
+        <p id="b2-text">לוגו קפיברה חמוד, שיגרום לכולם לשאול מאיפה הגיע התיק</p>
       </div>
       <div class="benefit-card">
         <span class="benefit-icon">⏳</span>
         <h3 id="b3-title">מלאי מוגבל</h3>
-        <p id="b3-text">מייצרים בכמויות קטנות כשנגמר, נגמר. אל תחמיצו</p>
+        <p id="b3-text">מייצרים בכמויות קטנות — כשנגמר, נגמר. אל תחמיצו</p>
       </div>
     </div>
   </div>
@@ -1607,17 +1657,6 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
   </div>
 </section>
 
-<!-- 6. COMING SOON -->
-<section id="coming-soon" style="background:var(--cream-2);">
-  <div class="section-inner" style="text-align:center;">
-    <span class="section-label" id="coming-soon-label">בקרוב</span>
-    <h2 id="coming-soon-h2" style="margin-bottom:12px;">עיצובים חדשים בדרך 🎨</h2>
-    <div class="section-divider" style="margin:0 auto 24px;"></div>
-    <div style="background:var(--white);border-radius:var(--r-lg);padding:36px 28px;box-shadow:var(--sh-md);border:1px solid var(--cream-3);max-width:480px;margin:0 auto;">
-      <p id="coming-soon-p" style="font-size:16px;color:var(--text-mid);line-height:1.75;margin-bottom:0;">תשארו מעודכנים לעיצובים חדשים שמגיעים בקרוב</p>
-    </div>
-  </div>
-</section>
 
 <!-- 6. REVIEWS -->
 <!-- 6. FAQ -->
@@ -1632,7 +1671,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
           <span id="faq1q">מה החומר של התיק?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer" id="faq1a">התיק עשוי מ-100% כותנה טבעית, עמידה ואיכותית. הבד עבה ונעים למגע מתאים לשימוש יומיומי לאורך שנים.</div>
+        <div class="faq-answer" id="faq1a">התיק עשוי מ-100% כותנה טבעית, עמידה ואיכותית. הבד עבה ונעים למגע, מתאים לשימוש יומיומי לאורך שנים.</div>
       </div>
       <div class="faq-item">
         <button class="faq-question" onclick="toggleFaq(this)">
@@ -1646,7 +1685,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
           <span id="faq3q">האם אפשר להחזיר?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer" id="faq3a">כן! אנחנו מציעים 30 יום החזרה ושביעות רצון מלאה. אם לא אהבתם מכל סיבה שהיא נחזיר את הכסף במלואו, ללא שאלות.</div>
+        <div class="faq-answer" id="faq3a">כן! אנחנו מציעים 30 יום החזרה ושביעות רצון מלאה. אם לא אהבתם, מכל סיבה שהיא, נחזיר את הכסף במלואו ללא שאלות.</div>
       </div>
       <div class="faq-item">
         <button class="faq-question" onclick="toggleFaq(this)">
@@ -1663,8 +1702,8 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
 <section id="cta">
   <div class="section-inner">
     <span class="cta-emoji"><img src="capy-logo.png" alt="קפיברה" loading="lazy" decoding="async" /></span>
-    <h2 id="cta-h2">רוצים תיק שעושה טוב לעולם?</h2>
-    <p class="cta-sub" id="cta-p">לחצו על הכפתור תוך שניות תהיו בשיחה איתנו ונסגור הזמנה במהירות</p>
+    <h2 id="cta-h2">מוכנים להצטרף למשפחת הקפיברות?</h2>
+    <p class="cta-sub" id="cta-p">תיקים, גרביים וחבילות מיוחדות — כל המוצרים שלנו מחכים לכם</p>
 <a class="btn-green" href="https://wa.me/972XXXXXXXXX" target="_blank" id="cta-btn">
       הזמינו עכשיו 🛍️
     </a>
@@ -1895,6 +1934,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
           <span>סה״כ לתשלום</span>
           <span class="modal-order-price" id="modal-summary-price">₪0.00</span>
         </div>
+        <button type="submit" class="modal-btn" id="continue-to-payment-btn">המשך לתשלום ←</button>
         <div style="text-align:center; padding: 16px; background: #fff8e1; border-radius: 8px; color: #6b4226; font-size: 1rem;">
           🔧 מערכת התשלום בתהליך עדכון — ניצור איתך קשר לאישור ההזמנה
         </div>
@@ -2060,9 +2100,6 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       bundleTrust:      '🔒 תשלום מאובטח | משלוח לכל הארץ',
       bundleModalHeader:'🔥 חבילת הקפיברה המלאה ₪99.90 במקום ₪139.70',
       mprBundleName:    'חבילת הקפיברה המלאה 🦫',
-      comingSoonLabel: 'בקרוב',
-      comingSoonH2:    'עיצובים חדשים בדרך 🎨',
-      comingSoonP:     'תשארו מעודכנים לעיצובים חדשים שמגיעים בקרוב',
       modalTitle:      'פרטי הזמנה 📦',
       labelProducts:   'בחרו מוצרים',
       mprBagName:      'תיק בד Capy & Co',
@@ -2086,24 +2123,24 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       streetError: 'נא להזין רחוב ומספר בית',
       cityError:   'נא להזין עיר',
       zipError:    'נא להזין מיקוד בן 7 ספרות',
-      b1Title: 'ידידותי לסביבה', b1Text: 'עשוי מ-100% כותנה טבעית עוד צעד קטן למען כדור הארץ',
-      b2Title: 'עיצוב מקסים',   b2Text: 'לוגו קפיברה חמוד שיגרום לכולם לשאול מאיפה הגיע התיק',
-      b3Title: 'מלאי מוגבל',    b3Text: 'מייצרים בכמויות קטנות כשנגמר, נגמר. אל תחמיצו',
+      b1Title: 'ידידותי לסביבה', b1Text: 'עשוי מ-100% כותנה טבעית, עוד צעד קטן למען כדור הארץ',
+      b2Title: 'עיצוב מקסים',   b2Text: 'לוגו קפיברה חמוד, שיגרום לכולם לשאול מאיפה הגיע התיק',
+      b3Title: 'מלאי מוגבל',    b3Text: 'מייצרים בכמויות קטנות — כשנגמר, נגמר. אל תחמיצו',
       faqTag: 'שאלות נפוצות',
       faqH2:  'יש לכם שאלות? יש לנו תשובות 💬',
       faq1q: 'מה החומר של התיק?',
-      faq1a: 'התיק עשוי מ-100% כותנה טבעית, עמידה ואיכותית. הבד עבה ונעים למגע מתאים לשימוש יומיומי לאורך שנים.',
+      faq1a: 'התיק עשוי מ-100% כותנה טבעית, עמידה ואיכותית. הבד עבה ונעים למגע, מתאים לשימוש יומיומי לאורך שנים.',
       faq2q: 'כמה זמן לוקח המשלוח?',
       faq2a: 'המשלוח אורך 7-14 ימי עסקים לכל הארץ, ישירות עד הבית. תקבלו עדכון מעקב ברגע שהחבילה יוצאת.',
       faq3q: 'האם אפשר להחזיר?',
-      faq3a: 'כן! אנחנו מציעים 30 יום החזרה ושביעות רצון מלאה. אם לא אהבתם מכל סיבה שהיא נחזיר את הכסף במלואו, ללא שאלות.',
+      faq3a: 'כן! אנחנו מציעים 30 יום החזרה ושביעות רצון מלאה. אם לא אהבתם, מכל סיבה שהיא, נחזיר את הכסף במלואו ללא שאלות.',
       faq4q: 'איך מבצעים הזמנה?',
       faq4a: 'פשוט לוחצים על כפתור "הזמינו עכשיו" ונדבר בוואטסאפ! תוך דקות נשלח פרטי תשלום ואישור הזמנה.',
-      ctaH2:    'רוצים תיק שעושה טוב לעולם?',
-      ctaP:     'לחצו על הכפתור תוך שניות תהיו בשיחה איתנו ונסגור הזמנה במהירות',
+      ctaH2:    'מוכנים להצטרף למשפחת הקפיברות?',
+      ctaP:     'תיקים, גרביים וחבילות מיוחדות — כל המוצרים שלנו מחכים לכם',
       ctaBtn:   'הזמינו עכשיו 🛍️',
       ctaTrust1: '🔒 תשלום מאובטח', ctaTrust2: '🚚 משלוח לכל הארץ', ctaTrust3: '↩️ 30 יום החזרה',
-      tsCustomers: 'לקוחות מרוצים', tsRating: 'דירוג ממוצע', tsShipping: 'משלוח עד הבית', tsReturns: '30 יום החזרה',
+      tsCustomers: 'לקוחות מרוצים', tsRating: 'שביעות רצון גבוהה', tsShipping: 'משלוח עד הבית', tsReturns: '30 יום החזרה',
       footerSub: 'כי לכל תיק יש סיפור 🦫',
       exitPopupHeading: '🔥 הצעה מיוחדת רק להיום!',
       exitPopupSub:     'חבילת הקפיברה המלאה במחיר מיוחד לזמן מוגבל בלבד!',
@@ -2115,7 +2152,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       bundleTeaser:     '🔥 קנו את כל 3 המוצרים יחד וחסכו ₪50! לחצו לפרטים ←',
       ftTagline: 'תיק בד עם לב גדול 🦫',
       ftMission: 'כל תיק שנמכר תורם 10% לחוות קפיברות בדרום אמריקה',
-      ftColProduct: 'מוצר', ftLinkBag: 'המוצרים שלנו', ftLinkAdoption: 'אימוץ קפיברה', ftLinkShipping: 'משלוח והחזרות',
+      ftColProduct: 'מוצר', ftLinkBag: 'המוצרים שלנו', ftLinkShipping: 'משלוח והחזרות',
       ftColLegal: 'משפטי', ftLinkTerms: 'תנאי שימוש', ftLinkPrivacy: 'מדיניות פרטיות', ftLinkReturns: 'מדיניות החזרות',
       ftColContact: 'יצירת קשר', ftWaLabel: 'וואטסאפ',
       ftCopy: '© 2026 Capy & Co | כל הזכויות שמורות | capyco.shop'
@@ -2205,9 +2242,6 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       bundleTrust:      '🔒 Secure payment | Nationwide delivery',
       bundleModalHeader:'🔥 Full Capybara Bundle ₪99.90 instead of ₪139.70',
       mprBundleName:    'Full Capybara Bundle 🦫',
-      comingSoonLabel: 'Coming Soon',
-      comingSoonH2:    'New Designs Coming 🎨',
-      comingSoonP:     'Stay updated for new designs coming soon',
       modalTitle:      'Order Details 📦',
       labelProducts:   'Choose Products',
       mprBagName:      'Capy & Co tote bag',
@@ -2231,9 +2265,9 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       streetError: 'Please enter street & house number',
       cityError:   'Please enter city',
       zipError:    'Please enter a 7-digit ZIP code',
-      b1Title: 'Eco-Friendly', b1Text: 'Made from 100% natural cotton one small step for the planet',
+      b1Title: 'Eco-Friendly', b1Text: 'Made from 100% natural cotton, one small step for the planet',
       b2Title: 'Cute Design',  b2Text: 'An adorable capybara logo everyone will ask about',
-      b3Title: 'Limited Stock',b3Text: 'Small batches only when it\'s gone, it\'s gone',
+      b3Title: 'Limited Stock',b3Text: 'Small batches only — when it\'s gone, it\'s gone',
       faqTag: 'FAQ',
       faqH2:  'Got Questions? We Have Answers 💬',
       faq1q: 'What is the bag made of?',
@@ -2244,11 +2278,11 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       faq3a: 'Yes! We offer 30-day returns and full satisfaction guarantee. If you\'re not happy for any reason full refund, no questions asked.',
       faq4q: 'How do I place an order?',
       faq4a: 'Just click "Order Now" and chat with us on WhatsApp! We\'ll send payment details and order confirmation within minutes.',
-      ctaH2:    'Want a Bag That Does Good?',
-      ctaP:     'Click the button within seconds you\'ll be chatting with us to finalize your order',
+      ctaH2:    'Ready to Join the Capybara Family?',
+      ctaP:     'Bags, socks, and special bundles — all our products are waiting for you',
       ctaBtn:   'Order Now 🛍️',
       ctaTrust1: '🔒 Secure Payment', ctaTrust2: '🚚 Nationwide Delivery', ctaTrust3: '↩️ 30-Day Returns',
-      tsCustomers: 'happy customers', tsRating: 'avg. rating', tsShipping: 'home delivery', tsReturns: '30-day returns',
+      tsCustomers: 'happy customers', tsRating: 'high satisfaction', tsShipping: 'home delivery', tsReturns: '30-day returns',
       footerSub: 'Because every bag has a story 🦫',
       exitPopupHeading: '🔥 Special Offer — Today Only!',
       exitPopupSub:     'The Full Capybara Bundle at a special limited-time price!',
@@ -2260,7 +2294,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       bundleTeaser:     '🔥 Buy all 3 products together and save ₪50! Click for details →',
       ftTagline: 'A Tote Bag with a Big Heart 🦫',
       ftMission: 'Every bag sold donates 10% to capybara farms in South America',
-      ftColProduct: 'Product', ftLinkBag: 'Our Products', ftLinkAdoption: 'Capybara Adoption', ftLinkShipping: 'Shipping & Returns',
+      ftColProduct: 'Product', ftLinkBag: 'Our Products', ftLinkShipping: 'Shipping & Returns',
       ftColLegal: 'Legal', ftLinkTerms: 'Terms of Use', ftLinkPrivacy: 'Privacy Policy', ftLinkReturns: 'Return Policy',
       ftColContact: 'Contact Us', ftWaLabel: 'WhatsApp',
       ftCopy: '© 2026 Capy & Co | All Rights Reserved | capyco.shop'
@@ -2356,9 +2390,6 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     document.getElementById('bundle-trust').textContent       = t.bundleTrust;
     document.getElementById('bundle-modal-header').textContent = t.bundleModalHeader;
     document.getElementById('mpr-bundle-name').textContent    = t.mprBundleName;
-    document.getElementById('coming-soon-label').textContent = t.comingSoonLabel;
-    document.getElementById('coming-soon-h2').textContent    = t.comingSoonH2;
-    document.getElementById('coming-soon-p').textContent     = t.comingSoonP;
     document.getElementById('modal-title').textContent       = t.modalTitle;
     document.getElementById('label-products').textContent    = t.labelProducts;
     document.getElementById('mpr-bag-name').textContent      = t.mprBagName;
@@ -2802,7 +2833,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
   /* ── BUNDLE POPUP ── */
   setTimeout(function() {
     document.getElementById('bundlePopup').style.display = 'flex';
-  }, 15000);
+  }, 30000);
 
   (function() {
     function closePopup() {
