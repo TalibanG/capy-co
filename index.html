@@ -1320,6 +1320,517 @@
       to { transform: rotate(360deg); }
     }
 
+    /* ══════════════════════════════════════════════
+       DESIGN UPGRADE — UNIQUE VISUAL IDENTITY
+       ══════════════════════════════════════════════ */
+
+    /* ── ANIMATED BACKGROUND PATTERN (organic blobs) ── */
+    @keyframes blob-drift {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25%  { transform: translate(30px, -40px) scale(1.1); }
+      50%  { transform: translate(-20px, 20px) scale(0.95); }
+      75%  { transform: translate(15px, 35px) scale(1.05); }
+    }
+    @keyframes blob-drift-2 {
+      0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+      33%  { transform: translate(-40px, 25px) scale(1.12) rotate(120deg); }
+      66%  { transform: translate(25px, -30px) scale(0.9) rotate(240deg); }
+    }
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.035;
+      filter: blur(80px);
+    }
+    body::before {
+      width: 500px; height: 500px;
+      background: var(--green);
+      top: 10%; right: -100px;
+      animation: blob-drift 25s ease-in-out infinite;
+    }
+    body::after {
+      width: 400px; height: 400px;
+      background: var(--brown);
+      bottom: 20%; left: -80px;
+      animation: blob-drift-2 30s ease-in-out infinite;
+    }
+
+    /* ── GRAIN TEXTURE OVERLAY ON HERO ── */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.12;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px;
+    }
+
+    /* ── WAVE SECTION DIVIDERS ── */
+    .wave-divider {
+      display: block;
+      width: 100%;
+      height: auto;
+      line-height: 0;
+      margin: 0;
+      padding: 0;
+    }
+    .wave-divider svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-height: 40px;
+    }
+    .wave-divider.flip { transform: scaleY(-1); }
+
+    /* ── TYPOGRAPHY UPGRADE ── */
+    body {
+      font-weight: 300;
+    }
+    h2 {
+      font-size: clamp(26px, 5.5vw, 48px);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+    }
+    h3 {
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .section-label {
+      font-size: clamp(10px, 1.5vw, 12px);
+      letter-spacing: 2.5px;
+    }
+    #hero h1 {
+      font-size: clamp(30px, 7vw, 56px);
+      font-weight: 900;
+      letter-spacing: 0.01em;
+    }
+    .hero-sub {
+      font-size: clamp(15px, 3vw, 20px);
+      font-weight: 300;
+    }
+    #cta h2 {
+      font-size: clamp(26px, 6vw, 46px);
+    }
+
+    /* ── HERO FULL VIEWPORT + SPLIT LAYOUT ── */
+    @media (min-width: 769px) {
+      #hero {
+        min-height: calc(100vh - 60px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 48px 80px;
+      }
+    }
+
+    /* Decorative paw print shapes in hero */
+    #hero .hero-btns::before,
+    #hero .hero-btns::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.06;
+      pointer-events: none;
+      background: #fff;
+    }
+    #hero .hero-btns::before {
+      width: 120px; height: 120px;
+      top: -180px; right: 10%;
+      animation: blob-drift 18s ease-in-out infinite;
+    }
+    #hero .hero-btns::after {
+      width: 80px; height: 80px;
+      bottom: -60px; left: 15%;
+      animation: blob-drift-2 22s ease-in-out infinite;
+    }
+
+    /* ── ENHANCED FLOATING ANIMATION ON HERO IMAGE ── */
+    @keyframes float-premium {
+      0%   { transform: translateY(0) rotate(-2deg); }
+      25%  { transform: translateY(-16px) rotate(2deg) scale(1.03); }
+      50%  { transform: translateY(-8px) rotate(0deg) scale(1.01); }
+      75%  { transform: translateY(-20px) rotate(-1deg) scale(1.05); }
+      100% { transform: translateY(0) rotate(-2deg); }
+    }
+    .hero-capybara {
+      animation: float-premium 5s ease-in-out infinite !important;
+    }
+
+    /* ── CTA BUTTON ENHANCED PULSE ── */
+    @keyframes cta-glow {
+      0%, 100% {
+        box-shadow: 0 4px 20px rgba(34,197,94,0.40), 0 0 0 0 rgba(34,197,94,0);
+      }
+      50% {
+        box-shadow: 0 6px 36px rgba(34,197,94,0.60), 0 0 0 12px rgba(34,197,94,0.08);
+      }
+    }
+    #hero .btn-green, #cta .btn-green {
+      animation: cta-glow 2.4s ease-in-out infinite !important;
+    }
+    #hero .btn-green:hover, #cta .btn-green:hover {
+      animation: none !important;
+    }
+
+    /* ── CARD 3D TILT ON HOVER ── */
+    .product-card {
+      perspective: 800px;
+      transform-style: preserve-3d;
+    }
+    @media (min-width: 769px) {
+      .product-card:hover {
+        transform: translateY(-8px) rotateX(2deg) rotateY(-2deg) !important;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.06) !important;
+      }
+    }
+    .benefit-card {
+      perspective: 600px;
+    }
+    @media (min-width: 769px) {
+      .benefit-card:hover {
+        transform: translateY(-8px) rotateX(3deg) rotateY(-3deg) !important;
+      }
+    }
+
+    /* ── PRODUCT CARD — OVERLAPPING IMAGE + RIBBON BADGE ── */
+    .product-card .pc-img {
+      position: relative;
+    }
+    .product-card .pc-body {
+      position: relative;
+      z-index: 2;
+    }
+    @media (min-width: 769px) {
+      .product-card .pc-img img {
+        transition: transform 0.6s var(--ease-out-expo);
+      }
+      .product-card:hover .pc-img img {
+        transform: scale(1.08) translateY(-4px) !important;
+      }
+    }
+
+    /* Price badge ribbon effect */
+    .pc-price-top {
+      position: relative;
+    }
+    .bag-savings {
+      transform: rotate(-2deg);
+      transition: transform 0.3s var(--ease-spring);
+    }
+    .product-card:hover .bag-savings {
+      transform: rotate(0deg) scale(1.05);
+    }
+
+    /* ── STAGGERED FADE-IN ANIMATIONS ── */
+    @keyframes reveal-up {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes reveal-scale {
+      from {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* ── STICKY BAR GLASSMORPHISM UPGRADE ── */
+    #sticky-bar {
+      background: rgba(255,255,255,0.75) !important;
+      backdrop-filter: blur(20px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+      border-top: 1px solid rgba(255,255,255,0.5) !important;
+      box-shadow: 0 -8px 32px rgba(0,0,0,0.10), 0 -1px 0 rgba(255,255,255,0.3) !important;
+    }
+    @keyframes slide-up-bar {
+      from { transform: translateY(110%); }
+      to { transform: translateY(0); }
+    }
+    #sticky-bar.visible {
+      animation: slide-up-bar 0.5s var(--ease-out-expo) forwards;
+    }
+
+    /* ── CHECKOUT MODAL ANIMATION ── */
+    .modal-box {
+      animation: modal-appear 0.4s var(--ease-out-expo) forwards;
+      border-radius: 28px !important;
+    }
+    @keyframes modal-appear {
+      from {
+        opacity: 0;
+        transform: scale(0.88) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    .modal-backdrop {
+      animation: fade-in-backdrop 0.3s ease-out forwards;
+    }
+    @keyframes fade-in-backdrop {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* Step indicator animated line */
+    .ms-line {
+      position: relative;
+      overflow: hidden;
+    }
+    .ms-line::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 0;
+      background: var(--green);
+      border-radius: 1px;
+      transition: width 0.6s var(--ease-out-expo);
+    }
+    .ms-dot.done + .ms-line::after {
+      width: 100%;
+    }
+
+    /* Input field animated underline */
+    .m-field input, .m-field select {
+      border-radius: 12px !important;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, transform 0.2s ease !important;
+    }
+    .m-field input:focus, .m-field select:focus {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(107,143,94,0.12), 0 0 0 3px rgba(107,143,94,0.10) !important;
+    }
+
+    /* ── FOOTER WAVE + PATTERN ── */
+    .footer-wave-divider {
+      display: block; width: 100%; line-height: 0; margin: 0; padding: 0;
+      background: transparent;
+    }
+    .footer-wave-divider svg {
+      display: block; width: 100%; height: auto; min-height: 50px;
+    }
+    footer {
+      position: relative;
+    }
+    footer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    @media (min-width: 769px) {
+      .footer-main {
+        grid-template-columns: 1.8fr 1fr 1fr 1fr;
+        gap: 56px;
+        padding: 64px 48px 48px;
+      }
+    }
+
+    /* ── SECTION SMOOTH SOFT EDGES ── */
+    section {
+      position: relative;
+    }
+    .cause-card,
+    .bundle-card,
+    .capybox-card,
+    .faq-item,
+    .benefit-card,
+    .product-card,
+    .bag-purchase,
+    #about-p,
+    .exit-popup-card {
+      border-radius: 20px !important;
+    }
+
+    /* ── COMPREHENSIVE RESPONSIVE BREAKPOINTS ── */
+
+    /* 1200px — large desktop */
+    @media (max-width: 1200px) {
+      .section-inner { max-width: 680px; }
+      .products-grid { gap: 20px; }
+    }
+
+    /* 992px — medium desktop / tablet landscape */
+    @media (max-width: 992px) {
+      #hero h1 { font-size: clamp(28px, 6vw, 42px); }
+      .hero-sub { font-size: clamp(14px, 2.5vw, 17px); }
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+      .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+      .bundle-card { padding: 32px 28px 28px; }
+      h2 { font-size: clamp(24px, 5vw, 38px); }
+      .footer-main { grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
+    }
+
+    /* 768px — tablet portrait */
+    @media (max-width: 768px) {
+      #hero {
+        min-height: auto;
+        padding: min(60px, 10vw) 20px min(70px, 12vw);
+      }
+      #hero h1 { font-size: clamp(26px, 7vw, 36px); }
+      section { padding: min(60px, 10vw) min(20px, 5vw); }
+      h2 { font-size: clamp(22px, 6vw, 32px); }
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .benefits-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .bundle-card { padding: 28px 22px 24px; }
+      .bundle-title { font-size: clamp(20px, 5vw, 26px); }
+      .bundle-price { font-size: clamp(32px, 8vw, 40px); }
+      .footer-main { grid-template-columns: 1fr 1fr; gap: 28px; padding: 40px 24px 36px; }
+      .cta-trust { flex-direction: column; gap: 8px; }
+    }
+
+    /* 480px — mobile */
+    @media (max-width: 480px) {
+      section { padding: min(48px, 10vw) 16px; }
+      h2 { font-size: clamp(20px, 7vw, 28px); letter-spacing: 0; }
+      #hero h1 { font-size: clamp(24px, 8vw, 32px); }
+      .products-grid { grid-template-columns: 1fr; gap: 16px; }
+      .benefits-grid { grid-template-columns: 1fr; gap: 12px; }
+      .btn-green, .btn-ghost {
+        min-height: 52px; width: 100%;
+        justify-content: center; font-size: 16px;
+        padding: 14px 20px;
+      }
+      .bundle-card { padding: 22px 16px 20px; }
+      .bundle-title { font-size: clamp(18px, 6vw, 24px); }
+      .bundle-price { font-size: 32px; }
+      .bundle-timer-val { font-size: 24px; min-width: 42px; }
+      .hero-capybara img { width: min(200px, 55vw) !important; }
+      .cta-emoji img { width: min(180px, 50vw) !important; }
+      .bag-price { font-size: clamp(32px, 10vw, 40px); }
+      .footer-main { grid-template-columns: 1fr; gap: 24px; padding: 32px 16px 24px; }
+      .trust-strip-inner { gap: 10px; }
+      .trust-strip-item { font-size: 11px; }
+      .wave-divider svg { min-height: 28px; }
+      .modal-box { padding: 28px 16px 20px; border-radius: 20px !important; }
+      .nav-logo { font-size: 17px; }
+      .capy-nav-icon { width: 36px; height: 36px; }
+    }
+
+    /* 375px — iPhone SE / small phones */
+    @media (max-width: 375px) {
+      section { padding: 40px 14px; }
+      h2 { font-size: clamp(18px, 7vw, 24px); }
+      #hero h1 { font-size: clamp(22px, 8vw, 28px); }
+      #hero { padding: 40px 14px 50px; }
+      .hero-sub { font-size: 14px; }
+      .hero-badge { font-size: 11px; padding: 5px 12px; }
+      .btn-green { font-size: 15px; padding: 12px 18px; }
+      .btn-ghost { font-size: 15px; padding: 12px 18px; }
+      .bag-price { font-size: 30px; }
+      .bag-price-old { font-size: 16px; }
+      .pc-body { padding: 16px 14px 18px; }
+      .pc-title { font-size: clamp(14px, 4vw, 17px); }
+      .benefit-card { padding: 22px 18px; }
+      .benefit-card h3 { font-size: 14px; }
+      .benefit-card p { font-size: 13px; }
+      .faq-question { font-size: 14px; padding: 16px 14px; }
+      .faq-item.open .faq-answer { padding: 0 14px 16px; font-size: 14px; }
+      .bundle-card { padding: 20px 14px 18px; }
+      .bundle-price { font-size: 28px; }
+      .bundle-timer-val { font-size: 20px; min-width: 38px; padding: 6px 8px; }
+      .modal-box { padding: 24px 14px 18px; }
+      .modal-box h2 { font-size: 16px; }
+      .modal-btn { font-size: 14px; padding: 12px 16px; }
+      .m-field label { font-size: 12px; }
+      .m-field input, .m-field select { font-size: 14px; padding: 10px 12px; }
+      .exit-popup-card { padding: 22px 14px 16px; }
+      .exit-popup-title { font-size: 16px; }
+      .exit-popup-new-price { font-size: 26px; }
+      .sticky-btn { padding: 9px 18px; font-size: 13px; }
+      .sticky-price { font-size: 16px; }
+      .sticky-brand { font-size: 12px; }
+      .footer-brand-name { font-size: 18px; }
+      .footer-bottom { font-size: 11px; }
+      .nav-logo { font-size: 15px; gap: 6px; }
+      .capy-nav-icon { width: 32px; height: 32px; }
+      nav { padding: 0 14px; height: 54px; }
+      .capybox-banner { font-size: 0.9rem; padding: 10px 12px; }
+    }
+
+    /* 320px — very small screens */
+    @media (max-width: 320px) {
+      section { padding: 32px 12px; }
+      h2 { font-size: 18px; }
+      #hero h1 { font-size: 20px; }
+      #hero { padding: 32px 12px 40px; }
+      .hero-sub { font-size: 13px; }
+      .hero-badge { font-size: 10px; padding: 4px 10px; }
+      .hero-capybara img { width: 160px !important; }
+      .btn-green { font-size: 14px; padding: 11px 16px; min-height: 48px; }
+      .btn-ghost { font-size: 14px; padding: 11px 16px; min-height: 48px; }
+      .bag-price { font-size: 26px; }
+      .bag-price-old { font-size: 14px; }
+      .pc-body { padding: 14px 12px 16px; }
+      .pc-title { font-size: 14px; }
+      .benefit-card { padding: 18px 14px; }
+      .benefit-card h3 { font-size: 13px; }
+      .benefit-card p { font-size: 12px; }
+      .benefit-icon { font-size: 32px; }
+      .faq-question { font-size: 13px; padding: 14px 12px; }
+      .bundle-card { padding: 18px 12px 16px; }
+      .bundle-price { font-size: 24px; }
+      .bundle-price-old { font-size: 16px; }
+      .bundle-timer-val { font-size: 18px; min-width: 34px; }
+      .bundle-timer-sep { font-size: 22px; }
+      .modal-box { padding: 20px 12px 16px; }
+      .modal-box h2 { font-size: 15px; }
+      .m-row { grid-template-columns: 1fr; }
+      .sticky-left { gap: 4px; }
+      .sticky-brand { font-size: 11px; }
+      .sticky-price { font-size: 14px; }
+      .sticky-old { font-size: 10px; }
+      .sticky-btn { padding: 8px 14px; font-size: 12px; }
+      nav { padding: 0 10px; height: 50px; }
+      .nav-logo { font-size: 14px; gap: 5px; }
+      .capy-nav-icon { width: 28px; height: 28px; border-radius: 6px; }
+      #lang-toggle { padding: 4px 10px; font-size: 11px; min-height: 38px; }
+      .nav-cart { padding: 6px 8px; min-height: 38px; }
+      .footer-main { padding: 28px 12px 20px; }
+      .float-whatsapp { width: 50px; height: 50px; }
+      .float-whatsapp svg { width: 24px; height: 24px; }
+      .capybox-banner { font-size: 0.8rem; padding: 8px 10px; }
+      .trust-strip-inner { gap: 8px; }
+      .trust-strip-item { font-size: 10px; }
+      .donation-badge { font-size: 13px; padding: 12px 18px; }
+      .donation-badge .pct { font-size: 24px; }
+      .cta-emoji img { width: 140px !important; }
+    }
+
+    /* ── FLUID IMAGES ── */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* ── PREVENT HORIZONTAL OVERFLOW ── */
+    html {
+      overflow-x: hidden;
+    }
+
+    /* ── SMOOTH SECTION TRANSITIONS ── */
+    #cause, #about, #capybox-section, #products, #bundle, #faq, #cta {
+      transition: padding 0.3s ease;
+    }
+
   </style>
 
 <!-- Google Analytics -->
@@ -1435,6 +1946,13 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
   </div>
 </div>
 
+<!-- Wave Divider -->
+<div class="wave-divider" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60Z" fill="#ffffff"/>
+  </svg>
+</div>
+
 <!-- 2. CAUSE -->
 <section id="cause">
   <div class="section-inner">
@@ -1451,6 +1969,13 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
   </div>
 </section>
 
+<!-- Wave Divider -->
+<div class="wave-divider" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,20 C240,50 480,0 720,30 C960,60 1200,10 1440,25 L1440,60 L0,60Z" fill="var(--cream,#FDFAF6)"/>
+  </svg>
+</div>
+
 <!-- 3. ABOUT -->
 <section id="about">
   <div class="section-inner">
@@ -1460,6 +1985,13 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     <p id="about-p">אנחנו צעירים שאוהבים קפיברות ומאמינים שאפשר להיות אופנתיים ולעשות טוב בעולם בו זמנית. כל תיק שנמכר הוא צעד קטן למען בעלי החיים החמודים האלה</p>
   </div>
 </section>
+
+<!-- Wave Divider -->
+<div class="wave-divider" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C320,10 640,50 960,20 C1120,8 1300,45 1440,30 L1440,60 L0,60Z" fill="#fffdf7"/>
+  </svg>
+</div>
 
 <!-- CAPYBOX SECTION -->
 <section id="capybox-section">
@@ -1471,6 +2003,13 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     </div>
   </div>
 </section>
+
+<!-- Wave Divider -->
+<div class="wave-divider" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C480,60 960,0 1440,35 L1440,60 L0,60Z" fill="var(--cream-2,#F5EFE6)"/>
+  </svg>
+</div>
 
 <!-- 4. PRODUCTS -->
 <section id="products">
@@ -1662,6 +2201,13 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
   </div>
 </section>
 
+<!-- Wave Divider -->
+<div class="wave-divider" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,25 C360,55 720,5 1080,35 C1260,50 1380,15 1440,20 L1440,60 L0,60Z" fill="var(--cream,#FDFAF6)"/>
+  </svg>
+</div>
+
 <!-- 5b. BUNDLE -->
 <section id="bundle">
   <div class="section-inner" style="max-width:640px;">
@@ -1730,6 +2276,13 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
 
 
 <!-- 6. REVIEWS -->
+<!-- Wave Divider -->
+<div class="wave-divider" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,35 C240,5 480,50 720,25 C960,0 1200,45 1440,20 L1440,60 L0,60Z" fill="var(--cream-2,#F5EFE6)"/>
+  </svg>
+</div>
+
 <!-- 6. FAQ -->
 <section id="faq">
   <div class="section-inner">
@@ -1769,6 +2322,13 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
   </div>
 </section>
 
+<!-- Wave Divider -->
+<div class="wave-divider" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,20 C360,50 720,10 1080,40 C1260,55 1380,25 1440,30 L1440,60 L0,60Z" fill="#3A2418"/>
+  </svg>
+</div>
+
 <!-- 7. FINAL CTA -->
 <section id="cta">
   <div class="section-inner">
@@ -1785,6 +2345,13 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     </div>
   </div>
 </section>
+
+<!-- Footer Wave Divider -->
+<div class="footer-wave-divider" aria-hidden="true">
+  <svg viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C240,55 480,10 720,35 C960,60 1200,15 1440,25 L1440,70 L0,70Z" fill="#2c1810"/>
+  </svg>
+</div>
 
 <!-- Footer -->
 <footer>
