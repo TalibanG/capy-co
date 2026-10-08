@@ -1941,7 +1941,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     <div class="trust-strip-item">⭐ <span id="ts-customers-label">לקוחות מרוצים</span></div>
     <div class="trust-strip-item">🏆 <span id="ts-rating-label">שביעות רצון גבוהה</span></div>
     <div class="trust-strip-item">🚚 <span id="ts-shipping-label">משלוח עד הבית</span></div>
-    <div class="trust-strip-item">📦 <span id="ts-free-shipping-label">משלוח חינם מעל ₪100</span></div>
+    <div class="trust-strip-item">📦 <span id="ts-free-shipping-label">משלוח חינם מ-₪99</span></div>
     <div class="trust-strip-item">↩️ <span id="ts-returns-label">30 יום החזרה</span></div>
   </div>
 </div>
@@ -2269,7 +2269,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       </div>
       <button class="bundle-btn" data-product="bundle" id="bundle-btn">הזמינו את החבילה עכשיו ⚡</button>
       <div class="bundle-trust" id="bundle-trust">🔒 תשלום מאובטח | משלוח לכל הארץ</div>
-      <div class="bundle-free-ship-hint" id="bundle-free-ship-hint">💡 הוסיפו מוצר נוסף לסל וקבלו משלוח חינם!</div>
+      <div class="bundle-free-ship-hint" id="bundle-free-ship-hint">📦 החבילה כוללת משלוח חינם!</div>
     </div>
   </div>
 </section>
@@ -2793,8 +2793,8 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       exitPopupCta:     'אני רוצה את החבילה! ⚡',
       exitPopupDismiss: 'לא תודה, אמשיך בלי ההנחה',
       bundleTeaser:     '🔥 קנו את כל 3 המוצרים יחד וחסכו ₪39.80! לחצו לפרטים ←',
-      tsFreeShipping:   'משלוח חינם מעל ₪100',
-      bundleFreeShipHint: '💡 הוסיפו מוצר נוסף לסל וקבלו משלוח חינם!',
+      tsFreeShipping:   'משלוח חינם מ-₪99',
+      bundleFreeShipHint: '📦 החבילה כוללת משלוח חינם!',
       freeShipAchieved: 'משלוח חינם! 🎉',
       ftTagline: 'תיק בד עם לב גדול 🦫',
       ftMission: 'כל תיק שנמכר תורם 10% לחוות קפיברות בדרום אמריקה',
@@ -2938,8 +2938,8 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       exitPopupCta:     'I Want the Bundle! ⚡',
       exitPopupDismiss: 'No thanks, I\'ll continue without the deal',
       bundleTeaser:     '🔥 Buy all 3 products together and save ₪39.80! Click for details →',
-      tsFreeShipping:   'Free shipping over ₪100',
-      bundleFreeShipHint: '💡 Add one more item to your cart for free shipping!',
+      tsFreeShipping:   'Free shipping from ₪99',
+      bundleFreeShipHint: '📦 The bundle ships free!',
       freeShipAchieved: 'Free shipping! 🎉',
       ftTagline: 'A Tote Bag with a Big Heart 🦫',
       ftMission: 'Every bag sold donates 10% to capybara farms in South America',
@@ -3285,14 +3285,14 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       if (!bar || !msg || !fill) return;
       if (total <= 0) { bar.style.display = 'none'; return; }
       bar.style.display = '';
-      var FREE_SHIP_MIN = 100;
+      var FREE_SHIP_MIN = 99;
       var t = translations[currentLang];
       if (total >= FREE_SHIP_MIN) {
         bar.classList.add('achieved');
         msg.textContent = t.freeShipAchieved;
       } else {
         bar.classList.remove('achieved');
-        var remaining = (FREE_SHIP_MIN - total).toFixed(0);
+        var remaining = Math.ceil(FREE_SHIP_MIN - total);
         msg.textContent = currentLang === 'he'
           ? 'עוד ₪' + remaining + ' למשלוח חינם!'
           : '₪' + remaining + ' more for free shipping!';
