@@ -2561,7 +2561,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
             <span class="field-error-msg" id="city-error">נא להזין עיר</span>
           </div>
           <div class="m-field">
-            <label id="label-zip">מיקוד</label>
+            <label id="label-zip">מיקוד <span class="opt-label">(לא חובה)</span></label>
             <input type="text" id="zip-input" name="zip" placeholder="6100000" autocomplete="postal-code" inputmode="numeric" maxlength="7" />
             <span class="field-error-msg" id="zip-error">נא להזין מיקוד בן 7 ספרות</span>
           </div>
@@ -2755,7 +2755,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       labelFloor:      'קומה <span class="opt-label">(לא חובה)</span>',
       labelApt:        'דירה <span class="opt-label">(לא חובה)</span>',
       labelCity:       'עיר',
-      labelZip:        'מיקוד',
+      labelZip:        'מיקוד <span class="opt-label">(לא חובה)</span>',
       submitBtn:       'שליחת הזמנה ←',
       phName:          'ישראל ישראלי',
       phStreet:        'הרצל 12',
@@ -2900,7 +2900,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       labelFloor:      'Floor <span class="opt-label">(optional)</span>',
       labelApt:        'Apt. <span class="opt-label">(optional)</span>',
       labelCity:       'City',
-      labelZip:        'ZIP Code',
+      labelZip:        'ZIP Code <span class="opt-label">(optional)</span>',
       submitBtn:       'Send order →',
       phName:          'John Smith',
       phStreet:        '12 Herzl St',
@@ -3051,7 +3051,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     document.getElementById('label-floor').innerHTML         = t.labelFloor;
     document.getElementById('label-apt').innerHTML           = t.labelApt;
     document.getElementById('label-city').textContent        = t.labelCity;
-    document.getElementById('label-zip').textContent         = t.labelZip;
+    document.getElementById('label-zip').innerHTML           = t.labelZip;
     var submitBtn = document.getElementById('continue-to-payment-btn');
     if (submitBtn) submitBtn.textContent = t.submitBtn;
     document.getElementById('name-input').placeholder        = t.phName;
@@ -3376,7 +3376,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       bad = fieldError('email-input',  'email-error',  !isValidEmail(val('email-input'))) || bad;
       bad = fieldError('street-input', 'street-error', val('street-input').trim().length < 3) || bad;
       bad = fieldError('city-input',   'city-error',   val('city-input').trim().length < 2) || bad;
-      bad = fieldError('zip-input',    'zip-error',    !isValidZip(val('zip-input'))) || bad;
+      bad = fieldError('zip-input',    'zip-error',    val('zip-input').trim() !== '' && !isValidZip(val('zip-input'))) || bad;
       var btn = document.getElementById('continue-to-payment-btn');
       var note = document.getElementById('order-send-error');
       note.style.display = 'none';
