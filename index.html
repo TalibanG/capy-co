@@ -2302,7 +2302,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
           <span id="faq2q">כמה זמן לוקח המשלוח?</span>
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-answer" id="faq2a">המשלוח אורך 7-14 ימי עסקים לכל הארץ, ישירות עד הבית. תקבלו עדכון מעקב ברגע שהחבילה יוצאת.</div>
+        <div class="faq-answer" id="faq2a">המשלוח אורך 7-14 ימי עסקים לכל הארץ, ישירות עד הבית. דמי משלוח ₪25, ומשלוח חינם בהזמנה מ-₪99. תקבלו עדכון מעקב ברגע שהחבילה יוצאת.</div>
       </div>
       <div class="faq-item">
         <button class="faq-question" onclick="toggleFaq(this)">
@@ -2517,7 +2517,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
 
         <!-- Total -->
         <div class="m-total-row">
-          <span class="m-total-label" id="label-total">סה״כ</span>
+          <span class="m-total-label" id="label-total">סה״כ מוצרים</span>
           <span class="m-total-price" id="modal-total">₪0.00</span>
         </div>
 
@@ -2747,7 +2747,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       labelProducts:   'בחרו מוצרים',
       mprBagName:      'תיק בד Capy & Co',
       mprSocksName:    'גרביים קפיברה 🧦',
-      labelTotal:      'סה״כ',
+      labelTotal:      'סה״כ מוצרים',
       labelName:       'שם מלא',
       labelPhone:      'טלפון',
       labelEmail:      'אימייל',
@@ -2774,7 +2774,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       faq1q: 'מה החומר של התיק?',
       faq1a: 'התיק עשוי מ-100% כותנה טבעית, עמידה ואיכותית. הבד עבה ונעים למגע, מתאים לשימוש יומיומי לאורך שנים.',
       faq2q: 'כמה זמן לוקח המשלוח?',
-      faq2a: 'המשלוח אורך 7-14 ימי עסקים לכל הארץ, ישירות עד הבית. תקבלו עדכון מעקב ברגע שהחבילה יוצאת.',
+      faq2a: 'המשלוח אורך 7-14 ימי עסקים לכל הארץ, ישירות עד הבית. דמי משלוח ₪25, ומשלוח חינם בהזמנה מ-₪99. תקבלו עדכון מעקב ברגע שהחבילה יוצאת.',
       faq3q: 'האם אפשר להחזיר?',
       faq3a: 'כן! אנחנו מציעים 30 יום החזרה ושביעות רצון מלאה. אם לא אהבתם, מכל סיבה שהיא, נחזיר את הכסף במלואו ללא שאלות.',
       faq4q: 'איך מבצעים הזמנה?',
@@ -2892,7 +2892,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       labelProducts:   'Choose Products',
       mprBagName:      'Capy & Co tote bag',
       mprSocksName:    'Capybara Socks 🧦',
-      labelTotal:      'Total',
+      labelTotal:      'Items total',
       labelName:       'Full Name',
       labelPhone:      'Phone',
       labelEmail:      'Email',
@@ -2919,7 +2919,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       faq1q: 'What is the bag made of?',
       faq1a: 'The bag is made of 100% natural cotton durable, quality fabric that\'s soft to the touch and built for daily use for years.',
       faq2q: 'How long does shipping take?',
-      faq2a: 'Shipping takes 7-14 business days, delivered directly to your door. You\'ll get a tracking update as soon as the package ships.',
+      faq2a: 'Shipping takes 7-14 business days, delivered directly to your door. Shipping is ₪25, free on orders from ₪99. You\'ll get a tracking update as soon as the package ships.',
       faq3q: 'Can I return it?',
       faq3a: 'Yes! We offer 30-day returns and full satisfaction guarantee. If you\'re not happy for any reason full refund, no questions asked.',
       faq4q: 'How do I place an order?',
@@ -3188,6 +3188,7 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
     window.openModal  = openModal;
     window.closeModal = closeModal;
 
+    var FREE_SHIP_MIN = 99, SHIPPING_FEE = 25;
     var PRICES = window.PRICES = { bag: 49.90, socks: 39.90, shirt: 49.90, bundle: 99.90 };
     var qtys   = window.qtys   = { bag: 1, socks: 1, shirt: 1, bundle: 1 };
 
@@ -3222,8 +3223,14 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
         var shirtSizeVal = shirtSizeEl ? ' (' + shirtSizeEl.value + ')' : '';
         html += '<div class="modal-order-line"><span>חולצת קפיברה' + shirtSizeVal + ' × ' + qtys.shirt + '</span><span>₪' + (PRICES.shirt * qtys.shirt).toFixed(2) + '</span></div>';
       }
+      var ship = (total > 0 && total < FREE_SHIP_MIN) ? SHIPPING_FEE : 0;
+      if (total > 0) {
+        var he = currentLang === 'he';
+        html += '<div class="modal-order-line"><span>' + (he ? 'משלוח עד הבית' : 'Home delivery') + '</span><span>' +
+                (ship ? '₪' + ship.toFixed(2) : (he ? 'חינם' : 'Free')) + '</span></div>';
+      }
       linesEl.innerHTML = html;
-      if (priceEl) priceEl.textContent = '₪' + total.toFixed(2);
+      if (priceEl) priceEl.textContent = '₪' + (total + ship).toFixed(2);
     }
 
     function updateCartBadge(bagChecked, socksChecked, shirtChecked, bundleChecked) {
@@ -3285,7 +3292,6 @@ src="https://www.facebook.com/tr?id=811799954576662&ev=PageView&noscript=1"
       if (!bar || !msg || !fill) return;
       if (total <= 0) { bar.style.display = 'none'; return; }
       bar.style.display = '';
-      var FREE_SHIP_MIN = 99;
       var t = translations[currentLang];
       if (total >= FREE_SHIP_MIN) {
         bar.classList.add('achieved');
